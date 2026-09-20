@@ -79,6 +79,13 @@ class AssistenteChargeGrid:
                 mensagem=decisao.mensagem or "Solicitação recusada pelos guardrails.",
             )
 
+        if decisao.codigo == "saudacao":
+            return RespostaAssistente(
+                status=StatusResposta.SUCESSO,
+                codigo="saudacao",
+                mensagem="Olá! Como posso ajudar hoje?",
+            )
+
         try:
             resposta = self.chain.invoke(
                 criar_entrada_chain(pergunta, self.operacao),

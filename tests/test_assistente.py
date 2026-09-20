@@ -70,6 +70,20 @@ def test_guardrail_bloqueia_sem_executar_chain() -> None:
     assert assistente.listar_sessoes() == ()
 
 
+def test_saudacao_responde_localmente_sem_executar_chain() -> None:
+    chain = ChainFalsa(resposta=_resposta_valida())
+    assistente = _criar_assistente(chain)
+
+    resultado = assistente.consultar("Olá", "gestor-1")
+
+    assert resultado.status is StatusResposta.SUCESSO
+    assert resultado.codigo == "saudacao"
+    assert resultado.mensagem == "Olá! Como posso ajudar hoje?"
+    assert resultado.dados is None
+    assert chain.chamadas == []
+    assert assistente.listar_sessoes() == ()
+
+
 def test_trata_falha_do_parser_sem_expor_excecao() -> None:
     chain = ChainFalsa(
         erro=OutputParserException("JSON inválido retornado pelo modelo")
