@@ -1,0 +1,173 @@
+{
+  "schema_version": "1.0",
+  "origem": "system_prompt_do_notebook",
+  "site": {
+    "tipo_estabelecimento": "Shopping",
+    "localizacao_carregadores": "Estacionamento coberto",
+    "infraestrutura": {
+      "quantidade_carregadores": 10,
+      "fabricante": "GoodWe",
+      "modelo": "HCA G2",
+      "potencia_unitaria_maxima_kw": 11.0,
+      "capacidade_teorica_total_kw": 110.0,
+      "limite_demanda_contratada_kw": 80.0
+    }
+  },
+  "resumo_operacional_informado": {
+    "total_sessoes": 47,
+    "energia_total_kwh": 342.0,
+    "faturamento_estimado_brl": 1128.0,
+    "pico_demanda": {
+      "potencia_kw": 78.4,
+      "hora": "14:00",
+      "percentual_limite_contratado": 98.0
+    },
+    "janela_critica": {
+      "inicio": "14:00",
+      "fim": "15:30"
+    }
+  },
+  "demanda_horaria": [
+    {
+      "hora": "08:00",
+      "potencia_media_kw": 11.0
+    },
+    {
+      "hora": "09:00",
+      "potencia_media_kw": 18.0
+    },
+    {
+      "hora": "10:00",
+      "potencia_media_kw": 25.0
+    },
+    {
+      "hora": "11:00",
+      "potencia_media_kw": 33.0
+    },
+    {
+      "hora": "12:00",
+      "potencia_media_kw": 41.0
+    },
+    {
+      "hora": "13:00",
+      "potencia_media_kw": 52.0
+    },
+    {
+      "hora": "14:00",
+      "potencia_media_kw": 78.4
+    },
+    {
+      "hora": "15:00",
+      "potencia_media_kw": 71.0
+    },
+    {
+      "hora": "16:00",
+      "potencia_media_kw": 65.0
+    },
+    {
+      "hora": "17:00",
+      "potencia_media_kw": 58.0
+    },
+    {
+      "hora": "18:00",
+      "potencia_media_kw": 49.0
+    },
+    {
+      "hora": "19:00",
+      "potencia_media_kw": 38.0
+    },
+    {
+      "hora": "20:00",
+      "potencia_media_kw": 27.0
+    },
+    {
+      "hora": "21:00",
+      "potencia_media_kw": 19.0
+    },
+    {
+      "hora": "22:00",
+      "potencia_media_kw": 8.0
+    }
+  ],
+  "snapshot_carregadores": {
+    "hora_referencia": "14:30",
+    "carregadores": [
+      {
+        "id": "EV-01",
+        "potencia_kw": 11.0,
+        "total_sessoes": 6,
+        "energia_entregue_kwh": 38.0,
+        "status": "pico_critico"
+      },
+      {
+        "id": "EV-02",
+        "potencia_kw": 11.0,
+        "total_sessoes": 5,
+        "energia_entregue_kwh": 34.0,
+        "status": "pico_critico"
+      },
+      {
+        "id": "EV-03",
+        "potencia_kw": 9.2,
+        "total_sessoes": 5,
+        "energia_entregue_kwh": 31.0,
+        "status": "atencao"
+      },
+      {
+        "id": "EV-04",
+        "potencia_kw": 11.0,
+        "total_sessoes": 6,
+        "energia_entregue_kwh": 37.0,
+        "status": "pico_critico"
+      },
+      {
+        "id": "EV-05",
+        "potencia_kw": 8.1,
+        "total_sessoes": 4,
+        "energia_entregue_kwh": 28.0,
+        "status": "atencao"
+      },
+      {
+        "id": "EV-06",
+        "potencia_kw": 11.0,
+        "total_sessoes": 5,
+        "energia_entregue_kwh": 35.0,
+        "status": "pico_critico"
+      },
+      {
+        "id": "EV-07",
+        "potencia_kw": 7.1,
+        "total_sessoes": 4,
+        "energia_entregue_kwh": 26.0,
+        "status": "normal"
+      },
+      {
+        "id": "EV-08",
+        "potencia_kw": 0.0,
+        "total_sessoes": 3,
+        "energia_entregue_kwh": 22.0,
+        "status": "ocioso",
+        "periodo_ociosidade": {
+          "inicio": "13:00",
+          "fim": "16:30",
+          "duracao_horas": 3.5,
+          "durante_janela_pico": true
+        }
+      },
+      {
+        "id": "EV-09",
+        "potencia_kw": 6.0,
+        "total_sessoes": 4,
+        "energia_entregue_kwh": 24.0,
+        "status": "normal"
+      },
+      {
+        "id": "EV-10",
+        "potencia_kw": 4.0,
+        "total_sessoes": 5,
+        "energia_entregue_kwh": 27.0,
+        "status": "atencao"
+      }
+    ]
+  }
+}
