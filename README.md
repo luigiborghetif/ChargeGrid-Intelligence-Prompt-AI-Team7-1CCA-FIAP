@@ -135,8 +135,8 @@ py --version
 ### 2. Clone o repositório
 
 ```bash
-git clone https://github.com/luigiborghetif/EVChallenge2026-1CCA-Equipe7-Prompt-and-Artificial-Intelligence-Sprint1.git
-cd EVChallenge2026-1CCA-Equipe7-Prompt-and-Artificial-Intelligence-Sprint1
+git clone https://github.com/luigiborghetif/ChargeGrid-Intelligence-Prompt-AI-Team7-1CCA-FIAP.git
+cd ChargeGrid-Intelligence-Prompt-AI-Team7-1CCA-FIAP
 ```
 
 ### 3. Crie e ative o ambiente virtual
