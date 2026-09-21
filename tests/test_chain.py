@@ -16,6 +16,7 @@ from chain.builder import (
     construir_contexto_operacional,
     criar_entrada_chain,
 )
+from chargegrid.config import settings
 from chargegrid.dados import carregar_operacao
 
 
@@ -49,7 +50,7 @@ def test_constroi_chain_na_ordem_prompt_llm_parser() -> None:
     assert isinstance(chain.steps[0], ChatPromptTemplate)
     assert isinstance(chain.steps[1], ChatOllama)
     assert isinstance(chain.steps[2], PydanticOutputParser)
-    assert chain.steps[1].model == "gemma4:31b-cloud"
+    assert chain.steps[1].model == settings.ollama_model
     assert chain.steps[1].num_predict == 1200
     assert chain.steps[1].format == "json"
 
