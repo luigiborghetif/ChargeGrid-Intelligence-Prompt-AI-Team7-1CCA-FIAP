@@ -309,8 +309,28 @@ ruff check src tests evals/run_evals.py
 ruff format --check src tests evals/run_evals.py
 ```
 
-O estado atual possui 64 testes automatizados cobrindo dados, indicadores,
-schema, chain, memória, guardrails, serviço, interfaces e avaliações.
+O estado atual possui 121 testes automatizados cobrindo dados, indicadores,
+schema, chain, memória, guardrails, serviço, interfaces, avaliações e persistência
+documental. Os resultados principais do pipeline documental estão em
+[Validação da fase 2](docs/rag.md#validação-da-fase-2--20102026).
+
+## Recuperação documental com ChromaDB
+
+O projeto também disponibiliza ingestão de PDFs e busca semântica local, com
+embeddings `nomic-embed-text`, ChromaDB persistente e referências de arquivo e página:
+
+```bash
+ollama pull nomic-embed-text
+chargegrid-rag indexar
+chargegrid-rag buscar "Quais são as tarifas Urgente e Econômico?"
+chargegrid-rag status
+```
+
+Os PDFs ficam em `data/knowledge_base/` e o banco é criado automaticamente em
+`data/chroma/`. A busca documental retorna trechos de evidência; o chat Gradio
+continua usando o fluxo operacional existente. Consulte
+[a documentação de recuperação documental](docs/rag.md) para configuração,
+sincronização, metadados e limitações da extração de tabelas.
 
 ## Avaliações dos prompts
 

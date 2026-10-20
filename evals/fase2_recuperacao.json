@@ -1,0 +1,989 @@
+{
+  "schema_version": 1,
+  "executado_em": "2026-10-20T14:19:26.947355+00:00",
+  "dataset_version": "1.0.0",
+  "escopo": "Recuperação dos 24 casos respondíveis; sem avaliação de respostas, recusas ou injection.",
+  "limite": "Páginas e âncoras são indicadores de localização, não comprovação de contexto suficiente nem scores RAGAS.",
+  "configuracao": {
+    "colecao": "chargegrid_knowledge_v1",
+    "k": 4,
+    "chunk_size": 1200,
+    "chunk_overlap": 200,
+    "chunks": 161,
+    "ids_sha256": "eea26bb69b481d4b2683b29381a3f0116fab15009bdebf7b9dc78662bbc7251c",
+    "embedding_model": "nomic-embed-text",
+    "embedding_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+    "loader_version": "pymupdf-page-tables-v1"
+  },
+  "resumo": {
+    "casos": 24,
+    "com_alguma_pagina_esperada": 14,
+    "com_todas_paginas_esperadas": 14,
+    "com_todas_fontes_obrigatorias": 20,
+    "cobertura_media_paginas": 0.5833,
+    "ancoras_encontradas": 21,
+    "ancoras_esperadas": 39
+  },
+  "resultados": [
+    {
+      "id": "RAG-R01",
+      "pergunta": "Quais são os preços por kWh nas modalidades Urgente e Econômico?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 2,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "3e12a9475dc9f7b6caec3226369bf358c513b64425455207ce0896c3496d727b",
+          "documento_id": "wecharge_tarifas_regras",
+          "source": "Tarifas e Regras WeCharge.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "bd9f4928a5bc65c9321d06ae29998473e9073818b3ca820e01041f1bcfa0a38e",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 63,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "ebbc62f1ce88c02bf2387cde046c2f9e708c4b3080a02ebec4fc4b23b595e85a",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 15,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "e66b64b39963e8b1b86920b45177d1a5a0435d657c5e7e84e03f4b075114add7",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 15,
+          "tipo_conteudo": "tabela"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R02",
+      "pergunta": "Quanto custa somente a energia de uma recarga de 20 kWh em cada modalidade?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 2,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "3e12a9475dc9f7b6caec3226369bf358c513b64425455207ce0896c3496d727b",
+          "documento_id": "wecharge_tarifas_regras",
+          "source": "Tarifas e Regras WeCharge.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "d3c78c3eb217f530ab39417be8b8d168bb55f2459047bd76079481c543fdf92c",
+          "documento_id": "goodwe_hca_g2_datasheet",
+          "source": "GW_HCA-G2_Datasheet-PT.pdf",
+          "pagina_pdf": 2,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "3eb616d51d50fe0ea3e5f3ada469a5877604540213b264267cc6fef33182b50c",
+          "documento_id": "goodwe_hca_g2_datasheet",
+          "source": "GW_HCA-G2_Datasheet-PT.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "bd9f4928a5bc65c9321d06ae29998473e9073818b3ca820e01041f1bcfa0a38e",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 63,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R03",
+      "pergunta": "Como funciona a fila e quanto tempo tenho para iniciar quando for chamado?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "1d144a1a5cbefe29497dfd068db239fac79a6dca8c6950b53ddc7b54515186b4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 66,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "e3ea57958e8041740c2898fd169dbf4c6dec4961b85a3040f9b680cecfb6bc40",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 6,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "c99b03cda1fce875feb6e13ac6b86524983da100c93d8dbd18a054ef3578d036",
+          "documento_id": "wecharge_tarifas_regras",
+          "source": "Tarifas e Regras WeCharge.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "bd9f4928a5bc65c9321d06ae29998473e9073818b3ca820e01041f1bcfa0a38e",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 63,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R04",
+      "pergunta": "Em alta demanda, qual é o limite da sessão? Isso garante bateria cheia?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 2,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "1d144a1a5cbefe29497dfd068db239fac79a6dca8c6950b53ddc7b54515186b4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 66,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "c99b03cda1fce875feb6e13ac6b86524983da100c93d8dbd18a054ef3578d036",
+          "documento_id": "wecharge_tarifas_regras",
+          "source": "Tarifas e Regras WeCharge.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "c7aa2aaedfef4b4bde6af2ec6a2803b4b10c7358b43f466315bc964d666b0883",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 8,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "3e12a9475dc9f7b6caec3226369bf358c513b64425455207ce0896c3496d727b",
+          "documento_id": "wecharge_tarifas_regras",
+          "source": "Tarifas e Regras WeCharge.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R05",
+      "pergunta": "Quanto tempo posso levar para retirar o veículo depois que a sessão termina?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 1,
+      "ancoras_esperadas": 1,
+      "recuperados": [
+        {
+          "chunk_id": "c99b03cda1fce875feb6e13ac6b86524983da100c93d8dbd18a054ef3578d036",
+          "documento_id": "wecharge_tarifas_regras",
+          "source": "Tarifas e Regras WeCharge.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "1d144a1a5cbefe29497dfd068db239fac79a6dca8c6950b53ddc7b54515186b4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 66,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "f98a2cd59e0cd940234a8568d2a5360cd33573b4072da2308c38557668ebcf08",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 64,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "1e4536ccf4819eac699b3e35584e576b3474526c9685aa2083676449793739e7",
+          "documento_id": "wecharge_tarifas_regras",
+          "source": "Tarifas e Regras WeCharge.pdf",
+          "pagina_pdf": 2,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R06",
+      "pergunta": "Posso continuar carregando após o limite ou iniciar outra sessão se houver fila?",
+      "alguma_pagina_esperada": false,
+      "todas_paginas_esperadas": false,
+      "todas_fontes_obrigatorias": false,
+      "cobertura_paginas": 0.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 1,
+      "recuperados": [
+        {
+          "chunk_id": "1d144a1a5cbefe29497dfd068db239fac79a6dca8c6950b53ddc7b54515186b4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 66,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "fb64076d4dc7b81e3e709bac40be0ae322bc2914b292609ce7d8b6fef18d3a6c",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 65,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "ac8af99cda914bdd8f79bf7a2001eef5af88a2bd5dde18b25e951f6564e735ed",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 12,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "8dc1440203a40d67a81d62dc2a85413ad20d9f4a79b2d2e7ef35d8bb571bcbfa",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 14,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R07",
+      "pergunta": "Posso usar a vaga só para estacionar ou conectar o carro para reservar o lugar?",
+      "alguma_pagina_esperada": false,
+      "todas_paginas_esperadas": false,
+      "todas_fontes_obrigatorias": false,
+      "cobertura_paginas": 0.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 1,
+      "recuperados": [
+        {
+          "chunk_id": "8dc1440203a40d67a81d62dc2a85413ad20d9f4a79b2d2e7ef35d8bb571bcbfa",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 14,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "1d144a1a5cbefe29497dfd068db239fac79a6dca8c6950b53ddc7b54515186b4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 66,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "d218f4bc3d0bdb33b3531f9a3d7185023505b00f532af997b94c7198bb4ba433",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 49,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "15f2ee40ce9ad4fb652f64ac9772d7f8e8fdef84e4aae2df0bb2a6fa9d865c21",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 65,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R08",
+      "pergunta": "Por que a potência pode diminuir quando há mais veículos carregando?",
+      "alguma_pagina_esperada": false,
+      "todas_paginas_esperadas": false,
+      "todas_fontes_obrigatorias": false,
+      "cobertura_paginas": 0.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 1,
+      "recuperados": [
+        {
+          "chunk_id": "ebbc62f1ce88c02bf2387cde046c2f9e708c4b3080a02ebec4fc4b23b595e85a",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 15,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "51458a10e34c4d1f75fa4e46ecd3d1fb718f544833ef163c797071229bab4ba4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 14,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "97c5f29506042f76d49cbfc814b4f4881ce8fbfe4d689d84936f7ab4c1da5167",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 13,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "1d144a1a5cbefe29497dfd068db239fac79a6dca8c6950b53ddc7b54515186b4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 66,
+          "tipo_conteudo": "tabela"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R09",
+      "pergunta": "O que fazer se houver fumaça, cheiro de queimado ou dano aparente no carregador?",
+      "alguma_pagina_esperada": false,
+      "todas_paginas_esperadas": false,
+      "todas_fontes_obrigatorias": false,
+      "cobertura_paginas": 0.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 1,
+      "recuperados": [
+        {
+          "chunk_id": "8dc1440203a40d67a81d62dc2a85413ad20d9f4a79b2d2e7ef35d8bb571bcbfa",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 14,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "d218f4bc3d0bdb33b3531f9a3d7185023505b00f532af997b94c7198bb4ba433",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 49,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "ddc4ca06ccf88807b7514f478b60a5010aa402c3fafafe29f4c2410a1a94a5f4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 64,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "54f7bcfa28e9773b9e279012a05a7f6dab27304aaba6d60df55fb79c4fff7bd6",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 7,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R10",
+      "pergunta": "Posso desconectar outro veículo para liberar uma vaga? Como informar uma falha?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 2,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "15f2ee40ce9ad4fb652f64ac9772d7f8e8fdef84e4aae2df0bb2a6fa9d865c21",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 65,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "c99b03cda1fce875feb6e13ac6b86524983da100c93d8dbd18a054ef3578d036",
+          "documento_id": "wecharge_tarifas_regras",
+          "source": "Tarifas e Regras WeCharge.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "7aa55fdfade7ebd023d0bd82d2f7687644a48ba23609cb2a4327f85aeb823754",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 66,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "16b33d06fb6354660176e693c7221d961346a111c8a02a13243432ab7b68292e",
+          "documento_id": "wecharge_tarifas_regras",
+          "source": "Tarifas e Regras WeCharge.pdf",
+          "pagina_pdf": 2,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R11",
+      "pergunta": "Quais as potências nominais de saída de GW7K-HCA-20, GW11K-HCA-20 e GW22K-HCA-20?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 1,
+      "ancoras_esperadas": 1,
+      "recuperados": [
+        {
+          "chunk_id": "7d199ccc0377d8f603959cf704bdc0233cafa1866fbf84cf6c1a9a9e70fae828",
+          "documento_id": "goodwe_hca_g2_datasheet",
+          "source": "GW_HCA-G2_Datasheet-PT.pdf",
+          "pagina_pdf": 2,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "8f617abeee86542a9f4818baecf9b39e82045a7b2156f0104f19ce22962caa36",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 67,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "d3c78c3eb217f530ab39417be8b8d168bb55f2459047bd76079481c543fdf92c",
+          "documento_id": "goodwe_hca_g2_datasheet",
+          "source": "GW_HCA-G2_Datasheet-PT.pdf",
+          "pagina_pdf": 2,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "0438d2275cfbcf0095d85117439e1458ea50f426151b559897ad2861edb50499",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 19,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R12",
+      "pergunta": "Por que a ficha técnica e o manual mostram tensões de entrada diferentes? Quais valores constam para o Brasil?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 3,
+      "ancoras_esperadas": 3,
+      "recuperados": [
+        {
+          "chunk_id": "7d199ccc0377d8f603959cf704bdc0233cafa1866fbf84cf6c1a9a9e70fae828",
+          "documento_id": "goodwe_hca_g2_datasheet",
+          "source": "GW_HCA-G2_Datasheet-PT.pdf",
+          "pagina_pdf": 2,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "8f617abeee86542a9f4818baecf9b39e82045a7b2156f0104f19ce22962caa36",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 67,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "c7aa2aaedfef4b4bde6af2ec6a2803b4b10c7358b43f466315bc964d666b0883",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 8,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "5fead093bd7bc7d2d0bc981b04c3f857b4c24edaab0e252761c99a6b6d82f5e5",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 69,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R13",
+      "pergunta": "O grau IP66 também vale para o plugue?",
+      "alguma_pagina_esperada": false,
+      "todas_paginas_esperadas": false,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 0.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 1,
+      "recuperados": [
+        {
+          "chunk_id": "29b170f2fdbce1bc7dad4581689ef34095687502d721dd8d17b5d36b4cd38a85",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 38,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "5055165cbaa3334c418ed05ae6c637266b531c301e2ed09eb651b590e43b3848",
+          "documento_id": "goodwe_hca_g2_datasheet",
+          "source": "GW_HCA-G2_Datasheet-PT.pdf",
+          "pagina_pdf": 2,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "aa336e70eca18e443eee727dd0bf7d89ce0e9732c468faf1650542967dbe8389",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 69,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "60e1fbe050662e2a6f5ea0b94131cb62a0fb083087afac8435b9489a016564d2",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 37,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R14",
+      "pergunta": "Qual conector e comprimento de cabo constam na ficha técnica da linha HCA G2?",
+      "alguma_pagina_esperada": false,
+      "todas_paginas_esperadas": false,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 0.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "3eb616d51d50fe0ea3e5f3ada469a5877604540213b264267cc6fef33182b50c",
+          "documento_id": "goodwe_hca_g2_datasheet",
+          "source": "GW_HCA-G2_Datasheet-PT.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "29b170f2fdbce1bc7dad4581689ef34095687502d721dd8d17b5d36b4cd38a85",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 38,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "541ac2d47c2d1bbe2f56b76783e91e5185b260ef9261dc3b3455f96cceb4dc21",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 34,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "60e1fbe050662e2a6f5ea0b94131cb62a0fb083087afac8435b9489a016564d2",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 37,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R15",
+      "pergunta": "Quais interfaces e protocolo de comunicação a ficha técnica informa?",
+      "alguma_pagina_esperada": false,
+      "todas_paginas_esperadas": false,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 0.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "60e1fbe050662e2a6f5ea0b94131cb62a0fb083087afac8435b9489a016564d2",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 37,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "70d45fa1db0c96ae53d2854b3a0c9647273d1d726f24eb6068ff99ec6381e1d4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 22,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "541ac2d47c2d1bbe2f56b76783e91e5185b260ef9261dc3b3455f96cceb4dc21",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 34,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "0f98c47022016cc4c8ed801ec005cf8327b21d8bd31b0a70e02911e4aa288615",
+          "documento_id": "goodwe_hca_g2_datasheet",
+          "source": "GW_HCA-G2_Datasheet-PT.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R16",
+      "pergunta": "O que significam verde fixo, verde piscante, azul fixo e vermelho fixo no indicador?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 2,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "6295d2df75e46becd6044e7c62087367f0d75dcc869564a7c24f3b987bb472af",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 43,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "18ceb6ed8545c221685165fcdb3d3d0bb3e966f70cbdfc4c876f97621e080e13",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 21,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "e3ea57958e8041740c2898fd169dbf4c6dec4961b85a3040f9b680cecfb6bc40",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 6,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "d480b623d0951bcc4871ec7749f9f6e8536fed1d95b691f422f49c24db7439ae",
+          "documento_id": "wecharge_tarifas_regras",
+          "source": "Tarifas e Regras WeCharge.pdf",
+          "pagina_pdf": 3,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R17",
+      "pergunta": "Quantos cartões RFID podem ser vinculados a cada carregador?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 1,
+      "ancoras_esperadas": 1,
+      "recuperados": [
+        {
+          "chunk_id": "8b1f10cc035e911ada9e924baf714e59b1ae943b95ba26ec2ed653a5b04787ab",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 52,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "4a4f98eaefa00b1116329701905764a1f06cd30c8f7d312dc855f584518555cd",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 42,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "e8ecb70321502e21d876154644dcf69cd2592c0076553118034936dedb7ec02b",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 10,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "18736f2797cf873fafdd6eca9ef48514f71280e0e3ec988723a4d271a4b11feb",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 17,
+          "tipo_conteudo": "tabela"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R18",
+      "pergunta": "Como funcionam o início automático e o início por RFID, segundo o manual?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 2,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "4a4f98eaefa00b1116329701905764a1f06cd30c8f7d312dc855f584518555cd",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 42,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "e8ecb70321502e21d876154644dcf69cd2592c0076553118034936dedb7ec02b",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 10,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "b6c1f3b959b3ccc29243cb955b5049ccf07030ba70c964cca9818adae1969f77",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 2,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "e36362a22cf1a9d0d786680e876666b085f9d123a4c2fd59483f23751d28d456",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 40,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R19",
+      "pergunta": "Como o controle dinâmico de carga reage quando o consumo se aproxima do limite configurado?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 1,
+      "ancoras_esperadas": 1,
+      "recuperados": [
+        {
+          "chunk_id": "8dc1440203a40d67a81d62dc2a85413ad20d9f4a79b2d2e7ef35d8bb571bcbfa",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 14,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "d218f4bc3d0bdb33b3531f9a3d7185023505b00f532af997b94c7198bb4ba433",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 49,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "f5e0b952cb47b988563110d31302f1d3edbfca341b51d23b704acc7fd7afba3b",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 60,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "09042630726b35a5c04941029db62d9094f52ec1228880683c5d6eb5846cd265",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 51,
+          "tipo_conteudo": "tabela"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R20",
+      "pergunta": "Qual a diferença entre os modos Rápido, Prioridade de energia fotovoltaica e Energia fotovoltaica + bateria?",
+      "alguma_pagina_esperada": false,
+      "todas_paginas_esperadas": false,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 0.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "24eb8bdc8c8e2dd1217bddb7ecfe674a4f85fb4e3d6e0c52e4703e0ce47f5712",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 57,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "2dba63b65c1972acc0b774b6a2dff9f24409c03d7f6de49e88911e921d1ae407",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 47,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "3e60a17d76a769acbcf1a56294d801dd0a73f3ec0c480b16b676bd6b54a4ab23",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 48,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "15d8c20e6ced3bd6ecd3bbed442367bb735c8aead004819c75b7d5eee3786745",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 59,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R21",
+      "pergunta": "A ficha informa -30 a +50 °C na tabela. O que a nota diz sobre carregador e plugue?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 1,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "db3fd069779b3f2400bd2542ad9ba515e4b4461327c52a59c1e63b5c544f6f9b",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 44,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "cdefb9cb06810d58b92bf8ad575edecc3d7d81ba364f0b1d42db65270d9f8569",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 45,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "1d144a1a5cbefe29497dfd068db239fac79a6dca8c6950b53ddc7b54515186b4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 66,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "5055165cbaa3334c418ed05ae6c637266b531c301e2ed09eb651b590e43b3848",
+          "documento_id": "goodwe_hca_g2_datasheet",
+          "source": "GW_HCA-G2_Datasheet-PT.pdf",
+          "pagina_pdf": 2,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R22",
+      "pergunta": "O manual HCA G2 comprova que o equipamento foi projetado especificamente para uma estação comercial de alta rotatividade?",
+      "alguma_pagina_esperada": true,
+      "todas_paginas_esperadas": true,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 1.0,
+      "ancoras_encontradas": 1,
+      "ancoras_esperadas": 1,
+      "recuperados": [
+        {
+          "chunk_id": "842355098e1cd432485e6b2f29f3a8847c3a64925de92d01eb914bf49a873b7c",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 5,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "e8ecb70321502e21d876154644dcf69cd2592c0076553118034936dedb7ec02b",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 10,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "b52b0dc71f46f75b724f27592660ab75f94afa88612d13b6c964eb786c7b3acd",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 12,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "3eb616d51d50fe0ea3e5f3ada469a5877604540213b264267cc6fef33182b50c",
+          "documento_id": "goodwe_hca_g2_datasheet",
+          "source": "GW_HCA-G2_Datasheet-PT.pdf",
+          "pagina_pdf": 1,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R23",
+      "pergunta": "Quais são os mínimos de partida e por que um veículo pode não aproveitar toda a potência nominal?",
+      "alguma_pagina_esperada": false,
+      "todas_paginas_esperadas": false,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 0.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "9717fd2c3a9be93346c6abeaba82f1420f7d47b55330256c41948bd49aeb7bc8",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 10,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "8a4631b521b166c582e74852e04761657dfb1bc3b3de72b1020b71fc25b448c5",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 50,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "e66b64b39963e8b1b86920b45177d1a5a0435d657c5e7e84e03f4b075114add7",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 15,
+          "tipo_conteudo": "tabela"
+        },
+        {
+          "chunk_id": "aa25b58a139ca372b3233319914ed491026e149db3dd31c0b31e194dab9a5924",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 61,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    },
+    {
+      "id": "RAG-R24",
+      "pergunta": "Posso abrir o carregador e fazer a manutenção por conta própria?",
+      "alguma_pagina_esperada": false,
+      "todas_paginas_esperadas": false,
+      "todas_fontes_obrigatorias": true,
+      "cobertura_paginas": 0.0,
+      "ancoras_encontradas": 0,
+      "ancoras_esperadas": 2,
+      "recuperados": [
+        {
+          "chunk_id": "ddc4ca06ccf88807b7514f478b60a5010aa402c3fafafe29f4c2410a1a94a5f4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 64,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "8dc1440203a40d67a81d62dc2a85413ad20d9f4a79b2d2e7ef35d8bb571bcbfa",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 14,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "51458a10e34c4d1f75fa4e46ecd3d1fb718f544833ef163c797071229bab4ba4",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 14,
+          "tipo_conteudo": "texto"
+        },
+        {
+          "chunk_id": "a98ec6a0cebe68854ab02cf8ef2a0191fd185f818ab3df3fe739c1c18bc9498d",
+          "documento_id": "goodwe_hca_g2_manual",
+          "source": "GW_HCA-G2_User-Manual-PT.pdf",
+          "pagina_pdf": 27,
+          "tipo_conteudo": "texto"
+        }
+      ]
+    }
+  ]
+}

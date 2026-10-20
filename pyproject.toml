@@ -13,6 +13,12 @@ dependencies = [
     "langchain>=1.0,<2.0",
     "langchain-ollama>=1.0,<2.0",
     "langchain-classic>=1.0,<2.0",
+    "langchain-community>=0.4,<1.0",
+    "langchain-text-splitters>=1.0,<2.0",
+    "langchain-chroma>=1.0,<2.0",
+    "chromadb>=1.0,<2.0",
+    "pymupdf>=1.26,<2.0",
+    "filelock>=3.0,<4.0",
     "pydantic>=2.0,<3.0",
     "plotly>=6.0,<7.0",
     "tiktoken>=0.10,<1.0",
@@ -34,6 +40,7 @@ notebook = [
 [project.scripts]
 chargegrid = "chargegrid.cli:main"
 chargegrid-web = "chargegrid.app:main"
+chargegrid-rag = "rag.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

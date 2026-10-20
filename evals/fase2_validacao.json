@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "executado_em": "2026-10-20T14:21:02.908956+00:00",
+  "escopo": "Fase 2: ingestão, persistência, sincronização e localização de evidências; sem geração de respostas.",
+  "testes": {
+    "suite_completa": 121,
+    "testes_principais_fase2": 12,
+    "falhas": 0,
+    "ignorados": 0,
+    "lint": "aprovado",
+    "formatacao": "aprovada"
+  },
+  "integracao_ollama_chroma": {
+    "amostra_embedding": {
+      "vetores_inspecionados": 1,
+      "dimensao": 768,
+      "valores_finitos": true,
+      "norma_l2": 1.0
+    },
+    "estado": "pronto",
+    "pdfs": 3,
+    "paginas": 75,
+    "chunks": 161,
+    "embedding_model": "nomic-embed-text",
+    "embedding_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+    "ids_sha256": "eea26bb69b481d4b2683b29381a3f0116fab15009bdebf7b9dc78662bbc7251c",
+    "fontes_sha256": {
+      "GW_HCA-G2_Datasheet-PT.pdf": "ffa4e02c552415dfb2cc9565b3c3327c27c58e4487f77ac6e140ff5d6f20c343",
+      "GW_HCA-G2_User-Manual-PT.pdf": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+      "Tarifas e Regras WeCharge.pdf": "262ed4180c35d9f9f82a52e744abb0934f7f6e55100b998bee17523e0af3f528"
+    },
+    "persistencia": "Busca executada com sucesso em novo processo após o encerramento da indexação.",
+    "reindexacao": {
+      "novos": 0,
+      "reutilizados": 161,
+      "removidos": 0
+    }
+  },
+  "integracao_isolada": {
+    "banco": "Chroma real em diretórios temporários",
+    "embeddings": "Determinísticos de teste; sem avaliação de relevância",
+    "verificacoes": [
+      "Adição, alteração e remoção de PDFs",
+      "Recuperação após falha depois de gravar parcialmente novos chunks",
+      "Detecção e reparo de coleção incompleta",
+      "Bloqueio de acesso simultâneo",
+      "Base vazia não apaga índice pronto",
+      "Rejeição de digest ou chunking incompatível"
+    ]
+  },
+  "extracao": {
+    "ancoras_preservadas": 39,
+    "ancoras_verificadas": 39,
+    "saida_json_cli": "Avisos do leitor direcionados a stderr; regressão coberta por teste."
+  },
+  "recuperacao": {
+    "k4": {
+      "executado_em": "2026-10-20T14:19:26.947355+00:00",
+      "resumo": {
+        "casos": 24,
+        "com_alguma_pagina_esperada": 14,
+        "com_todas_paginas_esperadas": 14,
+        "com_todas_fontes_obrigatorias": 20,
+        "cobertura_media_paginas": 0.5833,
+        "ancoras_encontradas": 21,
+        "ancoras_esperadas": 39
+      },
+      "detalhes": "evals/fase2_recuperacao.json"
+    },
+    "k8": {
+      "executado_em": "2026-10-20T14:18:06.772415+00:00",
+      "resumo": {
+        "casos": 24,
+        "com_alguma_pagina_esperada": 21,
+        "com_todas_paginas_esperadas": 20,
+        "com_todas_fontes_obrigatorias": 22,
+        "cobertura_media_paginas": 0.8542,
+        "ancoras_encontradas": 27,
+        "ancoras_esperadas": 39
+      },
+      "casos_sem_pagina_esperada": [
+        "RAG-R08",
+        "RAG-R09",
+        "RAG-R23"
+      ],
+      "casos_sem_todas_paginas_esperadas": [
+        "RAG-R08",
+        "RAG-R09",
+        "RAG-R23",
+        "RAG-R24"
+      ]
+    },
+    "configuracao_padrao_alterada": false,
+    "limite": "Localização de páginas e âncoras não comprova contexto suficiente. Fontes equivalentes podem existir em páginas não previstas. Não são scores RAGAS."
+  },
+  "conclusao": "Persistência e sincronização verificadas. A recuperação semântica ainda apresenta perdas; ampliar k melhora a localização, mas não resolve todos os casos.",
+  "configuracao_ativa_validada": {
+    "validado_em": "2026-10-20T17:58:34.667645+00:00",
+    "colecao": "chargegrid_knowledge_v2",
+    "estado": "pronto",
+    "chunk_size": 600,
+    "chunk_overlap": 200,
+    "top_k": 8,
+    "pdfs": 3,
+    "paginas": 75,
+    "chunks": 254,
+    "ids_sha256": "90c3ad3eb2d7df1df9d88f38b339caf789ccc82fd7d623acbf192b2c49f7b480",
+    "embedding_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+    "corresponde_ao_experimento_recomendado": true,
+    "busca_em_novo_processo": {
+      "pergunta": "Quais são as tarifas Urgente e Econômico?",
+      "trechos_retornados": 8,
+      "tarifas_e_fonte_corretas": true
+    },
+    "limite": "Validação funcional da configuração ativa. A cobertura de evidências permanece parcial conforme o experimento de recuperação."
+  }
+}

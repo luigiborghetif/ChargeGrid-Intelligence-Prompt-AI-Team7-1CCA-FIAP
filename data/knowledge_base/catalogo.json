@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "documentos": [
+    {
+      "arquivo": "GW_HCA-G2_Datasheet-PT.pdf",
+      "id": "goodwe_hca_g2_datasheet",
+      "versao": "20241121-PT-V2.1",
+      "natureza": "documentacao_do_fabricante"
+    },
+    {
+      "arquivo": "GW_HCA-G2_User-Manual-PT.pdf",
+      "id": "goodwe_hca_g2_manual",
+      "versao": "V1.5-2025-11-11",
+      "natureza": "documentacao_do_fabricante"
+    },
+    {
+      "arquivo": "Tarifas e Regras WeCharge.pdf",
+      "id": "wecharge_tarifas_regras",
+      "versao": "nao_declarada",
+      "natureza": "cenario_simulado_do_projeto"
+    }
+  ]
+}
