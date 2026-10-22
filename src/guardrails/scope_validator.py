@@ -52,6 +52,39 @@ TERMOS_OPERACIONAIS = {
     "operacao",
     "operacional",
     "ev-",
+    "tarifas",
+    "preco",
+    "precos",
+    "fila",
+    "vaga",
+    "vagas",
+    "regulamento",
+    "manual",
+    "hca",
+    "rfid",
+    "ip66",
+    "ip55",
+    "conector",
+    "conectores",
+    "garantia",
+    "estorno",
+    "ocpp",
+    "modbus",
+    "fotovoltaica",
+    "fotovoltaico",
+    "protocolo",
+    "protocolos",
+    "urgente",
+    "economico",
+    "plugue",
+    "bateria",
+    "sems",
+    "solargo",
+    "horario",
+    "horarios",
+    "led",
+    "indicador",
+    "indicadores",
 }
 
 SAUDACOES = {
@@ -64,6 +97,11 @@ SAUDACOES = {
 }
 
 INDICADORES_CONTINUACAO = (
+    "e o ",
+    "e a ",
+    "e os ",
+    "e as ",
+    "e como ",
     "e qual",
     "e quais",
     "e quanto",
@@ -87,7 +125,10 @@ def validar_escopo(texto: str) -> ResultadoEscopo:
         return ResultadoEscopo(True, CategoriaEscopo.SAUDACAO)
 
     palavras = set(re.findall(r"\b[\w-]+\b", normalizado))
-    menciona_carregador = any(palavra.startswith("ev-") for palavra in palavras)
+    menciona_carregador = any(
+        palavra.startswith("ev-") or re.fullmatch(r"gw\d+k(?:-hca-20)?", palavra)
+        for palavra in palavras
+    )
     if menciona_carregador or not TERMOS_OPERACIONAIS.isdisjoint(palavras):
         return ResultadoEscopo(True, CategoriaEscopo.OPERACIONAL)
 

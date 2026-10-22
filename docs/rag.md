@@ -1,9 +1,10 @@
-# Recuperação documental local
+# Recuperação documental e integração ao assistente
 
 O pipeline documental do ChargeGrid transforma PDFs em trechos com metadados,
 gera embeddings com `nomic-embed-text` no Ollama e mantém uma coleção ChromaDB
-persistente. Os comandos de busca retornam evidências; a interface de chat atual
-continua utilizando o serviço operacional existente.
+persistente. O assistente combina essa recuperação com os indicadores calculados
+em Python e responde a consultas documentais, operacionais e mistas na CLI e no
+chat Gradio.
 
 ## Instalação
 
@@ -39,6 +40,7 @@ RAG_CHUNK_SIZE=600
 RAG_CHUNK_OVERLAP=200
 RAG_TOP_K=8
 RAG_BATCH_SIZE=16
+RAG_PROMPT_PATH=prompts/rag_v2.md
 ```
 
 `RAG_CHUNK_SIZE` e `RAG_CHUNK_OVERLAP` são medidos em caracteres, não tokens.
@@ -110,7 +112,7 @@ Mudanças de modelo/digest, tamanho de chunk, overlap ou versão do extrator exi
 uma nova coleção. Por exemplo, configure `RAG_COLLECTION_NAME=chargegrid_knowledge_v3`
 e execute a indexação. Isso preserva a anterior e evita misturar vetores ou
 configurações incompatíveis. Alterar apenas `RAG_TOP_K`, timeout ou tamanho do lote
-não exige nova coleção.
+não exige nova coleção. Alterar o prompt de geração também não exige reindexação.
 
 ## Busca semântica
 
@@ -125,10 +127,74 @@ os documentos utilizam `search_document:`. A similaridade é calculada em espaç
 cosseno.
 
 Uma busca retorna os vizinhos mais próximos, mesmo quando eles não respondem à
-pergunta. A presença de resultados não comprova evidência suficiente. Grounding,
-recusas e citações na resposta gerada dependem da integração com a geração e de sua
-avaliação. `prompt_rag.py` disponibiliza o prompt inicial `rag-v1` e a serialização
-das evidências para essa integração, sem executar inferência de chat.
+pergunta. A presença de resultados não comprova evidência suficiente. A geração
+integrada deve reconhecer quando os trechos não sustentam a resposta.
+
+## Integração ao assistente — fase 3
+
+O `AssistenteChargeGrid` seleciona as fontes por regras determinísticas:
+
+| Consulta | Contexto fornecido ao modelo | Exemplo |
+|---|---|---|
+| Operacional | JSON validado e indicadores calculados em Python | Qual foi o pico de demanda? |
+| Documental | Trechos recuperados dos PDFs com metadados | Quais são as tarifas Urgente e Econômico? |
+| Mista | Indicadores e trechos dos PDFs | Qual foi o pico e como o controle dinâmico de carga pode ajudar? |
+
+O prompt versionado [`rag_v2.md`](../prompts/rag_v2.md) é usado na chain LCEL
+ativa. `RAG_PROMPT_PATH` seleciona esse arquivo; `CHARGEGRID_PROMPT_PATH` permanece
+destinado ao fluxo legado de comparação dos prompts operacionais v1/v2.
+O histórico das versões RAG está em [`RAG_VERSIONS.md`](../prompts/RAG_VERSIONS.md).
+
+Consultas operacionais preservam o contrato `ConsultaRecarga` e identificam a
+origem dos indicadores. Consultas documentais e mistas utilizam um contrato
+interno com resposta, insuficiência, limitações e trechos de apoio. A aplicação
+confere se cada identificador pertence ao contexto da consulta e se o trecho
+citado existe na fonte, tolerando diferenças de espaços e quebras de linha.
+Arquivo e página são obtidos dos metadados recuperados. Uma resposta mista
+completa exige apoios dos dois tipos de fonte.
+
+Sem apoios válidos, o assistente informa insuficiência; referências inexistentes
+ou trechos inventados são rejeitados. Falhas de recuperação têm um código de erro
+próprio e não são apresentadas como ausência de conhecimento. Perguntas puramente
+operacionais dispensam acesso ao Chroma.
+
+A memória permanece isolada por sessão e limitada por tokens. Somente perguntas
+anteriores do usuário ajudam a interpretar continuações; respostas anteriores
+do modelo não entram como evidência factual. Os guardrails continuam sendo
+executados antes da recuperação e da geração.
+
+O roteamento por palavras-chave pode exigir ajustes para formulações novas.
+A conferência de trechos comprova sua presença na fonte, mas não verifica
+automaticamente se todas as afirmações da resposta decorrem deles. A avaliação
+semântica, a bateria adversarial completa e as métricas RAGAS permanecem nas
+etapas de segurança e avaliação. A fase 4 amplia o contrato público de citações
+e sua apresentação na interface; nesta fase, as referências aparecem no texto.
+
+### Validação principal — 21/10/2026
+
+- 23 novos testes automatizados: seleção de fontes, respostas mistas, ausência
+  de evidência, referências inválidas, falha de recuperação e memória isolada.
+- Regressão completa: 144 testes aprovados; Ruff e verificação de formatação
+  aprovados. Três avisos de descontinuação de dependências não impediram os testes.
+- 7/7 cenários funcionais com Ollama e Chroma reais: tarifas, continuação com
+  estimativa de energia, pico operacional, consulta mista, prazo sem evidência,
+  modelo ausente e continuação em outra sessão.
+- Valores conferidos: R$ 1,89/kWh e R$ 1,05/kWh, R$ 21,00 para 20 kWh no
+  Econômico e pico de 78,4 kW. A resposta mista citou o JSON operacional e o
+  manual, página PDF 49.
+
+O relatório [`fase3_integracao.json`](../evals/fase3_integracao.json) registra
+configuração, hash do prompt, contextos recuperados, saídas e verificações.
+Essa execução funcional não mede a qualidade de todo o conjunto documental.
+
+```bash
+python -m pytest tests/test_integracao_rag.py -q
+python evals/validar_integracao.py
+```
+
+O segundo comando chama o modelo configurado, requer Ollama e índice disponíveis
+e atualiza o relatório. Não é necessário criar outro banco nem reindexar para
+ativar a integração sobre a coleção já preparada.
 
 ## Diagnóstico
 

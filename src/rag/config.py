@@ -40,6 +40,7 @@ class RAGSettings:
     chunk_overlap: int = 200
     top_k: int = 8
     batch_size: int = 16
+    prompt_path: Path = PROJECT_ROOT / "prompts/rag_v2.md"
 
     @classmethod
     def from_env(cls) -> RAGSettings:
@@ -63,6 +64,7 @@ class RAGSettings:
             chunk_overlap=_inteiro("RAG_CHUNK_OVERLAP", 200),
             top_k=_inteiro("RAG_TOP_K", 8),
             batch_size=_inteiro("RAG_BATCH_SIZE", 16),
+            prompt_path=_caminho("RAG_PROMPT_PATH", "prompts/rag_v2.md"),
         )
         config.validate()
         return config

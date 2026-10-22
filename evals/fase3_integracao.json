@@ -1,0 +1,1105 @@
+{
+  "executado_em": "2026-10-21T19:58:04.107816+00:00",
+  "escopo": "Verificação funcional da integração; não substitui avaliação RAGAS ou testes adversariais completos.",
+  "modelo": "gemma4:31b-cloud",
+  "parametros": {
+    "temperature": 0.2,
+    "top_p": 0.9,
+    "max_tokens": 1200,
+    "memory_token_limit": 4000
+  },
+  "rag": {
+    "embedding_model": "nomic-embed-text",
+    "collection_name": "chargegrid_knowledge_v2",
+    "chunk_size": 600,
+    "chunk_overlap": 200,
+    "top_k": 8
+  },
+  "prompt": {
+    "arquivo": "prompts/rag_v2.md",
+    "sha256": "805fc835f3fe78f831ec556bf3aeb4fd9e976c13c4c65b7984d8c1bb658ca1f8"
+  },
+  "casos": [
+    {
+      "id": "tarifas",
+      "pergunta": "Quais são as tarifas Urgente e Econômico?",
+      "status": "sucesso",
+      "codigo": "consulta_documental_concluida",
+      "tipo_consulta": "documental",
+      "mensagem": "As tarifas são: Urgente (R$1,89/kWh) e Econômico (R$1,05/kWh).\n\nFontes utilizadas:\n- Tarifas e Regras WeCharge.pdf — página PDF 1 — Tarifas: \n \nUrgente: R$1,89/kWh \nEconômico: R$1,05/kWh",
+      "dados": null,
+      "fontes": [
+        "Tarifas e Regras WeCharge.pdf — página PDF 1 — Tarifas: \n \nUrgente: R$1,89/kWh \nEconômico: R$1,05/kWh"
+      ],
+      "contexto_recuperado": [
+        {
+          "texto": "Tarifas: \n \nUrgente: R$1,89/kWh \nEconômico: R$1,05/kWh \n \nRegulamento de uso compartilhado — \nEstação ChargeGrid \n1. Finalidade das vagas \nAs vagas de recarga são destinadas exclusivamente a veículos elétricos ou híbridos plug-in \ndurante uma sessão ativa. Não é permitido utilizá-las como estacionamento comum ou \npermanecer conectado apenas para reservar a vaga. \n2. Acesso e fila de espera \nO atendimento segue a ordem de chegada registrada no sistema da estação. Cada veículo \npode ocupar uma única posição na fila.",
+          "metadados": {
+            "documento_id": "wecharge_tarifas_regras",
+            "pagina_pdf": 1,
+            "chunk_id": "ad5b870d6146b13787b4611c27a6e29ede901c951e8ca6e07ae81d34d766fea9",
+            "page": 0,
+            "tabelas_extraidas": 0,
+            "natureza": "cenario_simulado_do_projeto",
+            "chunk_index": 0,
+            "loader_version": "pymupdf-page-tables-v1",
+            "documento_sha256": "262ed4180c35d9f9f82a52e744abb0934f7f6e55100b998bee17523e0af3f528",
+            "chunking_version": "recursive-table-rows-v1",
+            "acima_tamanho_alvo": false,
+            "title": "Tarifas e Regras WeCharge",
+            "versao": "nao_declarada",
+            "tipo_conteudo": "texto",
+            "total_pages": 3,
+            "source": "Tarifas e Regras WeCharge.pdf"
+          }
+        },
+        {
+          "texto": "trifásico de cinco fios da rede, respectivamente.\n•\nA porta de saída é usada para conectar com o plugue de carregamento.\n•\nParada de emergência se refere ao botão de parada de emergência.\n8",
+          "metadados": {
+            "tipo_conteudo": "texto",
+            "acima_tamanho_alvo": false,
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "natureza": "documentacao_do_fabricante",
+            "chunk_index": 1,
+            "tabelas_extraidas": 2,
+            "chunk_id": "e7e98a0ace94f6b4918a4b5cf048c4afd43658da33f73df6287cd3c99c631f55",
+            "documento_id": "goodwe_hca_g2_manual",
+            "loader_version": "pymupdf-page-tables-v1",
+            "page": 11,
+            "total_pages": 70,
+            "versao": "V1.5-2025-11-11",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "chunking_version": "recursive-table-rows-v1",
+            "pagina_pdf": 12
+          }
+        },
+        {
+          "texto": "5. Tarifas e transparência \nAntes da confirmação, o sistema deve apresentar o preço da recarga, a unidade de \ncobrança e eventuais taxas aplicáveis. \nCaso exista cobrança por permanência após o período de tolerância, seu valor e suas \ncondições devem ser informados previamente. O comprovante deve discriminar energia \nentregue, duração e valores cobrados. \n6. Compartilhamento de potência \nA potência disponível pode ser distribuída entre os veículos conectados para respeitar os \nlimites operacionais da estação.",
+          "metadados": {
+            "chunk_id": "6f0cf592005858915470d96f5935b5c738daae3b0ea914b2981a90755ba9c592",
+            "chunking_version": "recursive-table-rows-v1",
+            "source": "Tarifas e Regras WeCharge.pdf",
+            "total_pages": 3,
+            "title": "Tarifas e Regras WeCharge",
+            "tabelas_extraidas": 0,
+            "pagina_pdf": 2,
+            "chunk_index": 0,
+            "documento_sha256": "262ed4180c35d9f9f82a52e744abb0934f7f6e55100b998bee17523e0af3f528",
+            "page": 1,
+            "loader_version": "pymupdf-page-tables-v1",
+            "versao": "nao_declarada",
+            "natureza": "cenario_simulado_do_projeto",
+            "tipo_conteudo": "texto",
+            "acima_tamanho_alvo": false,
+            "documento_id": "wecharge_tarifas_regras"
+          }
+        },
+        {
+          "texto": "Indica um perigo de baixo nível que, se não for evitado, pode resultar em ferimentos leves ou \nmoderados.\nAVISO\nDestaca e complementa os textos. Ou habilidades e métodos para resolver problemas \nrelacionados ao produto para economizar tempo.",
+          "metadados": {
+            "natureza": "documentacao_do_fabricante",
+            "chunking_version": "recursive-table-rows-v1",
+            "tabelas_extraidas": 0,
+            "versao": "V1.5-2025-11-11",
+            "pagina_pdf": 6,
+            "tipo_conteudo": "texto",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "total_pages": 70,
+            "chunk_index": 1,
+            "documento_id": "goodwe_hca_g2_manual",
+            "acima_tamanho_alvo": false,
+            "loader_version": "pymupdf-page-tables-v1",
+            "page": 5,
+            "chunk_id": "a54f8ed8baf5b52f6c4c7dda3c7c18993d1da1e70fc5a3caa2b8a932b51a0358"
+          }
+        },
+        {
+          "texto": "problemas sejam resolvidos rapidamente.\n1. Informações do carregador como número de série, versão do software, data de instalação,\nhora da falha, frequência da falha etc.\n2. Ambiente de instalação, incluindo condições climáticas etc. É recomendável fornecer algumas\nfotos e vídeos para auxiliar na análise do problema.\n3. Situação da rede elétrica.\n61",
+          "metadados": {
+            "page": 64,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "chunk_id": "4ce0af814483a5a1d72e51c2255422b55434aabce67025d859caeb9336807177",
+            "pagina_pdf": 65,
+            "loader_version": "pymupdf-page-tables-v1",
+            "versao": "V1.5-2025-11-11",
+            "total_pages": 70,
+            "tabelas_extraidas": 1,
+            "documento_id": "goodwe_hca_g2_manual",
+            "acima_tamanho_alvo": false,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "natureza": "documentacao_do_fabricante",
+            "chunk_index": 1,
+            "tipo_conteudo": "texto",
+            "chunking_version": "recursive-table-rows-v1"
+          }
+        },
+        {
+          "texto": "|Col1|RISCO DE ALTA TENSÃO<br>Existe alta tensão durante<br>a operação do carregador.<br>Desconecte toda a energia de<br>entrada e desligue o produto<br>antes de trabalhar nele.|Col3|Atrase a descarga. Aguarde<br>5 minutos depois de desligar<br>até que os componentes<br>estejam completamente<br>descarregados.|\n|---|---|---|---|\n||Leia o manual do usuário<br>antes de qualquer operação.||Existem riscos potenciais.<br>Use EPI adequado antes de<br>qualquer operação.|",
+          "metadados": {
+            "tipo_conteudo": "tabela",
+            "total_pages": 70,
+            "page": 7,
+            "chunk_id": "207c01f8cfa47b2dc2dff7de2e83187ca9ea5871aff52ed2d67df1d7aa95c228",
+            "versao": "V1.5-2025-11-11",
+            "natureza": "documentacao_do_fabricante",
+            "pagina_pdf": 8,
+            "documento_id": "goodwe_hca_g2_manual",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "tabelas_extraidas": 1,
+            "loader_version": "pymupdf-page-tables-v1",
+            "acima_tamanho_alvo": false,
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "chunking_version": "recursive-table-rows-v1",
+            "chunk_index": 1
+          }
+        },
+        {
+          "texto": "|Col1|RISCO DE ALTA TENSÃO<br>Existe alta tensão durante<br>a operação do carregador.<br>Desconecte toda a energia de<br>entrada e desligue o produto<br>antes de trabalhar nele.|Col3|Atrase a descarga. Aguarde<br>5 minutos depois de desligar<br>até que os componentes<br>estejam completamente<br>descarregados.|\n|---|---|---|---|\n||Risco de alta temperatura.<br>Não toque no produto<br>em operação para evitar<br>queimaduras.||Não descarte o carregador<br>como lixo doméstico. Descarte<br>o produto de acordo com as leis<br>e regulamentações locais ou<br>envie-o de volta ao fabricante.|",
+          "metadados": {
+            "chunk_index": 2,
+            "tipo_conteudo": "tabela",
+            "loader_version": "pymupdf-page-tables-v1",
+            "versao": "V1.5-2025-11-11",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "page": 7,
+            "chunk_id": "a5d1cbf5bb75f265527bc71dd599775546ed331ac73017a60f9b8139bc633fbb",
+            "pagina_pdf": 8,
+            "acima_tamanho_alvo": false,
+            "natureza": "documentacao_do_fabricante",
+            "tabelas_extraidas": 1,
+            "total_pages": 70,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "chunking_version": "recursive-table-rows-v1",
+            "documento_id": "goodwe_hca_g2_manual"
+          }
+        },
+        {
+          "texto": "fumaça ou comportamento anormal. \nInterrompa o uso pelos controles disponíveis, quando isso puder ser feito com segurança, \nafaste-se e comunique a equipe responsável. O botão de emergência deve ser utilizado em \nsituações de risco, conforme a sinalização local. \n9. Convivência e acessibilidade \nRespeite a sinalização, as vagas prioritárias e as áreas de circulação. Não desconecte outro \nveículo nem manipule sua sessão. \nMantenha a área limpa e permita o acesso da equipe de operação aos equipamentos. \n10. Atendimento e indisponibilidade",
+          "metadados": {
+            "pagina_pdf": 2,
+            "chunking_version": "recursive-table-rows-v1",
+            "natureza": "cenario_simulado_do_projeto",
+            "tipo_conteudo": "texto",
+            "title": "Tarifas e Regras WeCharge",
+            "source": "Tarifas e Regras WeCharge.pdf",
+            "tabelas_extraidas": 0,
+            "chunk_index": 3,
+            "total_pages": 3,
+            "page": 1,
+            "versao": "nao_declarada",
+            "documento_sha256": "262ed4180c35d9f9f82a52e744abb0934f7f6e55100b998bee17523e0af3f528",
+            "documento_id": "wecharge_tarifas_regras",
+            "acima_tamanho_alvo": false,
+            "loader_version": "pymupdf-page-tables-v1",
+            "chunk_id": "4aa6eeb14f0301906e9ebdb684b8f5a6292c295e968529b251b5d4044af86b39"
+          }
+        }
+      ],
+      "saida_estruturada_modelo": [
+        {
+          "resposta": "As tarifas são: Urgente (R$1,89/kWh) e Econômico (R$1,05/kWh).",
+          "insuficiente": false,
+          "apoios": [
+            {
+              "fonte_id": "ad5b870d6146b13787b4611c27a6e29ede901c951e8ca6e07ae81d34d766fea9",
+              "trecho": "Tarifas: \n \nUrgente: R$1,89/kWh \nEconômico: R$1,05/kWh"
+            }
+          ],
+          "limitacoes": []
+        }
+      ],
+      "verificacoes": {
+        "tipo": true,
+        "sucesso": true,
+        "fontes": true,
+        "precos": true
+      },
+      "aprovado": true
+    },
+    {
+      "id": "continuacao",
+      "pergunta": "E quanto custa somente a energia de 20 kWh no Econômico?",
+      "status": "sucesso",
+      "codigo": "consulta_documental_concluida",
+      "tipo_consulta": "documental",
+      "mensagem": "O custo de 20 kWh na tarifa Econômico é de R$ 21,00 (calculado como 20 kWh * R$ 1,05/kWh).\n\nFontes utilizadas:\n- Tarifas e Regras WeCharge.pdf — página PDF 1 — Econômico: R$1,05/kWh",
+      "dados": null,
+      "fontes": [
+        "Tarifas e Regras WeCharge.pdf — página PDF 1 — Econômico: R$1,05/kWh"
+      ],
+      "contexto_recuperado": [
+        {
+          "texto": "Tarifas: \n \nUrgente: R$1,89/kWh \nEconômico: R$1,05/kWh \n \nRegulamento de uso compartilhado — \nEstação ChargeGrid \n1. Finalidade das vagas \nAs vagas de recarga são destinadas exclusivamente a veículos elétricos ou híbridos plug-in \ndurante uma sessão ativa. Não é permitido utilizá-las como estacionamento comum ou \npermanecer conectado apenas para reservar a vaga. \n2. Acesso e fila de espera \nO atendimento segue a ordem de chegada registrada no sistema da estação. Cada veículo \npode ocupar uma única posição na fila.",
+          "metadados": {
+            "source": "Tarifas e Regras WeCharge.pdf",
+            "page": 0,
+            "chunk_id": "ad5b870d6146b13787b4611c27a6e29ede901c951e8ca6e07ae81d34d766fea9",
+            "documento_sha256": "262ed4180c35d9f9f82a52e744abb0934f7f6e55100b998bee17523e0af3f528",
+            "tabelas_extraidas": 0,
+            "total_pages": 3,
+            "acima_tamanho_alvo": false,
+            "natureza": "cenario_simulado_do_projeto",
+            "chunk_index": 0,
+            "pagina_pdf": 1,
+            "chunking_version": "recursive-table-rows-v1",
+            "documento_id": "wecharge_tarifas_regras",
+            "versao": "nao_declarada",
+            "loader_version": "pymupdf-page-tables-v1",
+            "tipo_conteudo": "texto",
+            "title": "Tarifas e Regras WeCharge"
+          }
+        },
+        {
+          "texto": "|Status|Explicação|\n|---|---|\n|LIGADO|Continue carregando com o suporte da rede elétrica e da bateria para garantir<br>a potência mínima necessária para o carregamento (1,4kW para carregadores<br>de 7kW e 4,2kW para carregadores de 11/22kW).|\n|DESLIGADO|Interrompa o carregamento se o excedente de energia fotovoltaica não estiver<br>mais disponível.|",
+          "metadados": {
+            "documento_id": "goodwe_hca_g2_manual",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "pagina_pdf": 15,
+            "chunk_id": "bc3e787d87591440a82c31a5440e78d380fac8e26be23e06c3404403c772ec83",
+            "page": 14,
+            "acima_tamanho_alvo": false,
+            "chunking_version": "recursive-table-rows-v1",
+            "tabelas_extraidas": 2,
+            "chunk_index": 2,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "loader_version": "pymupdf-page-tables-v1",
+            "natureza": "documentacao_do_fabricante",
+            "versao": "V1.5-2025-11-11",
+            "total_pages": 70,
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "tipo_conteudo": "tabela"
+          }
+        },
+        {
+          "texto": "59\n08    Comissionamento do sistema\nAlternância de fase\nAVISO\nA função de alternância de fase está disponível apenas para carregadores trifásicos.\nDistância por kWh\nVocê pode definir a proporção de conversão entre energia e quilometragem ou manter a \nconfiguração padrão.",
+          "metadados": {
+            "chunking_version": "recursive-table-rows-v1",
+            "page": 62,
+            "natureza": "documentacao_do_fabricante",
+            "tabelas_extraidas": 0,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "acima_tamanho_alvo": false,
+            "pagina_pdf": 63,
+            "documento_id": "goodwe_hca_g2_manual",
+            "tipo_conteudo": "texto",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "loader_version": "pymupdf-page-tables-v1",
+            "chunk_index": 0,
+            "chunk_id": "426be4a3f20b33d0a0f87db001c7cd0165f814233d38d2657b345d49e18e6a66",
+            "total_pages": 70,
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "versao": "V1.5-2025-11-11"
+          }
+        },
+        {
+          "texto": "|Dados técnicos|GW7K-HCA-20|GW11K-HCA-20|GW22K-HCA-20|\n|---|---|---|---|\n|Peso (kg)|5.2 (com cabo de 6m)<br>5.6 (com cabo de 7.5m)|5.4 (com cabo de 6m)<br>5.6 (com cabo de 7.5m)|6.4 (com cabo de 6m)<br>7.1 (com cabo de 7.5m)|\n|Dimensão (L × A × P mm)||208 × 450 × 170||\n|Emissão de ruído (dB)||<20||\n|Consumo de energia (W)||<6.5||\n|Grau de Proteção IP||IP66<br>*2||\n\nNotas da página:\n*1: Faixa de temperatura operacional (°C): O carregador é de -30 ~ +55°C, e o plugue de carregamento é de 50°C.\n*2: Grau de Proteção IP: o plugue de carregamento IEC 2 é IP55.",
+          "metadados": {
+            "chunk_id": "47730e21673fe7e72f3cc9f742cc41e6c94b3866f3682cfe6d10b6b1f4d6b484",
+            "total_pages": 2,
+            "chunking_version": "recursive-table-rows-v1",
+            "chunk_index": 5,
+            "acima_tamanho_alvo": false,
+            "natureza": "documentacao_do_fabricante",
+            "tipo_conteudo": "tabela",
+            "loader_version": "pymupdf-page-tables-v1",
+            "tabelas_extraidas": 1,
+            "documento_sha256": "ffa4e02c552415dfb2cc9565b3c3327c27c58e4487f77ac6e140ff5d6f20c343",
+            "documento_id": "goodwe_hca_g2_datasheet",
+            "title": "GW_HCA-G2_Datasheet-PT",
+            "versao": "20241121-PT-V2.1",
+            "source": "GW_HCA-G2_Datasheet-PT.pdf",
+            "page": 1,
+            "pagina_pdf": 2
+          }
+        },
+        {
+          "texto": "Garantir potência mínima de carregamento\nQuando a energia fotovoltaica ou a combinação de energia fotovoltaica + bateria for insuficiente, \no carregador pode obter suporte da rede elétrica ou da bateria para manter a potência de saída \ndesejada, caso a função Garantir potência mínima de carregamento esteja ativada. Essa função \nestá disponível apenas nos modos Prioridade de energia fotovoltaica ou Energia fotovoltaica + \nbateria. Os usuários podem ativar essa função pelo aplicativo SolarGo ou SEMS.",
+          "metadados": {
+            "tipo_conteudo": "texto",
+            "chunk_index": 4,
+            "acima_tamanho_alvo": false,
+            "chunk_id": "ca6bc3ff3e43c2b90c5873501693c3e28794d38f66c6b4af3acee75de22c7bd3",
+            "tabelas_extraidas": 0,
+            "natureza": "documentacao_do_fabricante",
+            "loader_version": "pymupdf-page-tables-v1",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "chunking_version": "recursive-table-rows-v1",
+            "total_pages": 70,
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "page": 13,
+            "versao": "V1.5-2025-11-11",
+            "documento_id": "goodwe_hca_g2_manual",
+            "pagina_pdf": 14
+          }
+        },
+        {
+          "texto": "|Status|Explicação|\n|---|---|\n|LIGADO|Quando a potência total de entrada for inferior a 4,2kW, o carregador alterna<br>automaticamente para o modo de carregamento monofásico para evitar<br>o consumo de energia da rede ou o desligamento. A potência mínima de<br>carregamento no modo monofásico é de 1,4kW. (O tempo de alternância de<br>fase é de aproximadamente 3minutos)|\n|DESLIGADO|O carregador permanece no modo de carregamento trifásico.|",
+          "metadados": {
+            "chunk_index": 3,
+            "pagina_pdf": 15,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "total_pages": 70,
+            "documento_id": "goodwe_hca_g2_manual",
+            "loader_version": "pymupdf-page-tables-v1",
+            "chunk_id": "911109bb8914bda14ed8bf900dc6c7cf56fbd7d10e44d67c817d4a951f09cec8",
+            "chunking_version": "recursive-table-rows-v1",
+            "versao": "V1.5-2025-11-11",
+            "tipo_conteudo": "tabela",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "acima_tamanho_alvo": false,
+            "natureza": "documentacao_do_fabricante",
+            "tabelas_extraidas": 2,
+            "page": 14
+          }
+        },
+        {
+          "texto": "|Status|Explicação|\n|---|---|\n|LIGADO|Quando a potência total de entrada for inferior a 4,2kW, o carregador alterna<br>automaticamente para o modo de carregamento monofásico para evitar<br>o consumo de energia da rede ou o desligamento. A potência mínima de<br>carregamento no modo monofásico é de 1,4kW. (O tempo de alternância de<br>fase é de aproximadamente 3minutos)|\n|DESLIGADO|O carregador permanece no modo de carregamento trifásico.|",
+          "metadados": {
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "loader_version": "pymupdf-page-tables-v1",
+            "chunk_id": "dfe6308d2d565ffe6fe9de80beda62a9e6b03191963980ff4562276c06567c75",
+            "total_pages": 70,
+            "chunk_index": 1,
+            "chunking_version": "recursive-table-rows-v1",
+            "tabelas_extraidas": 1,
+            "page": 49,
+            "documento_id": "goodwe_hca_g2_manual",
+            "pagina_pdf": 50,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "versao": "V1.5-2025-11-11",
+            "tipo_conteudo": "tabela",
+            "natureza": "documentacao_do_fabricante",
+            "acima_tamanho_alvo": false,
+            "title": "GW_HCA-G2_User-Manual-PT"
+          }
+        },
+        {
+          "texto": "|Dados técnicos|GW7K-HCA-20|GW11K-HCA-20|GW22K-HCA-20|\n|---|---|---|---|\n|Entrada||||\n|Tensão Nominal de Entrada (V)|220, L / N / PE|380, 3L / N / PE|380, 3L / N / PE|\n|Corrente nominal de entrada (A)|32|16|32|\n|Frequência nominal da rede CA (Hz)||50 / 60||\n|||||\n|Saída CA||||\n|Potência nominal de saída (W)|7000|11000|22000|\n|Tensão nominal de saída (V)|230|400|400|\n\nNotas da página:\n*1: Faixa de temperatura operacional (°C): O carregador é de -30 ~ +55°C, e o plugue de carregamento é de 50°C.\n*2: Grau de Proteção IP: o plugue de carregamento IEC 2 é IP55.",
+          "metadados": {
+            "versao": "20241121-PT-V2.1",
+            "acima_tamanho_alvo": false,
+            "tipo_conteudo": "tabela",
+            "natureza": "documentacao_do_fabricante",
+            "loader_version": "pymupdf-page-tables-v1",
+            "page": 1,
+            "source": "GW_HCA-G2_Datasheet-PT.pdf",
+            "tabelas_extraidas": 1,
+            "documento_sha256": "ffa4e02c552415dfb2cc9565b3c3327c27c58e4487f77ac6e140ff5d6f20c343",
+            "documento_id": "goodwe_hca_g2_datasheet",
+            "chunk_id": "c8723632124a31fe62847befac6a4cad8c66e723a3aea031f2e0cd712918d09f",
+            "total_pages": 2,
+            "title": "GW_HCA-G2_Datasheet-PT",
+            "chunking_version": "recursive-table-rows-v1",
+            "chunk_index": 1,
+            "pagina_pdf": 2
+          }
+        }
+      ],
+      "saida_estruturada_modelo": [
+        {
+          "resposta": "O custo de 20 kWh na tarifa Econômico é de R$ 21,00 (calculado como 20 kWh * R$ 1,05/kWh).",
+          "insuficiente": false,
+          "apoios": [
+            {
+              "fonte_id": "ad5b870d6146b13787b4611c27a6e29ede901c951e8ca6e07ae81d34d766fea9",
+              "trecho": "Econômico: R$1,05/kWh"
+            }
+          ],
+          "limitacoes": []
+        }
+      ],
+      "verificacoes": {
+        "tipo": true,
+        "sucesso": true,
+        "fontes": true,
+        "valor_20_kwh": true
+      },
+      "aprovado": true
+    },
+    {
+      "id": "pico",
+      "pergunta": "Qual foi o pico de demanda e qual o risco?",
+      "status": "sucesso",
+      "codigo": "consulta_concluida",
+      "tipo_consulta": "operacional",
+      "mensagem": "O pico de demanda ocorreu às 14:00, atingindo 78.4 kW, o que representa 98.0% do limite da demanda contratada.",
+      "dados": {
+        "resumo_executivo": "O pico de demanda ocorreu às 14:00, atingindo 78.4 kW, o que representa 98.0% do limite da demanda contratada.",
+        "evidencias": [
+          "pico: {\"hora\": \"14:00\", \"potencia_kw\": 78.4, \"percentual_limite\": 98.0, \"margem_ate_limite_kw\": 1.6, \"nivel\": \"critico\"}",
+          "Fonte operacional: data/exemplo_operacao.json — JSON validado e indicadores calculados em Python."
+        ],
+        "impacto": "A demanda está em nível crítico, com uma margem de apenas 1.6 kW para atingir o limite contratado de 80.0 kW.",
+        "recomendacoes": [
+          "Implementar throttling para reduzir a demanda atual de 78.4 kW para a demanda alvo de 72.0 kW.",
+          "Aplicar a potência recomendada de 8.0 kW nos carregadores elegíveis: EV-01, EV-02, EV-04 e EV-06."
+        ],
+        "nivel_risco": "critico",
+        "carregadores_relacionados": [
+          {
+            "id": "EV-01",
+            "estado": "pico_critico",
+            "potencia_kw": 11.0
+          },
+          {
+            "id": "EV-02",
+            "estado": "pico_critico",
+            "potencia_kw": 11.0
+          },
+          {
+            "id": "EV-04",
+            "estado": "pico_critico",
+            "potencia_kw": 11.0
+          },
+          {
+            "id": "EV-06",
+            "estado": "pico_critico",
+            "potencia_kw": 11.0
+          }
+        ],
+        "potencia_total_kw": 78.4,
+        "energia_total_kwh": null,
+        "analise_financeira": null,
+        "limitacoes": []
+      },
+      "fontes": [
+        "Fonte operacional: data/exemplo_operacao.json — JSON validado e indicadores calculados em Python."
+      ],
+      "contexto_recuperado": [],
+      "saida_estruturada_modelo": [],
+      "verificacoes": {
+        "tipo": true,
+        "sucesso": true,
+        "fontes": true,
+        "valor_deterministico": true
+      },
+      "aprovado": true
+    },
+    {
+      "id": "mista",
+      "pergunta": "Qual foi o pico de demanda e como o controle dinâmico de carga pode ajudar?",
+      "status": "sucesso",
+      "codigo": "consulta_mista_concluida",
+      "tipo_consulta": "mista",
+      "mensagem": "O pico de demanda registrado foi de 78,4 kW, ocorrido às 14:00, o que representa 98,0% do limite da demanda contratada. De acordo com a documentação do fabricante, o controle dinâmico de carga auxilia ajustando a velocidade de carregamento (ou pausando-o) com base nos dados do medidor e na corrente de conexão à rede definida, visando evitar o disparo do fusível principal quando a corrente real consumida se aproxima do limite definido.\n\nFontes utilizadas:\n- data/exemplo_operacao.json — \"pico\": {\"hora\": \"14:00\", \"potencia_kw\": 78.4, \"percentual_limite\": 98.0, \"margem_ate_limite_kw\": 1.6, \"nivel\": \"critico\"}\n- GW_HCA-G2_User-Manual-PT.pdf — página PDF 49 — Depois de ativar o controle dinâmico de carga, o carregador ajustará a velocidade de carregamento (ou até pausará o carregamento) com base nos dados do medidor e na corrente de conexão à rede definida, para evitar o disparo do fusível principal.",
+      "dados": null,
+      "fontes": [
+        "data/exemplo_operacao.json — \"pico\": {\"hora\": \"14:00\", \"potencia_kw\": 78.4, \"percentual_limite\": 98.0, \"margem_ate_limite_kw\": 1.6, \"nivel\": \"critico\"}",
+        "GW_HCA-G2_User-Manual-PT.pdf — página PDF 49 — Depois de ativar o controle dinâmico de carga, o carregador ajustará a velocidade de carregamento (ou até pausará o carregamento) com base nos dados do medidor e na corrente de conexão à rede definida, para evitar o disparo do fusível principal."
+      ],
+      "contexto_recuperado": [
+        {
+          "texto": "45\n08    Comissionamento do sistema\n8.2.6 Mais\nControle dinâmico de carga \nDepois de ativar o controle dinâmico de carga, o carregador ajustará a velocidade de \ncarregamento (ou até pausará o carregamento) com base nos dados do medidor e na \ncorrente de conexão à rede definida, para evitar o disparo do fusível principal. Quando a \ncorrente real consumida se aproxima da corrente de conexão à rede definida, o carregador \nreduzirá a potência de carregamento até pausar, para evitar o disparo. O carregador reiniciará",
+          "metadados": {
+            "page": 48,
+            "acima_tamanho_alvo": false,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "chunk_index": 0,
+            "loader_version": "pymupdf-page-tables-v1",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "chunk_id": "47e987128a734e3204792fdb402d6be1236a070c4a1d36546720a76c7e3f05a4",
+            "versao": "V1.5-2025-11-11",
+            "total_pages": 70,
+            "tipo_conteudo": "texto",
+            "tabelas_extraidas": 0,
+            "documento_id": "goodwe_hca_g2_manual",
+            "pagina_pdf": 49,
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "natureza": "documentacao_do_fabricante",
+            "chunking_version": "recursive-table-rows-v1"
+          }
+        },
+        {
+          "texto": "Durante períodos de alta demanda, cada sessão terá um limite de 60 minutos, informado \nantes do início da recarga. \nSem fila, o sistema poderá permitir a continuidade da sessão. Havendo usuários \naguardando, uma nova sessão dependerá de novo ingresso na fila. \nO limite de tempo não garante uma quantidade específica de energia nem determinado \npercentual de bateria. \n4. Encerramento e liberação da vaga \nO usuário deve acompanhar a sessão e retirar o veículo em até 10 minutos após o \nencerramento ou a notificação de liberação.",
+          "metadados": {
+            "chunk_id": "ad217bc7f47ddcb7bffc61049c0888799bd940ff9a0a9e08ea549bcea664b007",
+            "tipo_conteudo": "texto",
+            "chunk_index": 2,
+            "title": "Tarifas e Regras WeCharge",
+            "tabelas_extraidas": 0,
+            "versao": "nao_declarada",
+            "documento_id": "wecharge_tarifas_regras",
+            "natureza": "cenario_simulado_do_projeto",
+            "page": 0,
+            "source": "Tarifas e Regras WeCharge.pdf",
+            "acima_tamanho_alvo": false,
+            "pagina_pdf": 1,
+            "chunking_version": "recursive-table-rows-v1",
+            "loader_version": "pymupdf-page-tables-v1",
+            "total_pages": 3,
+            "documento_sha256": "262ed4180c35d9f9f82a52e744abb0934f7f6e55100b998bee17523e0af3f528"
+          }
+        },
+        {
+          "texto": "carrega um veículo que só aceita carregamento bifásico, sua potência máxima de \ncarregamento é 2/3 da potência nominal do carregador.\nControle dinâmico de carga\nDepois de ativar o controle dinâmico de carga, o carregador ajustará a velocidade de \ncarregamento (ou até pausará o carregamento) com base nos dados do medidor e na \ncorrente de conexão à rede definida, para evitar o disparo do fusível principal. Quando a \ncorrente real consumida se aproxima da corrente de conexão à rede definida, o carregador",
+          "metadados": {
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "tipo_conteudo": "texto",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "pagina_pdf": 14,
+            "natureza": "documentacao_do_fabricante",
+            "chunk_index": 2,
+            "chunk_id": "49c78e574256a118e908d91dae790ed0451603dd6780020dd166de54060ffc55",
+            "total_pages": 70,
+            "versao": "V1.5-2025-11-11",
+            "page": 13,
+            "documento_id": "goodwe_hca_g2_manual",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "tabelas_extraidas": 0,
+            "loader_version": "pymupdf-page-tables-v1",
+            "chunking_version": "recursive-table-rows-v1",
+            "acima_tamanho_alvo": false
+          }
+        },
+        {
+          "texto": "08 Comissionamento do sistema\n8.3.6 Configuração\nControle dinâmico de carga\n56",
+          "metadados": {
+            "page": 59,
+            "loader_version": "pymupdf-page-tables-v1",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "acima_tamanho_alvo": false,
+            "chunk_index": 0,
+            "versao": "V1.5-2025-11-11",
+            "chunk_id": "97f2685cad4a9a598cfa5754c050f1d65d8f50a52411616567a9d530b9425eb5",
+            "chunking_version": "recursive-table-rows-v1",
+            "total_pages": 70,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "tipo_conteudo": "texto",
+            "natureza": "documentacao_do_fabricante",
+            "tabelas_extraidas": 1,
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "documento_id": "goodwe_hca_g2_manual",
+            "pagina_pdf": 60
+          }
+        },
+        {
+          "texto": "|Nr.|Parâmetros|Descrições|\n|---|---|---|\n|4|Grid<br>Compliance<br>Limit|De acordo com a Lei Alemã EnWG (Lei da Indústria de Energia) 14a,<br>todas as SteuVEs (cargas controláveis) precisam ser submetidas<br>a atenuação de emergência pela rede. O operador da rede<br>pode reduzir temporariamente o consumo máximo de energia<br>comprada na rede de cargas controláveis para 4,2 kW. Se apenas<br>for necessário usar DI4 - EnWG 14a, outras portas DI não precisam<br>ser cabeadas.|",
+          "metadados": {
+            "acima_tamanho_alvo": false,
+            "total_pages": 70,
+            "tabelas_extraidas": 1,
+            "pagina_pdf": 51,
+            "natureza": "documentacao_do_fabricante",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "chunking_version": "recursive-table-rows-v1",
+            "page": 50,
+            "tipo_conteudo": "tabela",
+            "versao": "V1.5-2025-11-11",
+            "loader_version": "pymupdf-page-tables-v1",
+            "documento_id": "goodwe_hca_g2_manual",
+            "chunk_id": "04d385b052d1d6009c59d8a414f0f6491647be640627a17d454fd51bc94b6900",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "chunk_index": 4
+          }
+        },
+        {
+          "texto": "para o gerenciamento dinâmico da carga. Também pode se conectar a um medidor MID\n(medidor inteligente certificado MID) para gerar faturas reembolsáveis. O carregador pode\nser iniciado por cartão RFID, via aplicativo ou automaticamente ao conectar o plugue de\ncarregamento. Além disso, oferece proteção durante o carregamento, monitoramento de rede e\noutras funcionalidades.\nModelo\nEsse manual se aplica aos carregadores listados abaixo:\n• GW7K-HCA-20\n• GW11K-HCA-20\n• GW22K-HCA-20\nDescrição do modelo\nGW11K-HCA-20\n6",
+          "metadados": {
+            "chunk_id": "bb91337dda5f74dbf0b493fdf97576a0c790fd57cc8962a804424bf9908c771d",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "page": 9,
+            "loader_version": "pymupdf-page-tables-v1",
+            "documento_id": "goodwe_hca_g2_manual",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "acima_tamanho_alvo": false,
+            "total_pages": 70,
+            "chunk_index": 1,
+            "natureza": "documentacao_do_fabricante",
+            "pagina_pdf": 10,
+            "versao": "V1.5-2025-11-11",
+            "tabelas_extraidas": 1,
+            "tipo_conteudo": "texto",
+            "chunking_version": "recursive-table-rows-v1"
+          }
+        },
+        {
+          "texto": "|Nº|Falha|Causa|Soluções|\n|---|---|---|---|\n|9|Tempo limite de<br>preparação|A comunicação do sinal CP<br>não foi bem-sucedida.|1. Verifque se o EV está totalmente<br>carregado.<br>2. Reconecte o conector de<br>carregamento após desconectá-lo<br>por cerca de 15 segundos. Entre<br>em contato com o revendedor<br>ou o serviço pós-venda se os<br>problemas não puderem ser<br>resolvidos. Entre em contato com<br>o revendedor ou o serviço pós-<br>venda, se o problema persistir.|",
+          "metadados": {
+            "tabelas_extraidas": 1,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "acima_tamanho_alvo": false,
+            "total_pages": 70,
+            "chunk_id": "1031f0917dadf24211a34c5537f584e251689e1d49130a6a36a38dca51275a65",
+            "pagina_pdf": 66,
+            "loader_version": "pymupdf-page-tables-v1",
+            "versao": "V1.5-2025-11-11",
+            "page": 65,
+            "chunk_index": 2,
+            "documento_id": "goodwe_hca_g2_manual",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "chunking_version": "recursive-table-rows-v1",
+            "tipo_conteudo": "tabela",
+            "natureza": "documentacao_do_fabricante",
+            "title": "GW_HCA-G2_User-Manual-PT"
+          }
+        },
+        {
+          "texto": "|Nº|Falha|Causa|Soluções|\n|---|---|---|---|\n|8|Tempo limite de<br>desvio|1. A bateria do EV está<br>totalmente carregada.<br>2. A temperatura<br>ambiente é muito baixa<br>e a bateria não pode<br>ser carregada.<br>3. A conexão do<br>carregador está<br>anormal.|1. Verifque se o carregamento da<br>bateria foi concluído por meio de<br>software.<br>2. Inicie o pré-aquecimento do EV<br>cerca de cinco minutos antes de<br>carregá-lo quando o ambiente<br>estiver muito frio.<br>3. Verifque e desconecte o conector<br>de carregamento e reconecte-o<br>cerca de 15 segundos depois.|",
+          "metadados": {
+            "chunk_index": 1,
+            "versao": "V1.5-2025-11-11",
+            "loader_version": "pymupdf-page-tables-v1",
+            "page": 65,
+            "acima_tamanho_alvo": false,
+            "documento_id": "goodwe_hca_g2_manual",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "tabelas_extraidas": 1,
+            "total_pages": 70,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "chunk_id": "1ae952edde8cc3c7aa62d04b7abaccc93930c6ca0baf154e45af1019038d7345",
+            "tipo_conteudo": "tabela",
+            "pagina_pdf": 66,
+            "natureza": "documentacao_do_fabricante",
+            "chunking_version": "recursive-table-rows-v1"
+          }
+        }
+      ],
+      "saida_estruturada_modelo": [
+        {
+          "resposta": "O pico de demanda registrado foi de 78,4 kW, ocorrido às 14:00, o que representa 98,0% do limite da demanda contratada. De acordo com a documentação do fabricante, o controle dinâmico de carga auxilia ajustando a velocidade de carregamento (ou pausando-o) com base nos dados do medidor e na corrente de conexão à rede definida, visando evitar o disparo do fusível principal quando a corrente real consumida se aproxima do limite definido.",
+          "insuficiente": false,
+          "apoios": [
+            {
+              "fonte_id": "operacao_atual",
+              "trecho": "\"pico\": {\"hora\": \"14:00\", \"potencia_kw\": 78.4, \"percentual_limite\": 98.0, \"margem_ate_limite_kw\": 1.6, \"nivel\": \"critico\"}"
+            },
+            {
+              "fonte_id": "47e987128a734e3204792fdb402d6be1236a070c4a1d36546720a76c7e3f05a4",
+              "trecho": "Depois de ativar o controle dinâmico de carga, o carregador ajustará a velocidade de carregamento (ou até pausará o carregamento) com base nos dados do medidor e na corrente de conexão à rede definida, para evitar o disparo do fusível principal."
+            }
+          ],
+          "limitacoes": []
+        }
+      ],
+      "verificacoes": {
+        "tipo": true,
+        "sucesso": true,
+        "fontes": true,
+        "ambas_fontes": true
+      },
+      "aprovado": true
+    },
+    {
+      "id": "sem_evidencia",
+      "pergunta": "Qual é o prazo de estorno se a recarga falhar?",
+      "status": "recusada",
+      "codigo": "contexto_insuficiente",
+      "tipo_consulta": "documental",
+      "mensagem": "Não há evidências suficientes para sustentar todas as partes da pergunta.",
+      "dados": null,
+      "fontes": [],
+      "contexto_recuperado": [
+        {
+          "texto": "|Nº|Falha|Causa|Soluções|\n|---|---|---|---|\n|10|Falha do contator<br>soldado|O componente interno<br>está com defeito.|Reinicie o carregador. Entre em<br>contato com o revendedor ou o<br>serviço pós-venda se os problemas<br>não puderem ser resolvidos.|\n|11|Falha no medidor|||\n|12|Falha de corrente<br>de fuga|||\n|13|Erro de leitura|||\n|14|Erro EEPROM|||\n|15|Erro de fash|||\n|16|Falha no detector<br>de vazamento|||",
+          "metadados": {
+            "versao": "V1.5-2025-11-11",
+            "tipo_conteudo": "tabela",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "documento_id": "goodwe_hca_g2_manual",
+            "chunk_id": "e41239dccf075da27ee64e7086f103b7927bbe9ecbeeb1caf3bc7ebf267c0567",
+            "loader_version": "pymupdf-page-tables-v1",
+            "chunking_version": "recursive-table-rows-v1",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "natureza": "documentacao_do_fabricante",
+            "tabelas_extraidas": 1,
+            "chunk_index": 3,
+            "pagina_pdf": 66,
+            "total_pages": 70,
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "acima_tamanho_alvo": false,
+            "page": 65
+          }
+        },
+        {
+          "texto": "|Nº|Falha|Causa|Soluções|\n|---|---|---|---|\n|1|Falha na conexão<br>da pistola|O carregador está<br>desconectado durante o<br>carregamento.|Reconecte o carregador.|\n|2|Parada de<br>emergência|O botão de parada de<br>emergência está sendo<br>pressionado.|Solte o botão.|\n|3|Erro de<br>aterramento|O cabo de aterramento<br>da entrada CA está<br>desconectado.|Verifque e reconecte o cabo de<br>aterramento.|\n|4|Temperatura<br>ambiente|A temperatura do<br>carregador é superior a<br>98 graus.|O problema é removido após o<br>resfriamento e o carregador entra no<br>status de espera.|",
+          "metadados": {
+            "natureza": "documentacao_do_fabricante",
+            "tabelas_extraidas": 1,
+            "chunking_version": "recursive-table-rows-v1",
+            "versao": "V1.5-2025-11-11",
+            "acima_tamanho_alvo": false,
+            "pagina_pdf": 65,
+            "page": 64,
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "loader_version": "pymupdf-page-tables-v1",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "chunk_index": 2,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "documento_id": "goodwe_hca_g2_manual",
+            "chunk_id": "95551e4b37940b9f0ec9078cf8cb7a8a7b2445a50e32bc1ea60189de986e71b3",
+            "total_pages": 70,
+            "tipo_conteudo": "tabela"
+          }
+        },
+        {
+          "texto": "|Nº|Falha|Causa|Soluções|\n|---|---|---|---|\n|9|Tempo limite de<br>preparação|A comunicação do sinal CP<br>não foi bem-sucedida.|1. Verifque se o EV está totalmente<br>carregado.<br>2. Reconecte o conector de<br>carregamento após desconectá-lo<br>por cerca de 15 segundos. Entre<br>em contato com o revendedor<br>ou o serviço pós-venda se os<br>problemas não puderem ser<br>resolvidos. Entre em contato com<br>o revendedor ou o serviço pós-<br>venda, se o problema persistir.|",
+          "metadados": {
+            "acima_tamanho_alvo": false,
+            "chunking_version": "recursive-table-rows-v1",
+            "documento_id": "goodwe_hca_g2_manual",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "natureza": "documentacao_do_fabricante",
+            "tabelas_extraidas": 1,
+            "tipo_conteudo": "tabela",
+            "chunk_id": "1031f0917dadf24211a34c5537f584e251689e1d49130a6a36a38dca51275a65",
+            "chunk_index": 2,
+            "page": 65,
+            "pagina_pdf": 66,
+            "versao": "V1.5-2025-11-11",
+            "loader_version": "pymupdf-page-tables-v1",
+            "total_pages": 70,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf"
+          }
+        },
+        {
+          "texto": "09 Manutenção\n9.5 Solução de problemas\nO carregador mostra em vermelho quando há falha. Faça login no aplicativo SEMS Portal ou no\naplicativo PV Master para obter a solução de problemas detalhada.\nRealize a solução de problemas de acordo com os seguintes métodos. Entre em contato com o\nserviço pós-venda se esses métodos não funcionarem.\nReúna as informações abaixo antes de entrar em contato com o serviço pós-venda, para que os\nproblemas sejam resolvidos rapidamente.\n1. Informações do carregador como número de série, versão do software, data de instalação,",
+          "metadados": {
+            "chunking_version": "recursive-table-rows-v1",
+            "versao": "V1.5-2025-11-11",
+            "pagina_pdf": 65,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "loader_version": "pymupdf-page-tables-v1",
+            "tipo_conteudo": "texto",
+            "total_pages": 70,
+            "chunk_index": 0,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "page": 64,
+            "chunk_id": "dfaea2f1e3382b7ddf3ac32ee65a216cbf19ad3692cac4fbf4e1def451d592bc",
+            "tabelas_extraidas": 1,
+            "documento_id": "goodwe_hca_g2_manual",
+            "natureza": "documentacao_do_fabricante",
+            "acima_tamanho_alvo": false
+          }
+        },
+        {
+          "texto": "3.\t A altura e direção dos carregadores empilhados devem seguir as instruções na caixa de \nembalagem.\n4.\t Os carregadores devem ser empilhados com cuidado para evitar que caiam.\n5.\t Se o carregador tiver sido armazenado por um longo período, ele deve ser verificado por \nprofissionais antes de ser colocado em uso.\n1 suporte\n(Opcional) GW7K-HCA-20\n(Opcional) GW11K-HCA-20 e GW22K-HCA-20\n4 parafusos\nde expansão\nM12*100\n2 parafusos\nM4*10\n4 parafusos\nM4*10\n8\nparafusos\nM5*12\n1 quadro de \ndistribuição do RCBO\n1 medidor MID\n4 terminais de pino para \ncabo CA\n2 terminais de pino para \ncabo RS485\n1 RCBO",
+          "metadados": {
+            "chunk_index": 1,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "versao": "V1.5-2025-11-11",
+            "tipo_conteudo": "texto",
+            "natureza": "documentacao_do_fabricante",
+            "tabelas_extraidas": 0,
+            "acima_tamanho_alvo": false,
+            "documento_id": "goodwe_hca_g2_manual",
+            "loader_version": "pymupdf-page-tables-v1",
+            "page": 22,
+            "chunk_id": "51c860e928e167d4278050748861dab603d050043678ed9fa71a3cbef82b12b0",
+            "pagina_pdf": 23,
+            "total_pages": 70,
+            "chunking_version": "recursive-table-rows-v1",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d"
+          }
+        },
+        {
+          "texto": "|Nº|Falha|Causa|Soluções|\n|---|---|---|---|\n|5|Sobretensão|A entrada CA está com<br>sobretensão.|O problema é removido depois que<br>a tensão fca normal e o carregador<br>entra no status de espera.|\n|6|Subtensão|A entrada CA está com<br>subtensão.||\n|7|Sobrecorrente|A conexão de saída está<br>em curto-circuito ou com<br>sobrecorrente.|O problema é removido depois que<br>a saída fca normal e o carregador<br>entra no status de espera.|",
+          "metadados": {
+            "chunk_id": "088bd564129e4d2e6583fc5a943c3a50996574c4286e08b19bd8ddaff402123c",
+            "page": 64,
+            "natureza": "documentacao_do_fabricante",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "acima_tamanho_alvo": false,
+            "versao": "V1.5-2025-11-11",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "chunking_version": "recursive-table-rows-v1",
+            "tipo_conteudo": "tabela",
+            "chunk_index": 3,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "tabelas_extraidas": 1,
+            "documento_id": "goodwe_hca_g2_manual",
+            "total_pages": 70,
+            "pagina_pdf": 65,
+            "loader_version": "pymupdf-page-tables-v1"
+          }
+        },
+        {
+          "texto": "|Nº|Falha|Causa|Soluções|\n|---|---|---|---|\n|8|Tempo limite de<br>desvio|1. A bateria do EV está<br>totalmente carregada.<br>2. A temperatura<br>ambiente é muito baixa<br>e a bateria não pode<br>ser carregada.<br>3. A conexão do<br>carregador está<br>anormal.|1. Verifque se o carregamento da<br>bateria foi concluído por meio de<br>software.<br>2. Inicie o pré-aquecimento do EV<br>cerca de cinco minutos antes de<br>carregá-lo quando o ambiente<br>estiver muito frio.<br>3. Verifque e desconecte o conector<br>de carregamento e reconecte-o<br>cerca de 15 segundos depois.|",
+          "metadados": {
+            "natureza": "documentacao_do_fabricante",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "tabelas_extraidas": 1,
+            "loader_version": "pymupdf-page-tables-v1",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "acima_tamanho_alvo": false,
+            "chunking_version": "recursive-table-rows-v1",
+            "page": 65,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "versao": "V1.5-2025-11-11",
+            "chunk_id": "1ae952edde8cc3c7aa62d04b7abaccc93930c6ca0baf154e45af1019038d7345",
+            "chunk_index": 1,
+            "total_pages": 70,
+            "documento_id": "goodwe_hca_g2_manual",
+            "tipo_conteudo": "tabela",
+            "pagina_pdf": 66
+          }
+        },
+        {
+          "texto": "|Col1|RISCO DE ALTA TENSÃO<br>Existe alta tensão durante<br>a operação do carregador.<br>Desconecte toda a energia de<br>entrada e desligue o produto<br>antes de trabalhar nele.|Col3|Atrase a descarga. Aguarde<br>5 minutos depois de desligar<br>até que os componentes<br>estejam completamente<br>descarregados.|\n|---|---|---|---|\n||Marcação CE.||Marcação RCM.|\n||Marca ANATEL do Brasil.|||",
+          "metadados": {
+            "acima_tamanho_alvo": false,
+            "pagina_pdf": 8,
+            "chunk_index": 3,
+            "natureza": "documentacao_do_fabricante",
+            "chunk_id": "76cd25bb13877adf2c09164d9b3f78dea98232049cd55b14aa8de931bc400857",
+            "tabelas_extraidas": 1,
+            "documento_id": "goodwe_hca_g2_manual",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "page": 7,
+            "loader_version": "pymupdf-page-tables-v1",
+            "tipo_conteudo": "tabela",
+            "chunking_version": "recursive-table-rows-v1",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "total_pages": 70,
+            "versao": "V1.5-2025-11-11"
+          }
+        }
+      ],
+      "saida_estruturada_modelo": [
+        {
+          "resposta": "Não há informações nos documentos fornecidos sobre prazos de estorno em caso de falha na recarga.",
+          "insuficiente": true,
+          "apoios": [],
+          "limitacoes": [
+            "O contexto documental recuperado trata de manutenção, solução de problemas técnicos e segurança, mas não aborda políticas financeiras ou prazos de estorno."
+          ]
+        }
+      ],
+      "verificacoes": {
+        "tipo": true,
+        "insuficiencia": true
+      },
+      "aprovado": true
+    },
+    {
+      "id": "modelo_ausente",
+      "pergunta": "Qual a potência do modelo GW150K-HCA-20?",
+      "status": "recusada",
+      "codigo": "contexto_insuficiente",
+      "tipo_consulta": "documental",
+      "mensagem": "Não há evidências suficientes para sustentar todas as partes da pergunta.",
+      "dados": null,
+      "fontes": [],
+      "contexto_recuperado": [
+        {
+          "texto": "|Dados técnicos|GW7K-HCA-20|GW11K-HCA-20|GW22K-HCA-20|\n|---|---|---|---|\n|Peso (kg)|5.2 (com cabo de 6m)<br>5.6 (com cabo de 7.5m)|5.4 (com cabo de 6m)<br>5.6 (com cabo de 7.5m)|6.4 (com cabo de 6m)<br>7.1 (com cabo de 7.5m)|\n|Dimensão (L × A × P mm)||208 × 450 × 170||\n|Emissão de ruído (dB)||<20||\n|Consumo de energia (W)||<6.5||\n|Grau de Proteção IP||IP66<br>*2||\n\nNotas da página:\n*1: Faixa de temperatura operacional (°C): O carregador é de -30 ~ +55°C, e o plugue de carregamento é de 50°C.\n*2: Grau de Proteção IP: o plugue de carregamento IEC 2 é IP55.",
+          "metadados": {
+            "natureza": "documentacao_do_fabricante",
+            "chunking_version": "recursive-table-rows-v1",
+            "chunk_id": "47730e21673fe7e72f3cc9f742cc41e6c94b3866f3682cfe6d10b6b1f4d6b484",
+            "versao": "20241121-PT-V2.1",
+            "acima_tamanho_alvo": false,
+            "loader_version": "pymupdf-page-tables-v1",
+            "chunk_index": 5,
+            "source": "GW_HCA-G2_Datasheet-PT.pdf",
+            "pagina_pdf": 2,
+            "tipo_conteudo": "tabela",
+            "documento_sha256": "ffa4e02c552415dfb2cc9565b3c3327c27c58e4487f77ac6e140ff5d6f20c343",
+            "title": "GW_HCA-G2_Datasheet-PT",
+            "total_pages": 2,
+            "page": 1,
+            "tabelas_extraidas": 1,
+            "documento_id": "goodwe_hca_g2_datasheet"
+          }
+        },
+        {
+          "texto": "15\n03    Apresentação do produto\n3.6.2 Dimensão\nCarregador\nGW7K-HCA-20\nGW11K-HCA-20 e GW22K-HCA-20\n(Opcional) Quadro de distribuição do RCBO\n208 mm\n450 mm\n170 mm\n149mm\n130mm\n202 mm\n107 mm\n88 mm\n107 mm\n202 mm\n219 mm\n200 mm\n100 mm\n150 mm\n150 mm",
+          "metadados": {
+            "versao": "V1.5-2025-11-11",
+            "loader_version": "pymupdf-page-tables-v1",
+            "page": 18,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "tipo_conteudo": "texto",
+            "pagina_pdf": 19,
+            "natureza": "documentacao_do_fabricante",
+            "documento_id": "goodwe_hca_g2_manual",
+            "tabelas_extraidas": 0,
+            "acima_tamanho_alvo": false,
+            "total_pages": 70,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "chunk_index": 0,
+            "chunking_version": "recursive-table-rows-v1",
+            "chunk_id": "82c6bf3bcfd8b87228dcc16a9644a041b23baab70bcbfc3aa375560145d0ffae"
+          }
+        },
+        {
+          "texto": "03 Apresentação do produto\n(Opcional) Suporte\nGW7K-HCA-20\n120 mm\n60 mm\nmm 185\n4 * Φ\n250 mm\nVista inferior do suporte\nGW11K-HCA-20 e GW22K-HCA-20\n180 mm\n60 mm\nmm 185\nmm 1.300\n4 * Φ\n250 mm\nVista inferior do suporte\n16",
+          "metadados": {
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "documento_id": "goodwe_hca_g2_manual",
+            "versao": "V1.5-2025-11-11",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "chunk_index": 0,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "loader_version": "pymupdf-page-tables-v1",
+            "chunk_id": "060cfd4c57c6247b6c67511203a606de5eb070a8dcb6b40cc3c5973bd88a4eb7",
+            "total_pages": 70,
+            "page": 19,
+            "acima_tamanho_alvo": false,
+            "chunking_version": "recursive-table-rows-v1",
+            "natureza": "documentacao_do_fabricante",
+            "tabelas_extraidas": 4,
+            "tipo_conteudo": "texto",
+            "pagina_pdf": 20
+          }
+        },
+        {
+          "texto": "06 Conexão elétrica\n6.3 Conexão do cabo CA\nPERIGO\nConecte o cabo de entrada CA monofásico ao carregador GW7K-HCA-20; e conecte o cabo de\nentrada CA trifásico aos carregadores GW11K-HCA-20 e GW22K-HCA-20.\n1. Para GW7K-HCA-20: sua tensão deve ser 230 VCA, L/N/PE; a corrente deve ser 32 A; e a\nfrequência deve ser 50/60 Hz.\n2. Para GW11K-HCA-20: sua tensão deve ser 400 VCA, 3L/N/PE; a corrente deve ser 16 A; e a\nfrequência deve ser 50/60 Hz.\n3. Para GW22K-HCA-20: sua tensão deve ser 400 VCA, 3L/N/PE; a corrente deve ser 32 A; e a\nfrequência deve ser 50/60 Hz.",
+          "metadados": {
+            "versao": "V1.5-2025-11-11",
+            "tabelas_extraidas": 1,
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "chunking_version": "recursive-table-rows-v1",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "loader_version": "pymupdf-page-tables-v1",
+            "acima_tamanho_alvo": false,
+            "natureza": "documentacao_do_fabricante",
+            "documento_id": "goodwe_hca_g2_manual",
+            "tipo_conteudo": "texto",
+            "page": 32,
+            "chunk_index": 0,
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "pagina_pdf": 33,
+            "chunk_id": "89f1a5d4ae9869779d179c48222c2bbaedaba21ce035b2b1e20cd0967aa0fb8b",
+            "total_pages": 70
+          }
+        },
+        {
+          "texto": "|Modelo|Cabo|Especificação|\n|---|---|---|\n|GW7K-HCA-20|Cabo AC externo<br>de três núcleos<br>com múltiplos fos|•  Cobre, 105℃, 1.000V<br>•  Diâmetro externo: 13 a 14mm<br>•  Área da seção transversal do condutor: 6mm2|\n|GW11K-HCA-20|Cabo AC externo<br>de cinco núcleos<br>com múltiplos fos|•  Cobre, 105℃, 1.000V<br>•  Diâmetro externo: 12,6 a 17,3mm<br>•  Área da seção transversal do condutor: 4 a<br>6mm2|\n|GW22K-HCA-20||•  Cobre, 105℃, 1.000V<br>•  Diâmetro externo: 16,3 a 17,3mm<br>•  Área da seção transversal do condutor: 6mm2|",
+          "metadados": {
+            "page": 30,
+            "tabelas_extraidas": 2,
+            "versao": "V1.5-2025-11-11",
+            "acima_tamanho_alvo": false,
+            "tipo_conteudo": "tabela",
+            "chunk_index": 1,
+            "chunk_id": "c032fcc469fbdaf80fda2e66c5e2cf92cddf2f361395dc1cb9b35f587c7ed7f9",
+            "chunking_version": "recursive-table-rows-v1",
+            "total_pages": 70,
+            "loader_version": "pymupdf-page-tables-v1",
+            "documento_sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+            "title": "GW_HCA-G2_User-Manual-PT",
+            "source": "GW_HCA-G2_User-Manual-PT.pdf",
+            "natureza": "documentacao_do_fabricante",
+            "pagina_pdf": 31,
+            "documento_id": "goodwe_hca_g2_manual"
+          }
+        },
+        {
+          "texto": "Linha HCA\nDados técnicos\nGW7K-HCA-20\nGW11K-HCA-20\nGW22K-HCA-20\nproduto. do atualizações futuras durante aviso prévio sem alteradas ser podem informações page-20241121-PT-V2.1.As GoodWe-Single\n*1: Faixa de temperatura operacional (°C): O carregador é de -30 ~ +55°C, e o plugue de carregamento é de 50°C.\n*2: Grau de Proteção IP: o plugue de carregamento IEC 2 é IP55.\n*: Por favor, consulte o site da GoodWe para verificar os certificados atualizados.\nwww.goodwe.com",
+          "metadados": {
+            "documento_sha256": "ffa4e02c552415dfb2cc9565b3c3327c27c58e4487f77ac6e140ff5d6f20c343",
+            "title": "GW_HCA-G2_Datasheet-PT",
+            "tipo_conteudo": "texto",
+            "page": 1,
+            "chunk_index": 0,
+            "total_pages": 2,
+            "natureza": "documentacao_do_fabricante",
+            "tabelas_extraidas": 1,
+            "chunking_version": "recursive-table-rows-v1",
+            "source": "GW_HCA-G2_Datasheet-PT.pdf",
+            "documento_id": "goodwe_hca_g2_datasheet",
+            "acima_tamanho_alvo": false,
+            "pagina_pdf": 2,
+            "chunk_id": "7517abe380638f0cb733ccb6651779ace68f1a94d97fe794f35ed5404b36d611",
+            "loader_version": "pymupdf-page-tables-v1",
+            "versao": "20241121-PT-V2.1"
+          }
+        },
+        {
+          "texto": "|Dados técnicos|GW7K-HCA-20|GW11K-HCA-20|GW22K-HCA-20|\n|---|---|---|---|\n|Entrada||||\n|Tensão Nominal de Entrada (V)|220, L / N / PE|380, 3L / N / PE|380, 3L / N / PE|\n|Corrente nominal de entrada (A)|32|16|32|\n|Frequência nominal da rede CA (Hz)||50 / 60||\n|||||\n|Saída CA||||\n|Potência nominal de saída (W)|7000|11000|22000|\n|Tensão nominal de saída (V)|230|400|400|\n\nNotas da página:\n*1: Faixa de temperatura operacional (°C): O carregador é de -30 ~ +55°C, e o plugue de carregamento é de 50°C.\n*2: Grau de Proteção IP: o plugue de carregamento IEC 2 é IP55.",
+          "metadados": {
+            "tipo_conteudo": "tabela",
+            "source": "GW_HCA-G2_Datasheet-PT.pdf",
+            "versao": "20241121-PT-V2.1",
+            "pagina_pdf": 2,
+            "documento_sha256": "ffa4e02c552415dfb2cc9565b3c3327c27c58e4487f77ac6e140ff5d6f20c343",
+            "chunking_version": "recursive-table-rows-v1",
+            "loader_version": "pymupdf-page-tables-v1",
+            "natureza": "documentacao_do_fabricante",
+            "page": 1,
+            "chunk_index": 1,
+            "acima_tamanho_alvo": false,
+            "title": "GW_HCA-G2_Datasheet-PT",
+            "chunk_id": "c8723632124a31fe62847befac6a4cad8c66e723a3aea031f2e0cd712918d09f",
+            "tabelas_extraidas": 1,
+            "documento_id": "goodwe_hca_g2_datasheet",
+            "total_pages": 2
+          }
+        },
+        {
+          "texto": "|Dados técnicos|GW7K-HCA-20|GW11K-HCA-20|GW22K-HCA-20|\n|---|---|---|---|\n|Corrente nominal de saída (A)|32|16|32|\n|Frequência nominal de saída (Hz)||50 / 60||\n|Proteção||||\n|||||\n|Proteção contra corrente residual||CA 30mA + CC 6mA||\n|Proteção contra sobrecorrente||Integrado||\n|Proteção contra sobretensão||Integrado||\n|Proteção contra excesso de temperatura||Integrado||\n\nNotas da página:\n*1: Faixa de temperatura operacional (°C): O carregador é de -30 ~ +55°C, e o plugue de carregamento é de 50°C.\n*2: Grau de Proteção IP: o plugue de carregamento IEC 2 é IP55.",
+          "metadados": {
+            "versao": "20241121-PT-V2.1",
+            "title": "GW_HCA-G2_Datasheet-PT",
+            "page": 1,
+            "chunking_version": "recursive-table-rows-v1",
+            "documento_id": "goodwe_hca_g2_datasheet",
+            "natureza": "documentacao_do_fabricante",
+            "chunk_index": 2,
+            "source": "GW_HCA-G2_Datasheet-PT.pdf",
+            "documento_sha256": "ffa4e02c552415dfb2cc9565b3c3327c27c58e4487f77ac6e140ff5d6f20c343",
+            "pagina_pdf": 2,
+            "tabelas_extraidas": 1,
+            "tipo_conteudo": "tabela",
+            "acima_tamanho_alvo": false,
+            "chunk_id": "65f6db8530d3007db664a1cff915359bd22f30e976b2f2f362cec1d461df922c",
+            "loader_version": "pymupdf-page-tables-v1",
+            "total_pages": 2
+          }
+        }
+      ],
+      "saida_estruturada_modelo": [
+        {
+          "resposta": "Não foram encontradas informações sobre a potência do modelo GW150K-HCA-20 nos documentos fornecidos.",
+          "insuficiente": true,
+          "apoios": [],
+          "limitacoes": [
+            "O contexto documental contém informações apenas para os modelos GW7K-HCA-20, GW11K-HCA-20 e GW22K-HCA-20."
+          ]
+        }
+      ],
+      "verificacoes": {
+        "tipo": true,
+        "insuficiencia": true
+      },
+      "aprovado": true
+    },
+    {
+      "id": "outra_sessao",
+      "pergunta": "E o preço?",
+      "status": "recusada",
+      "codigo": "contexto_ausente",
+      "tipo_consulta": null,
+      "mensagem": "Informe qual carregador, regra ou dado você deseja consultar para iniciar a conversa.",
+      "dados": null,
+      "fontes": [],
+      "contexto_recuperado": [],
+      "saida_estruturada_modelo": [],
+      "verificacoes": {
+        "tipo": true,
+        "isolamento": true
+      },
+      "aprovado": true
+    }
+  ],
+  "resumo": {
+    "aprovados": 7,
+    "total": 7
+  }
+}

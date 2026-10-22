@@ -281,7 +281,7 @@ def executar_versao(
     """Executa todos os casos com uma versão de prompt e retorna o relatório."""
     definicao = VERSOES[versao]
     configuracao = replace(configuracao_base, prompt_path=definicao["prompt"])
-    assistente = AssistenteChargeGrid(configuracao=configuracao)
+    assistente = AssistenteChargeGrid(configuracao=configuracao, usar_rag=False)
     prompt = definicao["prompt"].read_text(encoding="utf-8")
     contexto = criar_entrada_chain("avaliação", assistente.operacao)[
         "contexto_operacional"

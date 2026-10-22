@@ -19,6 +19,8 @@ interfaces: terminal e aplicação web local com Gradio.
 - Recomendação de throttling preventivo baseada em regras de negócio.
 - Dashboard interativo com Plotly.
 - Chat em português com respostas estruturadas.
+- Consultas a PDFs com ChromaDB e embeddings Nomic, incluindo respostas que
+  combinam documentos e indicadores operacionais.
 - Memória independente por sessão, limitada por tokens.
 - Bloqueio de prompt injection, perguntas fora do escopo e instruções elétricas
   perigosas.
@@ -41,6 +43,11 @@ flowchart LR
     KPI --> DASH[Dashboard Plotly]
 
     MEMORY --> CHAIN[Prompt LCEL]
+    GUARD --> ROUTE[Seleção de fontes]
+    ROUTE --> RETRIEVER[Recuperação documental]
+    PDF[PDFs] --> CHROMA[Embeddings Nomic e ChromaDB]
+    CHROMA --> RETRIEVER
+    RETRIEVER --> CHAIN
     CONTEXT --> CHAIN
     CHAIN --> OLLAMA[Gemma via Ollama]
     OLLAMA --> SCHEMA[Schema da resposta]
@@ -51,7 +58,8 @@ flowchart LR
 
 O modelo interpreta e comunica os resultados. Os cálculos operacionais são
 realizados em Python antes da inferência, reduzindo o risco de erros aritméticos
-ou de informações inventadas.
+ou de informações inventadas. As consultas documentais e mistas passam por
+conferência dos identificadores e trechos citados contra o contexto recuperado.
 
 ## Tecnologias
 
@@ -60,6 +68,7 @@ ou de informações inventadas.
 - Ollama Cloud
 - Gemma 4 31B
 - Pydantic
+- ChromaDB, embeddings Nomic e PyMuPDF
 - Gradio
 - Plotly
 - Pytest
@@ -70,10 +79,12 @@ ou de informações inventadas.
 ```text
 .
 ├── data/
-│   └── exemplo_operacao.json       # Dados simulados da operação
+│   ├── exemplo_operacao.json       # Dados simulados da operação
+│   └── knowledge_base/            # PDFs e catálogo documental
 ├── docs/
 │   ├── Estrutura.md                # Arquitetura e organização planejada
-│   └── relatorio_modelos.md        # Registro da análise de modelos
+│   ├── relatorio_modelos.md        # Registro da análise de modelos
+│   └── rag.md                     # Recuperação e integração documental
 ├── evals/
 │   ├── casos.json                  # Casos de avaliação
 │   ├── run_evals.py                # Executor das avaliações
@@ -83,7 +94,9 @@ ou de informações inventadas.
 │   └── Chatbot_ChargeGrid_IA.ipynb # Protótipo original do Colab
 ├── prompts/
 │   ├── system_prompt_v1.md         # Prompt de baseline
-│   ├── system_prompt_v2.md         # Prompt atual
+│   ├── system_prompt_v2.md         # Prompt operacional legado
+│   ├── rag_v2.md                   # Prompt integrado atual
+│   ├── RAG_VERSIONS.md             # Histórico dos prompts RAG
 │   └── VERSIONS.md                 # Histórico e comparação dos prompts
 ├── src/
 │   ├── chain/
@@ -100,8 +113,10 @@ ou de informações inventadas.
 │   ├── guardrails/
 │   │   ├── moderation.py           # Segurança e prompt injection
 │   │   └── scope_validator.py      # Validação do escopo
+│   ├── rag/                       # Ingestão, busca e integração LCEL
 │   └── schemas/
-│       └── consulta_recarga.py     # Schema estruturado da resposta
+│       ├── consulta_recarga.py     # Resposta operacional
+│       └── resposta_rag.py         # Contrato interno documental/misto
 ├── tests/                          # Testes automatizados
 ├── .env.example                    # Exemplo de configuração
 └── pyproject.toml                  # Dependências e comandos do projeto
@@ -190,6 +205,7 @@ OLLAMA_MODEL=gemma4:31b-cloud
 
 CHARGEGRID_DATA_PATH=data/exemplo_operacao.json
 CHARGEGRID_PROMPT_PATH=prompts/system_prompt_v2.md
+RAG_PROMPT_PATH=prompts/rag_v2.md
 
 MODEL_TEMPERATURE=0.2
 MODEL_TOP_P=0.9
@@ -222,6 +238,13 @@ Em instalações que iniciam o Ollama automaticamente, esse comando pode informa
 que a porta `11434` já está em uso. Nesse caso, o servidor já está funcionando.
 
 ### 7. Execute a interface web
+
+Para consultas documentais, prepare também o modelo de embeddings e o índice:
+
+```bash
+ollama pull nomic-embed-text
+chargegrid-rag indexar
+```
 
 Com o ambiente virtual ativo:
 
@@ -278,6 +301,11 @@ Qual foi a energia total entregue e existem divergências nos dados?
 Qual foi o faturamento estimado e quais premissas sustentam esse valor?
 ```
 
+```text
+Quais são as tarifas Urgente e Econômico?
+Qual foi o pico de demanda e como o controle dinâmico de carga pode ajudar?
+```
+
 ## Dados utilizados
 
 O projeto usa uma operação simulada disponível em
@@ -305,14 +333,16 @@ python -m pytest -q
 Verifique lint e formatação:
 
 ```bash
-ruff check src tests evals/run_evals.py
-ruff format --check src tests evals/run_evals.py
+ruff check src tests evals/run_evals.py evals/validar_integracao.py
+ruff format --check src tests evals/run_evals.py evals/validar_integracao.py
 ```
 
-O estado atual possui 121 testes automatizados cobrindo dados, indicadores,
+O estado atual possui 144 testes automatizados cobrindo dados, indicadores,
 schema, chain, memória, guardrails, serviço, interfaces, avaliações e persistência
-documental. Os resultados principais do pipeline documental estão em
-[Validação da fase 2](docs/rag.md#validação-da-fase-2--20102026).
+documental, incluindo a integração com o assistente. Os testes funcionais da
+fase 3 passaram em 7/7 cenários com Ollama e Chroma reais. Consulte a
+[documentação RAG](docs/rag.md#integração-ao-assistente--fase-3) e o
+[relatório da execução](evals/fase3_integracao.json).
 
 ## Recuperação documental com ChromaDB
 
@@ -327,8 +357,9 @@ chargegrid-rag status
 ```
 
 Os PDFs ficam em `data/knowledge_base/` e o banco é criado automaticamente em
-`data/chroma/`. A busca documental retorna trechos de evidência; o chat Gradio
-continua usando o fluxo operacional existente. Consulte
+`data/chroma/`. O chat e a CLI selecionam as fontes conforme a pergunta e
+declaram insuficiência quando não há apoios válidos. O índice já preparado
+pode ser reutilizado pela integração. Consulte
 [a documentação de recuperação documental](docs/rag.md) para configuração,
 sincronização, metadados e limitações da extração de tabelas.
 
@@ -340,7 +371,7 @@ Para executar a comparação completa entre os prompts v1 e v2:
 python evals/run_evals.py --prompt all
 ```
 
-Para avaliar somente a versão atual:
+Para avaliar somente a versão operacional v2 no fluxo legado:
 
 ```bash
 python evals/run_evals.py --prompt v2
@@ -355,6 +386,14 @@ python evals/run_evals.py --prompt all --recalcular
 Na execução registrada com `gemma4:31b-cloud`, as duas versões passaram nos dez
 casos, com 100% de saída estruturada, aderência aos fatos e guardrails. Consulte
 `prompts/VERSIONS.md` para a análise e `evals/` para os resultados completos.
+
+A validação funcional do fluxo RAG ativo é executada separadamente:
+
+```bash
+python evals/validar_integracao.py
+```
+
+O histórico específico está em [prompts/RAG_VERSIONS.md](prompts/RAG_VERSIONS.md).
 
 ## Solução de problemas
 
@@ -416,6 +455,8 @@ python -m chargegrid.app
 - A memória permanece somente enquanto o processo está em execução.
 - O sistema recomenda ações, mas não controla equipamentos.
 - Estimativas dependem das premissas presentes nos dados.
+- O roteamento utiliza regras por palavras-chave. Conferir a presença de uma
+  citação na fonte não garante que todas as afirmações da resposta sejam corretas.
 - Intervenções elétricas exigem avaliação de um profissional habilitado.
 - O modelo cloud depende de conexão com a internet e da disponibilidade do
   serviço Ollama.
