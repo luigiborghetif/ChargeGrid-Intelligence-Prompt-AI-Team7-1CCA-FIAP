@@ -115,6 +115,10 @@ def test_operacional_independe_do_indice_documental():
     assert resultado.sucesso
     assert resultado.dados.potencia_total_kw == 78.4
     assert "data/exemplo_operacao.json" in resultado.fontes[0]
+    assert resultado.citacoes[0].tipo == "operacional"
+    assert resultado.citacoes[0].pagina_pdf is None
+    assert "302" in resultado.citacoes[0].trecho
+    assert "indicadores calculados em Python" in formatar_resposta_markdown(resultado)
     contexto = json.loads(chain.entradas[0]["contexto_operacional"])
     assert contexto["dados"]["resumo_calculado"]["energia_total_calculada_kwh"] == 302
 
@@ -128,7 +132,7 @@ def test_mista_recebe_e_cita_ambas_as_fontes(documento):
             insuficiente=False,
             apoios=[
                 ApoioDocumental(
-                    fonte_id="operacao_atual", trecho='"fonte_id": "operacao_atual"'
+                    fonte_id="operacao_atual", trecho='"potencia_kw": 78.4'
                 ),
                 ApoioDocumental(fonte_id="chunk-tarifas", trecho="Urgente: R$1,89/kWh"),
             ],
@@ -139,6 +143,10 @@ def test_mista_recebe_e_cita_ambas_as_fontes(documento):
     ).consultar("Qual o pico e a tarifa Urgente?", "a")
     assert resultado.sucesso and resultado.tipo_consulta == "mista"
     assert len(resultado.fontes) == 2
+    assert {citacao.tipo for citacao in resultado.citacoes} == {
+        "operacional",
+        "documental",
+    }
 
 
 def test_mista_sem_apoio_documental_nao_afirma_resposta_completa(documento):

@@ -14,7 +14,7 @@ from chargegrid.config import Settings
 from rag.config import RAGSettings
 from rag.errors import ErroRAG
 from rag.prompt_rag import criar_prompt_integrado
-from schemas.resposta_rag import RespostaFundamentada
+from schemas.resposta_rag import CitacaoFonte, RespostaFundamentada
 
 
 class ErroFundamentacao(ErroRAG):
@@ -42,16 +42,24 @@ def conferir_apoios(
     documentos: list[Document],
     contexto_operacional: str | None,
     origem_operacional: str,
-) -> tuple[list[str], set[str]]:
+) -> tuple[list[CitacaoFonte], set[str]]:
     fontes = {
         doc.metadata["chunk_id"]: (
             doc.page_content,
-            f"{doc.metadata['source']} — página PDF {doc.metadata['pagina_pdf']}",
+            {
+                "tipo": "documental",
+                "arquivo": doc.metadata["source"],
+                "pagina_pdf": doc.metadata["pagina_pdf"],
+                "secao": doc.metadata.get("secao"),
+            },
         )
         for doc in documentos
     }
     if contexto_operacional:
-        fontes["operacao_atual"] = (contexto_operacional, origem_operacional)
+        fontes["operacao_atual"] = (
+            contexto_operacional,
+            {"tipo": "operacional", "arquivo": origem_operacional},
+        )
     referencias, usados = [], set()
     for apoio in resposta.apoios:
         fonte = fontes.get(apoio.fonte_id)
@@ -60,7 +68,9 @@ def conferir_apoios(
         ):
             raise ErroFundamentacao("Referência ou trecho não encontrado no contexto.")
         usados.add(apoio.fonte_id)
-        referencia = f"{fonte[1]} — {apoio.trecho}"
+        referencia = CitacaoFonte(
+            fonte_id=apoio.fonte_id, trecho=apoio.trecho, **fonte[1]
+        )
         if referencia not in referencias:
             referencias.append(referencia)
     return referencias, usados

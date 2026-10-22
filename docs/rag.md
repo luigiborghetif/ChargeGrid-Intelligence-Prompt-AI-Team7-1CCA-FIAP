@@ -167,8 +167,8 @@ O roteamento por palavras-chave pode exigir ajustes para formulações novas.
 A conferência de trechos comprova sua presença na fonte, mas não verifica
 automaticamente se todas as afirmações da resposta decorrem deles. A avaliação
 semântica, a bateria adversarial completa e as métricas RAGAS permanecem nas
-etapas de segurança e avaliação. A fase 4 amplia o contrato público de citações
-e sua apresentação na interface; nesta fase, as referências aparecem no texto.
+etapas de segurança e avaliação. O contrato público e a apresentação estruturada
+das citações são descritos na seção da fase 4 abaixo.
 
 ### Validação principal — 21/10/2026
 
@@ -195,6 +195,64 @@ python evals/validar_integracao.py
 O segundo comando chama o modelo configurado, requer Ollama e índice disponíveis
 e atualiza o relatório. Não é necessário criar outro banco nem reindexar para
 ativar a integração sobre a coleção já preparada.
+
+## Citações estruturadas e interface — fase 4
+
+As respostas documentais e mistas expõem `RespostaDocumental`, um contrato
+Pydantic independente da análise operacional. Ele contém `resposta`,
+`insuficiente`, `citacoes` e `limitacoes`. Cada `CitacaoFonte` inclui:
+
+| Campo | Origem e significado |
+|---|---|
+| `fonte_id` | Identificador conferido contra o contexto desta consulta |
+| `tipo` | Fonte `documental` ou `operacional` |
+| `arquivo` | Nome/caminho obtido pela aplicação, sem aceitar nomes inventados pelo modelo |
+| `pagina_pdf` | Página do PDF a partir de 1; ausente para fontes operacionais |
+| `secao` | Seção, quando disponível nos metadados, ou identificação do resumo operacional |
+| `trecho` | Texto de apoio conferido contra a fonte fornecida |
+
+O envelope `RespostaAssistente` expõe `documental` e `citacoes`. Os campos
+`mensagem`, `dados` e `fontes` são preservados para os consumidores existentes.
+Uma resposta documental completa exige citações; uma resposta parcial pode
+apresentar o que foi encontrado e explicar o que falta. As consultas operacionais
+também expõem uma citação do resumo calculado, com origem no JSON validado.
+
+O Gradio exibe as fontes numeradas, com arquivo, página/seção e trecho em bloco
+de citação. Os trechos e metadados são escapados para apresentação como texto,
+sem ativar HTML ou links contidos no documento. Respostas documentais dispensam
+campos de risco e recomendação; respostas parciais têm identificação própria.
+Recusas sem apoio não exibem fontes artificiais.
+
+Execute a interface a partir da raiz com `python -m app.main`.
+O [README da aplicação](../app/README.md) detalha a preparação e as alternativas
+`python app/main.py` e `chargegrid-web`. A interface existente é reutilizada.
+Não há novas dependências, variáveis obrigatórias ou necessidade de reindexação.
+
+### Validação principal — 22/10/2026
+
+- Suíte completa: **157 testes aprovados**, incluindo 13 novos casos para o
+  contrato público, localização das fontes, recusa de referências forjadas,
+  apresentação de respostas parciais e ponto de entrada. Ruff e formatação
+  aprovados; permanecem três avisos de descontinuação das dependências.
+- Validação em Chromium/Playwright com Ollama e Chroma reais: tarifas, consulta
+  mista, ausência de evidência, nova sessão, recusa de intervenção elétrica e
+  navegação do dashboard. As citações observadas sustentaram os valores
+  apresentados: tarifas na página PDF 1 e controle dinâmico na página PDF 49,
+  combinado com pico operacional de 78,4 kW do JSON.
+- Desktop de 1365×1000 e celular de 390×844: conteúdo e controles disponíveis,
+  sem transbordamento horizontal ou erros de console. O chat mantém rolagem
+  própria para respostas longas. Playwright foi usado porque o plugin Browser
+  não estava disponível nesta sessão.
+
+```bash
+python -m pytest -q
+ruff check src tests app evals/run_evals.py evals/validar_integracao.py
+ruff format --check src tests app evals/run_evals.py evals/validar_integracao.py
+```
+
+A conferência estrutural verifica origem e presença dos trechos, não a relação
+semântica de todas as afirmações em toda a base. A inspeção funcional acima é
+restrita aos cenários testados; a avaliação ampla permanece nas fases 5 e 6.
 
 ## Diagnóstico
 

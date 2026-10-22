@@ -21,6 +21,7 @@ interfaces: terminal e aplicação web local com Gradio.
 - Chat em português com respostas estruturadas.
 - Consultas a PDFs com ChromaDB e embeddings Nomic, incluindo respostas que
   combinam documentos e indicadores operacionais.
+- Citações estruturadas, com arquivo, página/seção e trecho de apoio no chat.
 - Memória independente por sessão, limitada por tokens.
 - Bloqueio de prompt injection, perguntas fora do escopo e instruções elétricas
   perigosas.
@@ -78,6 +79,9 @@ conferência dos identificadores e trechos citados contra o contexto recuperado.
 
 ```text
 .
+├── app/
+│   ├── main.py                    # Entrada da interface reutilizada
+│   └── README.md                  # Preparação e execução da aplicação
 ├── data/
 │   ├── exemplo_operacao.json       # Dados simulados da operação
 │   └── knowledge_base/            # PDFs e catálogo documental
@@ -116,7 +120,7 @@ conferência dos identificadores e trechos citados contra o contexto recuperado.
 │   ├── rag/                       # Ingestão, busca e integração LCEL
 │   └── schemas/
 │       ├── consulta_recarga.py     # Resposta operacional
-│       └── resposta_rag.py         # Contrato interno documental/misto
+│       └── resposta_rag.py         # Contratos e citações documentais/mistas
 ├── tests/                          # Testes automatizados
 ├── .env.example                    # Exemplo de configuração
 └── pyproject.toml                  # Dependências e comandos do projeto
@@ -252,6 +256,9 @@ Com o ambiente virtual ativo:
 chargegrid-web
 ```
 
+O ponto de entrada da Sprint 4 também está disponível com
+`python -m app.main`. Consulte [app/README.md](app/README.md).
+
 O navegador abrirá a aplicação local. Se isso não acontecer, acesse:
 
 ```text
@@ -333,14 +340,16 @@ python -m pytest -q
 Verifique lint e formatação:
 
 ```bash
-ruff check src tests evals/run_evals.py evals/validar_integracao.py
-ruff format --check src tests evals/run_evals.py evals/validar_integracao.py
+ruff check src tests app evals/run_evals.py evals/validar_integracao.py
+ruff format --check src tests app evals/run_evals.py evals/validar_integracao.py
 ```
 
-O estado atual possui 144 testes automatizados cobrindo dados, indicadores,
+O estado atual possui 157 testes automatizados cobrindo dados, indicadores,
 schema, chain, memória, guardrails, serviço, interfaces, avaliações e persistência
-documental, incluindo a integração com o assistente. Os testes funcionais da
-fase 3 passaram em 7/7 cenários com Ollama e Chroma reais. Consulte a
+documental, integração e apresentação de citações. Os testes funcionais da
+fase 3 passaram em 7/7 cenários com Ollama e Chroma reais. Na fase 4, o chat foi
+validado em Chromium nos tamanhos desktop e celular, com fontes, recusas,
+nova conversa e dashboard. Consulte a
 [documentação RAG](docs/rag.md#integração-ao-assistente--fase-3) e o
 [relatório da execução](evals/fase3_integracao.json).
 

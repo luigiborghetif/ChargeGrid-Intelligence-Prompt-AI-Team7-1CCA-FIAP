@@ -42,7 +42,7 @@ from rag.roteamento import (
     resolver_pergunta,
 )
 from schemas.consulta_recarga import ConsultaRecarga
-from schemas.resposta_rag import RespostaFundamentada
+from schemas.resposta_rag import CitacaoFonte, RespostaDocumental, RespostaFundamentada
 
 
 class StatusResposta(StrEnum):
@@ -63,6 +63,8 @@ class RespostaAssistente:
     dados: ConsultaRecarga | None = None
     tipo_consulta: str | None = None
     fontes: tuple[str, ...] = ()
+    citacoes: tuple[CitacaoFonte, ...] = ()
+    documental: RespostaDocumental | None = None
 
     @property
     def sucesso(self) -> bool:
@@ -275,6 +277,18 @@ class AssistenteChargeGrid:
                     dados=dados,
                     tipo_consulta=tipo.value,
                     fontes=(referencia,),
+                    citacoes=(
+                        CitacaoFonte(
+                            fonte_id="operacao_atual",
+                            tipo="operacional",
+                            arquivo=origem_texto,
+                            secao="resumo_calculado",
+                            trecho=json.dumps(
+                                json.loads(bruto)["resumo_calculado"],
+                                ensure_ascii=False,
+                            ),
+                        ),
+                    ),
                 ),
             )
         if self.chain_rag is None:
@@ -288,7 +302,7 @@ class AssistenteChargeGrid:
                 "resposta_invalida",
                 "O modelo retornou um tipo de resposta inesperado.",
             )
-        referencias, usados = conferir_apoios(
+        citacoes, usados = conferir_apoios(
             resposta, documentos, contexto_op, origem_texto
         )
         if not usados or (
@@ -306,6 +320,13 @@ class AssistenteChargeGrid:
                     tipo_consulta=tipo.value,
                 ),
             )
+        documental = RespostaDocumental(
+            resposta=resposta.resposta,
+            insuficiente=resposta.insuficiente,
+            citacoes=citacoes,
+            limitacoes=resposta.limitacoes,
+        )
+        referencias = [citacao.referencia for citacao in citacoes]
         mensagem = resposta.resposta
         if resposta.limitacoes:
             mensagem += "\n\nLimitações:\n" + "\n".join(
@@ -327,6 +348,8 @@ class AssistenteChargeGrid:
                 mensagem,
                 tipo_consulta=tipo.value,
                 fontes=tuple(referencias),
+                citacoes=tuple(citacoes),
+                documental=documental,
             ),
         )
 
