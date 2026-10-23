@@ -7,6 +7,7 @@ from langchain_core.vectorstores import VectorStoreRetriever
 
 from rag.config import RAGSettings
 from rag.errors import ErroRAG
+from rag.hibrido import combinar_resultados
 from rag.vector_store import abrir_indice_pronto, bloquear_indice
 
 
@@ -25,4 +26,14 @@ def buscar_documentos(pergunta: str, config: RAGSettings) -> list[Document]:
         raise ErroRAG("A pergunta deve ter no máximo 2000 caracteres.")
     with bloquear_indice(config):
         store, _ = abrir_indice_pronto(config)
-        return criar_retriever(store, config).invoke(pergunta)
+        semanticos = criar_retriever(store, config).invoke(pergunta)
+        if config.search_mode == "similarity":
+            return semanticos
+        registros = store.get(include=["documents", "metadatas"])
+        corpus = [
+            Document(page_content=texto, metadata=meta)
+            for texto, meta in zip(
+                registros["documents"], registros["metadatas"], strict=True
+            )
+        ]
+        return combinar_resultados(pergunta, semanticos, corpus, config.top_k)

@@ -40,6 +40,7 @@ class RAGSettings:
     chunk_overlap: int = 200
     top_k: int = 8
     batch_size: int = 16
+    search_mode: str = "similarity"
     prompt_path: Path = PROJECT_ROOT / "prompts/rag_v2.md"
 
     @classmethod
@@ -64,6 +65,7 @@ class RAGSettings:
             chunk_overlap=_inteiro("RAG_CHUNK_OVERLAP", 200),
             top_k=_inteiro("RAG_TOP_K", 8),
             batch_size=_inteiro("RAG_BATCH_SIZE", 16),
+            search_mode=os.getenv("RAG_SEARCH_MODE", "similarity").strip(),
             prompt_path=_caminho("RAG_PROMPT_PATH", "prompts/rag_v2.md"),
         )
         config.validate()
@@ -77,6 +79,8 @@ class RAGSettings:
             raise ErroRAG("Use um endereço de embeddings sem credenciais ou query.")
         if not self.embedding_model:
             raise ErroRAG("RAG_EMBEDDING_MODEL não pode ser vazio.")
+        if self.search_mode not in {"similarity", "hybrid"}:
+            raise ErroRAG("RAG_SEARCH_MODE deve ser similarity ou hybrid.")
         if not re.fullmatch(
             r"[a-zA-Z0-9][a-zA-Z0-9_-]{1,60}[a-zA-Z0-9]", self.collection_name
         ):

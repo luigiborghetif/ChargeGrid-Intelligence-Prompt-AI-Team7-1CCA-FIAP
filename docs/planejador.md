@@ -141,9 +141,14 @@ O planejador pode escolher uma consulta inadequada ou pedir esclarecimento
 desnecessário. O contrato valida a estrutura, não a interpretação semântica.
 A seleção dos trechos ainda depende da recuperação; conferir um trecho não
 comprova que toda afirmação decorre dele. As verificações por padrões não cobrem
-todos os ataques. Avaliações semânticas, comparação controlada com o baseline e
-testes adversariais amplos permanecem nas etapas de avaliação e segurança.
+todos os ataques. A avaliação semântica da fase 6 cobre uma amostra fixa de 12
+casos; ampliar o conjunto e obter revisão independente permanecem limitações.
 
 A fase 5 acrescentou triagem documental e integridade de fontes. A regressão
-atual contém 215 testes aprovados. Os achados e a limitação funcional do caso
+atual contém 224 testes aprovados. Os achados e a limitação funcional do caso
 de fumaça estão em [seguranca_rag.md](seguranca_rag.md).
+
+A fase 6 comparou os prompts v2 com os candidatos v3 junto à busca híbrida.
+O ganho agregado de relevância não foi acompanhado por melhoria de atendimento
+integral; v2 permanece padrão. Consulte o [relatório RAG](relatorio_rag.md) para
+notas, casos incompletos e configuração experimental.

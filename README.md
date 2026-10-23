@@ -29,6 +29,8 @@ interfaces: terminal e aplicação web local com Gradio.
   perigosas.
 - Interface de terminal e interface web com Gradio.
 - Avaliação reproduzível das versões v1 e v2 do system prompt.
+- Avaliação RAGAS com Gemma como juiz, duas iterações, comparação de modelos
+  e rubrica complementar auditável.
 
 ## Arquitetura
 
@@ -364,7 +366,7 @@ ruff check src tests app evals/run_evals.py evals/validar_integracao.py evals/va
 ruff format --check src tests app evals/run_evals.py evals/validar_integracao.py evals/validar_planejador.py evals/validar_seguranca.py
 ```
 
-O estado atual possui 215 testes automatizados cobrindo dados, indicadores,
+O estado atual possui 224 testes automatizados cobrindo dados, indicadores,
 schema, chain, memória, guardrails, serviço, interfaces, avaliações e persistência
 documental, integração, citações, planejamento e ferramentas. Os testes funcionais da
 fase 3 passaram em 7/7 cenários com Ollama e Chroma reais. Na fase 4, o chat foi
@@ -410,6 +412,49 @@ pode ser reutilizado pela integração. Consulte
 sincronização, metadados e limitações da extração de tabelas.
 
 ## Avaliações dos prompts
+
+A avaliação documental da Sprint 4 executou duas iterações e dois modelos em
+12 casos fixos: seis respondíveis, três sem evidência completa e três ataques.
+RAGAS 0.4.3 avaliou as respostas salvas usando Gemma como juiz e Nomic para
+embeddings, em ambiente separado por compatibilidade de dependências. Nos casos
+válidos em comum, a fidelidade passou de 0,917 para 1,000 (n=6) e a relevância de
+0,587 para 0,622 (n=10). Os rastros também expõem um erro do juiz ao decompor uma
+frase condicional da baseline; os ganhos não provam melhoria factual geral.
+A rubrica complementar mantém o atendimento integral de 4/12 para 3/12.
+A candidata híbrida/v3 permanece optativa; o padrão segue
+Gemma com prompts v2 e busca semântica. As falhas estão preservadas nos resultados.
+
+- [Relatório RAG e metodologia](docs/relatorio_rag.md).
+- [Comparação de modelos da Sprint 4](docs/relatorio_modelos.md).
+- [Relatório técnico de evolução — PDF, quatro páginas](docs/relatorio_evolucao_sprint4.pdf).
+- [Configuração e execução do RAGAS](docs/avaliacao_ragas.md).
+- [Scores RAGAS e comparação pareada](evals/sprint4/ragas/scores.json).
+- [Scores da rubrica complementar](evals/sprint4/scores.json) e
+  [notas justificadas](evals/sprint4/revisao.json).
+
+Para recalcular as notas salvas e gerar os relatórios, sem novas inferências:
+
+```bash
+python -m pip install -e '.[reports]'
+python evals/metricas_sprint4.py
+python evals/gerar_relatorios_sprint4.py
+```
+
+O executor de novas rodadas e seus parâmetros estão no relatório RAG. Os
+resultados anteriores da comparação operacional continuam disponíveis no
+[relatório da Sprint 3](docs/relatorio_modelos_sprint3.md).
+
+O avaliador RAGAS utiliza `.venv-ragas`, preparado com as dependências de
+`evals/requirements-ragas.txt`. Com esse ambiente e Ollama disponíveis:
+
+```bash
+.venv-ragas/bin/python evals/avaliar_ragas.py --retomar
+```
+
+O comando avalia somente métricas pendentes e preserva os resultados existentes;
+não refaz as respostas do assistente. Consulte a documentação RAGAS para criar
+o ambiente separado; instalar as dependências de avaliação no ambiente do índice
+pode alterar as versões verificadas pelo manifesto Chroma.
 
 Para executar a comparação completa entre os prompts v1 e v2:
 

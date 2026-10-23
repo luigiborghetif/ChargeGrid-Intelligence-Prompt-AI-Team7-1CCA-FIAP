@@ -1,0 +1,200 @@
+{
+  "metodo": "RAGAS real; médias por métrica somente nos casos aplicáveis e válidos; falhas não são zeros artificiais.",
+  "experimentos": {
+    "baseline_gemma": {
+      "configuracao": {
+        "juiz": "gemma4:31b-cloud",
+        "temperature": 0,
+        "top_p": 0.9,
+        "max_tokens_juiz": 4096,
+        "embeddings": "nomic-embed-text",
+        "embedding_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+        "embedding_prefixo": "search_query: (igual para pergunta original e reconstruídas)",
+        "strictness": 3,
+        "timeout_metrica_segundos": 180,
+        "max_retries_transporte": 1,
+        "api": "RAGAS SingleTurnSample + Faithfulness/ResponseRelevancy + Langchain wrappers (API da aula)",
+        "versoes": {
+          "ragas": "0.4.3",
+          "langchain-core": "1.7.0",
+          "langchain-community": "0.4.1",
+          "langchain-ollama": "1.1.0",
+          "pydantic": "2.14.1",
+          "ollama": "0.6.3"
+        },
+        "python": "3.14.4",
+        "politica": "Uma avaliação por resposta/métrica; sem refazer respostas, sem substituir falha por zero; retomada não repete métricas registradas.",
+        "idioma": "Entradas originais em português; prompts oficiais RAGAS em inglês, sem adaptação."
+      },
+      "casos": 12,
+      "metricas": {
+        "faithfulness": {
+          "media": 0.9166666666666666,
+          "n": 6,
+          "nao_aplicaveis": 6,
+          "erros_avaliador": 0
+        },
+        "answer_relevancy": {
+          "media": 0.5870161998520266,
+          "n": 10,
+          "nao_aplicaveis": 2,
+          "erros_avaliador": 0
+        }
+      }
+    },
+    "hibrido_gemma": {
+      "configuracao": {
+        "juiz": "gemma4:31b-cloud",
+        "temperature": 0,
+        "top_p": 0.9,
+        "max_tokens_juiz": 4096,
+        "embeddings": "nomic-embed-text",
+        "embedding_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+        "embedding_prefixo": "search_query: (igual para pergunta original e reconstruídas)",
+        "strictness": 3,
+        "timeout_metrica_segundos": 180,
+        "max_retries_transporte": 1,
+        "api": "RAGAS SingleTurnSample + Faithfulness/ResponseRelevancy + Langchain wrappers (API da aula)",
+        "versoes": {
+          "ragas": "0.4.3",
+          "langchain-core": "1.7.0",
+          "langchain-community": "0.4.1",
+          "langchain-ollama": "1.1.0",
+          "pydantic": "2.14.1",
+          "ollama": "0.6.3"
+        },
+        "python": "3.14.4",
+        "politica": "Uma avaliação por resposta/métrica; sem refazer respostas, sem substituir falha por zero; retomada não repete métricas registradas.",
+        "idioma": "Entradas originais em português; prompts oficiais RAGAS em inglês, sem adaptação."
+      },
+      "casos": 12,
+      "metricas": {
+        "faithfulness": {
+          "media": 1.0,
+          "n": 8,
+          "nao_aplicaveis": 4,
+          "erros_avaliador": 0
+        },
+        "answer_relevancy": {
+          "media": 0.6420716433835921,
+          "n": 11,
+          "nao_aplicaveis": 1,
+          "erros_avaliador": 0
+        }
+      }
+    },
+    "hibrido_gptoss": {
+      "configuracao": {
+        "juiz": "gemma4:31b-cloud",
+        "temperature": 0,
+        "top_p": 0.9,
+        "max_tokens_juiz": 4096,
+        "embeddings": "nomic-embed-text",
+        "embedding_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+        "embedding_prefixo": "search_query: (igual para pergunta original e reconstruídas)",
+        "strictness": 3,
+        "timeout_metrica_segundos": 180,
+        "max_retries_transporte": 1,
+        "api": "RAGAS SingleTurnSample + Faithfulness/ResponseRelevancy + Langchain wrappers (API da aula)",
+        "versoes": {
+          "ragas": "0.4.3",
+          "langchain-core": "1.7.0",
+          "langchain-community": "0.4.1",
+          "langchain-ollama": "1.1.0",
+          "pydantic": "2.14.1",
+          "ollama": "0.6.3"
+        },
+        "python": "3.14.4",
+        "politica": "Uma avaliação por resposta/métrica; sem refazer respostas, sem substituir falha por zero; retomada não repete métricas registradas.",
+        "idioma": "Entradas originais em português; prompts oficiais RAGAS em inglês, sem adaptação."
+      },
+      "casos": 12,
+      "metricas": {
+        "faithfulness": {
+          "media": 0.9523809523809523,
+          "n": 7,
+          "nao_aplicaveis": 5,
+          "erros_avaliador": 0
+        },
+        "answer_relevancy": {
+          "media": 0.537007705431666,
+          "n": 11,
+          "nao_aplicaveis": 1,
+          "erros_avaliador": 0
+        }
+      }
+    }
+  },
+  "comparacoes_pareadas": {
+    "baseline_gemma__hibrido_gemma": {
+      "faithfulness": {
+        "ids": [
+          "RAG-I01",
+          "RAG-I03",
+          "RAG-R01",
+          "RAG-R03",
+          "RAG-R11",
+          "RAG-R19"
+        ],
+        "n": 6,
+        "baseline_gemma": 0.9166666666666666,
+        "hibrido_gemma": 1.0,
+        "delta_segundo_menos_primeiro": 0.08333333333333337
+      },
+      "answer_relevancy": {
+        "ids": [
+          "RAG-I01",
+          "RAG-I03",
+          "RAG-I06",
+          "RAG-N03",
+          "RAG-N07",
+          "RAG-N08",
+          "RAG-R01",
+          "RAG-R03",
+          "RAG-R11",
+          "RAG-R19"
+        ],
+        "n": 10,
+        "baseline_gemma": 0.5870161998520266,
+        "hibrido_gemma": 0.6216688095642251,
+        "delta_segundo_menos_primeiro": 0.03465260971219852
+      }
+    },
+    "hibrido_gemma__hibrido_gptoss": {
+      "faithfulness": {
+        "ids": [
+          "RAG-I01",
+          "RAG-I03",
+          "RAG-I06",
+          "RAG-R01",
+          "RAG-R03",
+          "RAG-R09",
+          "RAG-R19"
+        ],
+        "n": 7,
+        "hibrido_gemma": 1.0,
+        "hibrido_gptoss": 0.9523809523809523,
+        "delta_segundo_menos_primeiro": -0.04761904761904767
+      },
+      "answer_relevancy": {
+        "ids": [
+          "RAG-I01",
+          "RAG-I03",
+          "RAG-I06",
+          "RAG-N03",
+          "RAG-N07",
+          "RAG-N08",
+          "RAG-R01",
+          "RAG-R03",
+          "RAG-R09",
+          "RAG-R11",
+          "RAG-R19"
+        ],
+        "n": 11,
+        "hibrido_gemma": 0.6420716433835921,
+        "hibrido_gptoss": 0.537007705431666,
+        "delta_segundo_menos_primeiro": -0.10506393795192615
+      }
+    }
+  }
+}

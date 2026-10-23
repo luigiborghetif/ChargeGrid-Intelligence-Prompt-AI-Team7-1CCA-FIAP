@@ -128,6 +128,19 @@ da recuperação permanece um ponto de avaliação e melhoria da etapa 6.
 iterações; os ganhos declarados possuem evidência e as instruções de execução
 correspondem ao comportamento verificado.
 
+**Execução registrada:** duas iterações RAG e comparação entre Gemma e GPT-OSS
+concluídas sobre os mesmos 12 casos pré-fixados (6 respondíveis, 3 sem evidência
+completa e 3 ataques). Qwen indisponível foi substituído por GPT-OSS, com adendo
+preservado. RAGAS 0.4.3 executado em ambiente separado com Gemma como juiz:
+nos casos válidos em comum entre A/B, fidelidade 0,917 → 1,000 (n=6) e relevância
+0,587 → 0,622 (n=10). Um erro de decomposição de frase condicional pelo juiz foi
+registrado; os ganhos não comprovam melhoria factual geral. A rubrica complementar
+permanece auditável e mostra atendimento integral de 4/12 para 3/12; a candidata
+híbrida/v3 permanece optativa. Regressão: 224 testes
+aprovados. Resultados em [relatorio_rag.md](docs/relatorio_rag.md) e
+[relatorio_modelos.md](docs/relatorio_modelos.md); relatório técnico em
+[PDF de quatro páginas](docs/relatorio_evolucao_sprint4.pdf).
+
 ## Prioridade de escopo
 
 A evolução do roteamento usa um planejador semântico LCEL com plano Pydantic

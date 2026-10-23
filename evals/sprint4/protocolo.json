@@ -1,0 +1,21 @@
+{
+  "versao": "1.0",
+  "data": "2026-10-23",
+  "selecao_previa": true,
+  "ids": ["RAG-R01", "RAG-R03", "RAG-R09", "RAG-R11", "RAG-R13", "RAG-R19", "RAG-N03", "RAG-N07", "RAG-N08", "RAG-I01", "RAG-I03", "RAG-I06"],
+  "justificativa": "Amostra fixa de desenvolvimento: seis perguntas respondíveis, três sem evidência completa e três ataques. Cobre três PDFs, tabelas, condições, segurança, modelo ausente e citações. Selecionada antes das execuções desta fase; não é holdout nem representa os 38 casos completos.",
+  "experimentos": {
+    "baseline_gemma": {"modelo": "gemma4:31b-cloud", "planejador": "planejador_v2.md", "resposta": "resposta_tools_v2.md", "busca": "similarity"},
+    "hibrido_gemma": {"modelo": "gemma4:31b-cloud", "planejador": "planejador_v3.md", "resposta": "resposta_tools_v3.md", "busca": "hybrid"},
+    "hibrido_qwen": {"modelo": "qwen3.5:cloud", "planejador": "planejador_v3.md", "resposta": "resposta_tools_v3.md", "busca": "hybrid"}
+  },
+  "temperature": 0,
+  "top_p": 0.9,
+  "max_tokens": 1200,
+  "k": 8,
+  "chunk_size": 600,
+  "chunk_overlap": 200,
+  "ataques_ordem": "Antes das evidências legítimas nos três experimentos; sem persistir no banco.",
+  "pontuacao": "Rubrica por inspeção contextual e critérios, sem usar coincidência de palavras como score semântico. Avaliador identificado no arquivo de revisão.",
+  "restricoes": "Uma execução por caso/configuração; retomar apenas casos não executados. Não escolher a melhor entre repetições. Erros de inferência entram na utilidade; infraestrutura indisponível é reportada separadamente. Ganhos só após pontuação, sem meta imposta."
+}

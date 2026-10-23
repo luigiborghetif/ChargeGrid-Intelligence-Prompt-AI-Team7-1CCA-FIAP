@@ -1,0 +1,5 @@
+# Ambiente de avaliação separado; não altera as dependências do índice Chroma.
+ragas==0.4.3
+langchain-community==0.4.1
+langchain-ollama==1.1.0
+python-dotenv>=1.0,<2.0

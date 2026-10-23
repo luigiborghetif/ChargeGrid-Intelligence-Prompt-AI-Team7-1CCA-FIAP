@@ -1,0 +1,9 @@
+{
+  "data": "2026-10-23",
+  "motivo": "Qwen3.5:cloud estava listado, mas retornou indisponibilidade. O usuário solicitou gpt-oss:120b-cloud como alternativa antes de executar e pontuar esse modelo.",
+  "experimentos_adicionais": {
+    "hibrido_gptoss": {"modelo": "gpt-oss:120b-cloud", "planejador": "planejador_v3.md", "resposta": "resposta_tools_v3.md", "busca": "hybrid"}
+  },
+  "experimentos_pontuados": ["baseline_gemma", "hibrido_gemma", "hibrido_gptoss"],
+  "controle": "Preservados protocolo original, conjunto de perguntas, corpus e gabaritos. A tentativa de infraestrutura do Qwen é preservada, mas não recebe score de qualidade."
+}

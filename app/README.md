@@ -54,3 +54,8 @@ A numeração apresentada é a página do arquivo PDF, que pode diferir da pági
 impressa. A conferência de identificadores e trechos não constitui verificação
 semântica automática de todas as afirmações. Consulte
 [a documentação RAG](../docs/rag.md) para configuração, validação e limitações.
+
+A avaliação final da Sprint 4, incluindo limitações de resposta e comparação
+entre modelos, está no [relatório RAG](../docs/relatorio_rag.md). A configuração
+padrão continua usando Gemma, prompts v2 e busca semântica; a candidata híbrida
+fica disponível para experimentação conforme a documentação.

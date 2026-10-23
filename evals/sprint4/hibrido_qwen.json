@@ -1,0 +1,124 @@
+{
+  "experimento": "hibrido_qwen",
+  "configuracao": {
+    "modelo": "qwen3.5:cloud",
+    "planejador": "planejador_v3.md",
+    "resposta": "resposta_tools_v3.md",
+    "busca": "hybrid",
+    "temperature": 0,
+    "top_p": 0.9,
+    "max_tokens": 1200,
+    "k": 8,
+    "chunk_size": 600,
+    "chunk_overlap": 200,
+    "colecao": "chargegrid_knowledge_v2",
+    "embedding_model": "nomic-embed-text",
+    "memoria_tokens": 4000
+  },
+  "protocolo_sha256": "f56fcc3137bfa4fb1613886d4453a201489b1edca5b8db8af58b89d1a1f0750f",
+  "dataset_sha256": "dac79b056a762ed496e2c41f29a1838701d1d58b21bf9e9dd0607fbec85bd4cc",
+  "prompts": [
+    {
+      "arquivo": "prompts/planejador_v3.md",
+      "sha256": "bb89ef45fdc8511a69f2544c3530c6d97315ed776daa57a3bd09d3c7dd743fd8"
+    },
+    {
+      "arquivo": "prompts/resposta_tools_v3.md",
+      "sha256": "596949a7944e94618775c73f8b8434e6b307b32625d5b45eeffe0644edd09738"
+    }
+  ],
+  "corpus": [
+    {
+      "id": "goodwe_hca_g2_datasheet",
+      "arquivo": "data/knowledge_base/GW_HCA-G2_Datasheet-PT.pdf",
+      "sha256": "ffa4e02c552415dfb2cc9565b3c3327c27c58e4487f77ac6e140ff5d6f20c343",
+      "paginas": 2,
+      "natureza": "documentacao_do_fabricante",
+      "versao": "20241121-PT-V2.1",
+      "origem": "Arquivo local fornecido ao projeto; URL de download não registrada.",
+      "observacoes": "Tabelas verificadas visualmente; preservar colunas, unidades e notas."
+    },
+    {
+      "id": "goodwe_hca_g2_manual",
+      "arquivo": "data/knowledge_base/GW_HCA-G2_User-Manual-PT.pdf",
+      "sha256": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+      "paginas": 70,
+      "natureza": "documentacao_do_fabricante",
+      "versao": "V1.5-2025-11-11",
+      "origem": "Arquivo local fornecido ao projeto; URL de download não registrada.",
+      "observacoes": "Página PDF difere da numeração impressa: PDF 5 corresponde à página impressa 1. Algumas instruções de aplicativos estão em imagens e não integram os gabaritos."
+    },
+    {
+      "id": "wecharge_tarifas_regras",
+      "arquivo": "data/knowledge_base/Tarifas e Regras WeCharge.pdf",
+      "sha256": "262ed4180c35d9f9f82a52e744abb0934f7f6e55100b998bee17523e0af3f528",
+      "paginas": 3,
+      "natureza": "cenario_simulado_do_projeto",
+      "versao": "Sem versão ou data declarada no PDF",
+      "origem": "Arquivo local fornecido ao projeto; URL de download não registrada.",
+      "observacoes": "Regras criadas para o cenário comercial do projeto; não são política oficial da GoodWe. Não há declaração explícita de simulação dentro do PDF; esta classificação registra o contexto de autoria informado na conversa."
+    }
+  ],
+  "indice": {
+    "schema_version": 1,
+    "estado": "pronto",
+    "colecao": "chargegrid_knowledge_v2",
+    "perfil": {
+      "knowledge_base_path": "/home/luigibss/FIAP/Prompt_AI/Challenge_GoodWe/chargegrid-intelligence/data/knowledge_base",
+      "embedding_model": "nomic-embed-text",
+      "embedding_digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+      "embedding_strategy": "nomic-search-prefixes-v1",
+      "loader_version": "pymupdf-page-tables-v1",
+      "chunking_version": "recursive-table-rows-v1",
+      "chunk_size": 600,
+      "chunk_overlap": 200,
+      "libraries": {
+        "pymupdf": "1.28.2",
+        "langchain-community": "0.4.2",
+        "langchain-text-splitters": "1.1.2",
+        "langchain-ollama": "1.1.0"
+      }
+    },
+    "atualizado_em": "2026-10-20T17:57:52.310429+00:00",
+    "arquivos": {
+      "GW_HCA-G2_Datasheet-PT.pdf": "ffa4e02c552415dfb2cc9565b3c3327c27c58e4487f77ac6e140ff5d6f20c343",
+      "GW_HCA-G2_User-Manual-PT.pdf": "e7c5ff73a303eecae7858ff93b87e2802db133c85c64e7f1b65c58733bba681d",
+      "Tarifas e Regras WeCharge.pdf": "262ed4180c35d9f9f82a52e744abb0934f7f6e55100b998bee17523e0af3f528"
+    },
+    "paginas_extraidas": 75,
+    "paginas_vazias": [],
+    "chunks": 254,
+    "chunks_acima_tamanho_alvo": 4,
+    "ids_sha256": "90c3ad3eb2d7df1df9d88f38b339caf789ccc82fd7d623acbf192b2c49f7b480"
+  },
+  "iniciado_em": "2026-10-23T21:22:00.891507+00:00",
+  "casos": [],
+  "falhas_infraestrutura": [
+    {
+      "id": "RAG-R01",
+      "categoria": "respondiveis",
+      "pergunta": "Quais são os preços por kWh nas modalidades Urgente e Econômico?",
+      "executado_em": "2026-10-23T21:22:01.074905+00:00",
+      "latencia_segundos": 0.155,
+      "status": "erro",
+      "codigo": "ollama_indisponivel",
+      "resposta": "Não foi possível consultar o modelo agora. Verifique se o Ollama está em execução e tente novamente.",
+      "texto_resposta": "Não foi possível consultar o modelo agora. Verifique se o Ollama está em execução e tente novamente.",
+      "plano": null,
+      "resultados": [],
+      "citacoes": [],
+      "recuperacoes": [],
+      "entradas_geracao": [
+        {
+          "etapa": "planejador",
+          "entrada": {
+            "pergunta": "Quais são os preços por kWh nas modalidades Urgente e Econômico?",
+            "historico_usuario": "[]",
+            "ferramentas": "{\"consultar_operacao\": \"Consulta JSON validado: resumo, demanda horária, carregadores com filtro, ordenação e limite. Energia e sessões são ACUMULADOS por carregador; sessoes_individuais retorna a limitação e o maior acumulado disponível. Não há data, duração, energia ou valor cobrado por sessão individual.\", \"calcular_indicadores\": \"Calcula em Python pico, energia_total, sessoes_total, throttling, ociosidade, faturamento estimado informado ou todos.\", \"buscar_documentos\": \"Busca evidências nos PDFs GoodWe e tarifas/regras simuladas. Retorna trechos e metadados, não uma resposta pronta.\", \"estimar_custo\": \"Calcula energia × tarifa em Python. tarifa_de referencia busca anterior. energia_de referencia consulta anterior com um carregador ou energia total; alternativamente energia_kwh deve ter sido explicitamente informada pelo usuário. Não determina o valor realmente cobrado de uma sessão individual.\"}"
+          }
+        }
+      ],
+      "geracoes": []
+    }
+  ]
+}

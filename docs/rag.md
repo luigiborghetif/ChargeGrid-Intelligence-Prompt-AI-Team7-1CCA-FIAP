@@ -45,6 +45,7 @@ RAG_COLLECTION_NAME=chargegrid_knowledge_v2
 RAG_CHUNK_SIZE=600
 RAG_CHUNK_OVERLAP=200
 RAG_TOP_K=8
+RAG_SEARCH_MODE=similarity
 RAG_BATCH_SIZE=16
 RAG_PROMPT_PATH=prompts/rag_v2.md
 ```
@@ -401,6 +402,32 @@ completo está em
 ```bash
 python evals/comparar_chunks.py --tamanhos 400 600 800 --overlaps 100 200 --ks 4 6 8 --saida evals/comparacao_chunk_overlap.json
 ```
+
+## Avaliação semântica e busca híbrida — fase 6
+
+A avaliação em 12 casos fixos está em [relatorio_rag.md](relatorio_rag.md), com
+duas iterações, comparação Gemma/GPT-OSS, RAGAS e rubrica complementar. A candidata
+híbrida/v3 apresentou ganho agregado pequeno e regressão de atendimento integral;
+o padrão permanece `RAG_SEARCH_MODE=similarity` com os prompts v2.
+
+Para experimentar a configuração B no chat e na CLI, configure e reinicie:
+
+```env
+RAG_SEARCH_MODE=hybrid
+PLANNER_PROMPT_PATH=prompts/planejador_v3.md
+PLANNER_RESPONSE_PROMPT_PATH=prompts/resposta_tools_v3.md
+```
+
+A busca híbrida usa os mesmos chunks, sem reindexação. Combina BM25 sobre o
+corpus com a busca vetorial; reserva até duas posições lexicais e completa por
+fusão recíproca de rankings, sem exceder `RAG_TOP_K`. Ela lê e pontua o corpus
+por consulta, adequada ao tamanho atual; não é uma solução otimizada para bases
+grandes. Para retornar ao padrão, use `similarity` e os dois caminhos v2.
+
+`python evals/metricas_sprint4.py` consolida as notas revisadas sem chamar modelos.
+Perguntas, contextos, gerações brutas e avaliações ficam em `evals/sprint4/`.
+O RAGAS utiliza ambiente separado e avalia os contextos registrados após triagem,
+sem refazer a busca. Veja [configuração e resultados](avaliacao_ragas.md).
 
 ## Referências técnicas
 

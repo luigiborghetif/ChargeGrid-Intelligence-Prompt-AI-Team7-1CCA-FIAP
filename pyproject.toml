@@ -32,6 +32,15 @@ dev = [
     "ruff>=0.12,<1.0",
 ]
 
+reports = [
+    "reportlab>=4.0,<6.0",
+]
+
+eval = [
+    "ragas==0.4.3",
+    "langchain-community==0.4.1",
+]
+
 notebook = [
     "ipykernel>=6.0,<8.0",
     "jupyterlab>=4.0,<5.0",
