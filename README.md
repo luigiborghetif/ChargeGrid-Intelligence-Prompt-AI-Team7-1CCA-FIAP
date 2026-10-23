@@ -19,6 +19,8 @@ interfaces: terminal e aplicação web local com Gradio.
 - Recomendação de throttling preventivo baseada em regras de negócio.
 - Dashboard interativo com Plotly.
 - Chat em português com respostas estruturadas.
+- Planejador semântico com contratos Pydantic e ferramentas tipadas de consulta,
+  recuperação documental e cálculo, limitado a quatro chamadas por pergunta.
 - Consultas a PDFs com ChromaDB e embeddings Nomic, incluindo respostas que
   combinam documentos e indicadores operacionais.
 - Citações estruturadas, com arquivo, página/seção e trecho de apoio no chat.
@@ -36,23 +38,29 @@ flowchart LR
     UI --> SERVICE[Serviço do assistente]
     SERVICE --> GUARD[Guardrails]
     GUARD -->|Bloqueada| REFUSAL[Recusa segura]
-    GUARD -->|Permitida| MEMORY[Memória da sessão]
+    GUARD -->|Permitida| PLAN[Planejador IA com LCEL]
+    MEMORY[Histórico do usuário por sessão] --> PLAN
+    PLAN --> DECISION{Encaminhamento}
+    DECISION -->|Fora do domínio ou insegura| REFUSAL
+    DECISION -->|Ambígua| CLARIFY[Pedido de esclarecimento]
+    DECISION -->|Consulta| EXEC[Plano Pydantic e executor Python]
 
     JSON[Dados JSON] --> VALIDATION[Validação Pydantic]
     VALIDATION --> KPI[Indicadores e regras]
-    KPI --> CONTEXT[Contexto operacional]
+    KPI --> TOOLS[Ferramentas operacionais e de cálculo]
     KPI --> DASH[Dashboard Plotly]
 
-    MEMORY --> CHAIN[Prompt LCEL]
-    GUARD --> ROUTE[Seleção de fontes]
-    ROUTE --> RETRIEVER[Recuperação documental]
+    EXEC --> TOOLS
+    EXEC --> RETRIEVER[Recuperação documental]
     PDF[PDFs] --> CHROMA[Embeddings Nomic e ChromaDB]
     CHROMA --> RETRIEVER
-    RETRIEVER --> CHAIN
-    CONTEXT --> CHAIN
+    RETRIEVER --> CHAIN[Resposta LCEL com fontes]
+    TOOLS --> CHAIN
     CHAIN --> OLLAMA[Gemma via Ollama]
     OLLAMA --> SCHEMA[Schema da resposta]
-    SCHEMA --> SERVICE
+    SCHEMA --> CHECK[Conferência das citações e segurança]
+    CHECK --> SERVICE
+    CLARIFY --> SERVICE
     REFUSAL --> SERVICE
     SERVICE --> UI
 ```
@@ -99,13 +107,16 @@ conferência dos identificadores e trechos citados contra o contexto recuperado.
 ├── prompts/
 │   ├── system_prompt_v1.md         # Prompt de baseline
 │   ├── system_prompt_v2.md         # Prompt operacional legado
-│   ├── rag_v2.md                   # Prompt integrado atual
+│   ├── rag_v2.md                   # Prompt do fluxo anterior
+│   ├── planejador_v1.md            # Planejamento semântico
+│   ├── resposta_tools_v1.md        # Resposta sobre ferramentas e fontes
 │   ├── RAG_VERSIONS.md             # Histórico dos prompts RAG
 │   └── VERSIONS.md                 # Histórico e comparação dos prompts
 ├── src/
 │   ├── chain/
 │   │   ├── builder.py              # Chain LCEL e integração com Ollama
-│   │   └── memoria.py              # Memória isolada por sessão
+│   │   ├── memoria.py              # Memória isolada por sessão
+│   │   └── planejador.py           # Chains LCEL de planejamento e resposta
 │   ├── chargegrid/
 │   │   ├── app.py                  # Interface web Gradio
 │   │   ├── assistente.py           # Orquestração da aplicação
@@ -118,8 +129,10 @@ conferência dos identificadores e trechos citados contra o contexto recuperado.
 │   │   ├── moderation.py           # Segurança e prompt injection
 │   │   └── scope_validator.py      # Validação do escopo
 │   ├── rag/                       # Ingestão, busca e integração LCEL
+│   ├── tools/                     # Executor e quatro ferramentas tipadas
 │   └── schemas/
 │       ├── consulta_recarga.py     # Resposta operacional
+│       ├── plano_consulta.py       # Plano, argumentos e resultados de ferramentas
 │       └── resposta_rag.py         # Contratos e citações documentais/mistas
 ├── tests/                          # Testes automatizados
 ├── .env.example                    # Exemplo de configuração
@@ -210,6 +223,9 @@ OLLAMA_MODEL=gemma4:31b-cloud
 CHARGEGRID_DATA_PATH=data/exemplo_operacao.json
 CHARGEGRID_PROMPT_PATH=prompts/system_prompt_v2.md
 RAG_PROMPT_PATH=prompts/rag_v2.md
+CHARGEGRID_USAR_PLANEJADOR=true
+PLANNER_PROMPT_PATH=prompts/planejador_v1.md
+PLANNER_RESPONSE_PROMPT_PATH=prompts/resposta_tools_v1.md
 
 MODEL_TEMPERATURE=0.2
 MODEL_TOP_P=0.9
@@ -219,6 +235,10 @@ MEMORY_TOKEN_LIMIT=4000
 
 Não é necessário criar uma chave de API neste modo. A autenticação acontece no
 aplicativo ou CLI local do Ollama. O arquivo `.env` é ignorado pelo Git.
+O planejador está ativo por padrão mesmo em um `.env` anterior. Suas duas chains
+usam temperatura zero e os mesmos modelo, `top_p` e limite de saída configurados.
+`CHARGEGRID_USAR_PLANEJADOR=false` restaura o fluxo anterior para comparação.
+Consulte [a arquitetura do planejador](docs/planejador.md).
 
 ### 6. Entre no Ollama Cloud e prepare o modelo
 
@@ -340,18 +360,28 @@ python -m pytest -q
 Verifique lint e formatação:
 
 ```bash
-ruff check src tests app evals/run_evals.py evals/validar_integracao.py
-ruff format --check src tests app evals/run_evals.py evals/validar_integracao.py
+ruff check src tests app evals/run_evals.py evals/validar_integracao.py evals/validar_planejador.py
+ruff format --check src tests app evals/run_evals.py evals/validar_integracao.py evals/validar_planejador.py
 ```
 
-O estado atual possui 157 testes automatizados cobrindo dados, indicadores,
+O estado atual possui 183 testes automatizados cobrindo dados, indicadores,
 schema, chain, memória, guardrails, serviço, interfaces, avaliações e persistência
-documental, integração e apresentação de citações. Os testes funcionais da
+documental, integração, citações, planejamento e ferramentas. Os testes funcionais da
 fase 3 passaram em 7/7 cenários com Ollama e Chroma reais. Na fase 4, o chat foi
 validado em Chromium nos tamanhos desktop e celular, com fontes, recusas,
 nova conversa e dashboard. Consulte a
 [documentação RAG](docs/rag.md#integração-ao-assistente--fase-3) e o
 [relatório da execução](evals/fase3_integracao.json).
+
+A verificação direcionada do planejador está em
+[evals/planejador_validacao.json](evals/planejador_validacao.json): seis cenários
+com resultados finais aprovados. A primeira continuação foi recusada pela
+conferência de citações e passou em repetição direcionada; a tentativa foi
+preservada. Esses resultados funcionais não substituem avaliação semântica.
+
+```bash
+python evals/validar_planejador.py
+```
 
 ## Recuperação documental com ChromaDB
 
@@ -464,8 +494,11 @@ python -m chargegrid.app
 - A memória permanece somente enquanto o processo está em execução.
 - O sistema recomenda ações, mas não controla equipamentos.
 - Estimativas dependem das premissas presentes nos dados.
-- O roteamento utiliza regras por palavras-chave. Conferir a presença de uma
-  citação na fonte não garante que todas as afirmações da resposta sejam corretas.
+- O planejador pode interpretar incorretamente uma pergunta. Conferir a presença
+  de uma citação na fonte não garante que todas as afirmações sejam corretas.
+- Os dados operacionais contêm acumulados por carregador, sem histórico de
+  sessões individuais. As tarifas documentais sustentam estimativas, não a
+  identificação de valores efetivamente cobrados por sessão.
 - Intervenções elétricas exigem avaliação de um profissional habilitado.
 - O modelo cloud depende de conexão com a internet e da disponibilidade do
   serviço Ollama.

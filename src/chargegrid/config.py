@@ -49,6 +49,13 @@ def _resolve_project_path(raw_path: str) -> Path:
     return (PROJECT_ROOT / path).resolve()
 
 
+def _read_bool(name: str, default: bool) -> bool:
+    raw = os.getenv(name, str(default)).strip().casefold()
+    if raw not in {"true", "false", "1", "0"}:
+        raise ConfigurationError(f"{name} deve ser true ou false.")
+    return raw in {"true", "1"}
+
+
 @dataclass(frozen=True, slots=True)
 class Settings:
     """Configurações imutáveis usadas pela aplicação."""
@@ -61,6 +68,9 @@ class Settings:
     top_p: float
     max_tokens: int
     memory_token_limit: int
+    planner_enabled: bool = True
+    planner_prompt_path: Path = PROJECT_ROOT / "prompts/planejador_v1.md"
+    planner_response_prompt_path: Path = PROJECT_ROOT / "prompts/resposta_tools_v1.md"
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -82,6 +92,15 @@ class Settings:
             top_p=_read_float("MODEL_TOP_P", 0.9),
             max_tokens=_read_int("MODEL_MAX_TOKENS", 1200),
             memory_token_limit=_read_int("MEMORY_TOKEN_LIMIT", 4000),
+            planner_enabled=_read_bool("CHARGEGRID_USAR_PLANEJADOR", True),
+            planner_prompt_path=_resolve_project_path(
+                os.getenv("PLANNER_PROMPT_PATH", "prompts/planejador_v1.md")
+            ),
+            planner_response_prompt_path=_resolve_project_path(
+                os.getenv(
+                    "PLANNER_RESPONSE_PROMPT_PATH", "prompts/resposta_tools_v1.md"
+                )
+            ),
         )
         settings.validate()
         return settings

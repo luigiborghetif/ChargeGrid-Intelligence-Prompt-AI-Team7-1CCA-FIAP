@@ -42,6 +42,7 @@ def conferir_apoios(
     documentos: list[Document],
     contexto_operacional: str | None,
     origem_operacional: str,
+    fontes_adicionais: dict[str, tuple[str, dict]] | None = None,
 ) -> tuple[list[CitacaoFonte], set[str]]:
     fontes = {
         doc.metadata["chunk_id"]: (
@@ -60,6 +61,10 @@ def conferir_apoios(
             contexto_operacional,
             {"tipo": "operacional", "arquivo": origem_operacional},
         )
+    if fontes_adicionais:
+        if fontes.keys() & fontes_adicionais.keys():
+            raise ErroFundamentacao("Identificadores de fontes duplicados.")
+        fontes.update(fontes_adicionais)
     referencias, usados = [], set()
     for apoio in resposta.apoios:
         fonte = fontes.get(apoio.fonte_id)

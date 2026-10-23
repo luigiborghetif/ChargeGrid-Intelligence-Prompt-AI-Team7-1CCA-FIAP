@@ -6,6 +6,12 @@ persistente. O assistente combina essa recuperação com os indicadores calculad
 em Python e responde a consultas documentais, operacionais e mistas na CLI e no
 chat Gradio.
 
+O fluxo padrão agora usa um planejador semântico e ferramentas tipadas para
+selecionar e executar essas consultas. A recuperação Chroma descrita aqui é
+preservada. Consulte [planejamento e ferramentas](planejador.md) para a
+arquitetura ativa, configuração e validação. As seções das fases 3 e 4 registram
+a evolução da integração anterior, disponível para comparação.
+
 ## Instalação
 
 Na raiz do repositório, com o ambiente virtual ativo:
@@ -141,7 +147,8 @@ O `AssistenteChargeGrid` seleciona as fontes por regras determinísticas:
 | Mista | Indicadores e trechos dos PDFs | Qual foi o pico e como o controle dinâmico de carga pode ajudar? |
 
 O prompt versionado [`rag_v2.md`](../prompts/rag_v2.md) é usado na chain LCEL
-ativa. `RAG_PROMPT_PATH` seleciona esse arquivo; `CHARGEGRID_PROMPT_PATH` permanece
+do fluxo anterior, ativado por `CHARGEGRID_USAR_PLANEJADOR=false`.
+`RAG_PROMPT_PATH` seleciona esse arquivo; `CHARGEGRID_PROMPT_PATH` permanece
 destinado ao fluxo legado de comparação dos prompts operacionais v1/v2.
 O histórico das versões RAG está em [`RAG_VERSIONS.md`](../prompts/RAG_VERSIONS.md).
 

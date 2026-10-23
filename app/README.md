@@ -29,6 +29,9 @@ python -m app.main
 Também é possível usar `python app/main.py` ou `chargegrid-web`.
 Abra `http://127.0.0.1:7860`. Encerre com `Ctrl+C` no terminal.
 O ponto de entrada reutiliza `src/chargegrid/app.py`, sem duplicar a interface.
+O planejador semântico está ativo por padrão, usando as ferramentas de consulta
+e cálculo. Não é necessário atualizar o `.env` nem reindexar a base para ativá-lo.
+Para comparar com o fluxo anterior, configure `CHARGEGRID_USAR_PLANEJADOR=false`.
 
 Exemplos de consulta:
 
@@ -36,11 +39,16 @@ Exemplos de consulta:
 - Qual foi o pico de demanda?
 - Qual foi o pico e como o controle dinâmico de carga pode ajudar?
 - Qual é o prazo de estorno se a recarga falhar?
+- Nos dados de uso que temos, qual foi a maior recarga em kWh?
+- Quanto custa somente a energia de 20 kWh no Econômico?
+- E no Urgente? (na mesma conversa da estimativa anterior)
 
 Consultas documentais apresentam resposta e fontes, sem exigir risco ou
 recomendações operacionais. Uma resposta parcial é identificada explicitamente;
 sem evidência suficiente, o assistente informa a limitação. **Nova conversa**
 limpa a memória da sessão e inicia outra conversa.
+A pergunta sobre maior recarga explica a falta de sessões individuais e apresenta
+o maior acumulado por carregador, quando disponível, sem confundi-los.
 
 A numeração apresentada é a página do arquivo PDF, que pode diferir da página
 impressa. A conferência de identificadores e trechos não constitui verificação

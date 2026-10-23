@@ -53,7 +53,9 @@ def servico(insuficiente=False):
         def invoke(self, entrada, config):
             return geracao(insuficiente)
 
-    return AssistenteChargeGrid(chain_rag=Chain(), recuperador=lambda _: [fonte()])
+    return AssistenteChargeGrid(
+        usar_planejador=False, chain_rag=Chain(), recuperador=lambda _: [fonte()]
+    )
 
 
 def test_contrato_publico_usa_localizacao_da_fonte_e_serializa():
