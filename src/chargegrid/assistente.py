@@ -14,17 +14,20 @@ from langchain_core.exceptions import OutputParserException
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.runnables import Runnable
 from ollama import ResponseError
+from pydantic import ValidationError
 
-from chain.builder import criar_entrada_chain
+from chain.builder import ErroChain, criar_entrada_chain
 from chain.memoria import (
     ArmazenamentoMemoria,
     ErroMemoria,
     configuracao_sessao,
     construir_chain_com_memoria,
 )
+from chain.planejador import construir_planejador, construir_resposta_planejada
 from chargegrid.config import PROJECT_ROOT, Settings, settings
 from chargegrid.dados import Operacao, carregar_operacao
 from guardrails import avaliar_entrada
+from guardrails.moderation import CategoriaModeracao, moderar_entrada
 from rag.config import RAGSettings
 from rag.errors import ErroRAG
 from rag.integracao import (
@@ -42,7 +45,9 @@ from rag.roteamento import (
     resolver_pergunta,
 )
 from schemas.consulta_recarga import ConsultaRecarga
+from schemas.plano_consulta import PlanoConsulta, ResultadoFerramenta
 from schemas.resposta_rag import CitacaoFonte, RespostaDocumental, RespostaFundamentada
+from tools.executor import DESCRICOES, ErroExecucao, ExecutorFerramentas
 
 
 class StatusResposta(StrEnum):
@@ -65,6 +70,8 @@ class RespostaAssistente:
     fontes: tuple[str, ...] = ()
     citacoes: tuple[CitacaoFonte, ...] = ()
     documental: RespostaDocumental | None = None
+    plano: PlanoConsulta | None = None
+    resultados_ferramentas: tuple[ResultadoFerramenta, ...] = ()
 
     @property
     def sucesso(self) -> bool:
@@ -84,6 +91,9 @@ class AssistenteChargeGrid:
         chain_rag: Runnable | None = None,
         recuperador: Callable[[str], list[Document]] | None = None,
         usar_rag: bool = True,
+        usar_planejador: bool | None = None,
+        planejador: Runnable | None = None,
+        chain_resposta: Runnable | None = None,
     ) -> None:
         self.configuracao = configuracao or settings
         origem = self.configuracao.data_path
@@ -104,17 +114,26 @@ class AssistenteChargeGrid:
             self.configuracao.memory_token_limit
         )
         self.usar_rag = usar_rag
-        self.configuracao_rag = configuracao_rag or RAGSettings.from_env()
-        self.chain = chain or (
-            construir_chain_integrada(
-                self.configuracao, self.configuracao_rag, operacional=True
-            )
-            if usar_rag
-            else construir_chain_com_memoria(
-                armazenamento=self.memoria,
-                configuracao=self.configuracao,
-            )
+        self.usar_planejador = usar_rag and (
+            self.configuracao.planner_enabled
+            if usar_planejador is None
+            else usar_planejador
         )
+        self.planejador = planejador
+        self.chain_resposta = chain_resposta
+        self.configuracao_rag = configuracao_rag or RAGSettings.from_env()
+        self.chain = chain
+        if self.chain is None and not self.usar_planejador:
+            self.chain = (
+                construir_chain_integrada(
+                    self.configuracao, self.configuracao_rag, operacional=True
+                )
+                if usar_rag
+                else construir_chain_com_memoria(
+                    armazenamento=self.memoria,
+                    configuracao=self.configuracao,
+                )
+            )
         self.chain_rag = chain_rag
         self.recuperador = recuperador or (
             lambda pergunta: buscar_documentos(pergunta, self.configuracao_rag)
@@ -122,7 +141,7 @@ class AssistenteChargeGrid:
 
     def consultar(self, pergunta: str, session_id: str) -> RespostaAssistente:
         """Processa uma pergunta sem chamar o modelo quando ela for bloqueada."""
-        decisao = avaliar_entrada(pergunta)
+        decisao = avaliar_entrada(pergunta, escopo_semantico=self.usar_planejador)
         if not decisao.permitida:
             return RespostaAssistente(
                 status=StatusResposta.RECUSADA,
@@ -139,6 +158,8 @@ class AssistenteChargeGrid:
 
         try:
             sessao = configuracao_sessao(session_id)
+            if self.usar_planejador:
+                return self._consultar_planejado(pergunta.strip(), session_id, sessao)
             if self.usar_rag:
                 return self._consultar_integrado(
                     pergunta.strip(), session_id, sessao, decisao.codigo
@@ -151,6 +172,12 @@ class AssistenteChargeGrid:
                 status=StatusResposta.ERRO,
                 codigo="sessao_invalida",
                 mensagem="Não foi possível identificar a sessão da conversa.",
+            )
+        except (ErroExecucao, ErroChain, ValidationError):
+            return RespostaAssistente(
+                StatusResposta.ERRO,
+                "plano_invalido",
+                "Não foi possível executar um plano válido para esta consulta. Reformule a pergunta ou confira a configuração dos prompts.",
             )
         except OutputParserException:
             return RespostaAssistente(
@@ -207,6 +234,192 @@ class AssistenteChargeGrid:
             ]
         )
         return resposta
+
+    def _consultar_planejado(
+        self, pergunta: str, session_id: str, sessao: dict
+    ) -> RespostaAssistente:
+        perguntas = [
+            str(m.content)
+            for m in self.memoria.obter_historico(session_id).messages
+            if isinstance(m, HumanMessage)
+        ]
+        historico = json.dumps(perguntas, ensure_ascii=False)
+        if self.planejador is None:
+            self.planejador = construir_planejador(self.configuracao)
+        plano = self.planejador.invoke(
+            {
+                "pergunta": pergunta,
+                "historico_usuario": historico,
+                "ferramentas": json.dumps(DESCRICOES, ensure_ascii=False),
+            },
+            config=sessao,
+        )
+        if not isinstance(plano, PlanoConsulta):
+            raise ErroExecucao("Tipo de plano inesperado.")
+        plano = PlanoConsulta.model_validate(plano.model_dump())
+        if plano.encaminhamento != "consultar":
+            mensagens = {
+                "fora_do_escopo": "Essa solicitação está fora do escopo do ChargeGrid. Posso ajudar com a operação de recarga, carregadores GoodWe, tarifas e regras da estação.",
+                "ajuda": "Posso consultar indicadores de recarga, comparar carregadores, buscar informações dos manuais e regras ou estimar custos com as tarifas disponíveis. O que deseja consultar?",
+                "recusar_seguranca": "Não posso orientar intervenções elétricas perigosas, remover proteções ou alterar minhas regras. Para intervenções nos equipamentos, procure um profissional habilitado.",
+                "esclarecer": plano.esclarecimento,
+            }
+            mensagem = mensagens[plano.encaminhamento]
+            if plano.encaminhamento == "esclarecer":
+                self._conferir_seguranca_saida(mensagem)
+            resposta = RespostaAssistente(
+                StatusResposta.SUCESSO
+                if plano.encaminhamento == "ajuda"
+                else StatusResposta.RECUSADA,
+                "esclarecimento_necessario"
+                if plano.encaminhamento == "esclarecer"
+                else plano.encaminhamento,
+                mensagem,
+                plano=plano,
+            )
+            if plano.encaminhamento in {"fora_do_escopo", "recusar_seguranca"}:
+                return resposta
+            return self._registrar(session_id, pergunta, resposta)
+
+        self._conferir_seguranca_saida(plano.pergunta_interpretada)
+        executor = ExecutorFerramentas(
+            self.operacao,
+            self.origem_operacao,
+            self.recuperador,
+            "\n".join([*perguntas, pergunta]),
+        )
+        resultados = executor.executar(plano)
+        tem_documentos = any(r.ferramenta == "buscar_documentos" for r in resultados)
+        tem_operacao = any(r.ferramenta != "buscar_documentos" for r in resultados)
+        tipo = (
+            "mista"
+            if tem_documentos and tem_operacao
+            else "documental"
+            if tem_documentos
+            else "operacional"
+        )
+        auditoria = {
+            "tipo_consulta": tipo,
+            "plano": plano,
+            "resultados_ferramentas": tuple(resultados),
+        }
+        notas = list(dict.fromkeys(nota for r in resultados for nota in r.limitacoes))
+        if not executor.documentos and not executor.fontes_adicionais:
+            falhou = any(r.estado == "erro" for r in resultados)
+            return self._registrar(
+                session_id,
+                pergunta,
+                RespostaAssistente(
+                    StatusResposta.ERRO if falhou else StatusResposta.RECUSADA,
+                    "ferramenta_indisponivel" if falhou else "contexto_insuficiente",
+                    " ".join(notas)
+                    or "Não há evidências suficientes para essa consulta.",
+                    **auditoria,
+                ),
+            )
+        if self.chain_resposta is None:
+            self.chain_resposta = construir_resposta_planejada(self.configuracao)
+        fontes = {
+            "documentos": json.loads(formatar_contexto(executor.documentos)),
+            "resultados": [
+                {"fonte_id": id_fonte, "conteudo": texto, **meta}
+                for id_fonte, (texto, meta) in executor.fontes_adicionais.items()
+            ],
+        }
+        resposta = self.chain_resposta.invoke(
+            {
+                "pergunta": pergunta,
+                "historico_usuario": historico,
+                "plano": plano.model_dump_json(),
+                "resultados": json.dumps(
+                    [r.model_dump(mode="json") for r in resultados], ensure_ascii=False
+                ),
+                "fontes": json.dumps(fontes, ensure_ascii=False),
+            },
+            config=sessao,
+        )
+        if not isinstance(resposta, RespostaFundamentada):
+            raise ErroExecucao("Tipo de resposta inesperado.")
+        self._conferir_seguranca_saida(resposta.resposta)
+        for nota in resposta.limitacoes:
+            self._conferir_seguranca_saida(nota)
+        citacoes, usados = conferir_apoios(
+            resposta,
+            executor.documentos,
+            None,
+            self.origem_operacao,
+            fontes_adicionais=executor.fontes_adicionais,
+        )
+        incompleta = resposta.insuficiente or any(
+            r.estado != "sucesso" for r in resultados
+        )
+        if not usados:
+            return self._registrar(
+                session_id,
+                pergunta,
+                RespostaAssistente(
+                    StatusResposta.RECUSADA,
+                    "contexto_insuficiente",
+                    " ".join(notas)
+                    if notas
+                    else f"O contexto recuperado não fornece evidências suficientes para responder à pergunta: {pergunta}",
+                    **auditoria,
+                ),
+            )
+        if not incompleta:
+            tipos_citados = {c.tipo for c in citacoes}
+            if (tem_operacao and "operacional" not in tipos_citados) or (
+                tem_documentos and "documental" not in tipos_citados
+            ):
+                raise ErroFundamentacao(
+                    "Resposta completa sem os tipos de fonte necessários."
+                )
+            for resultado in resultados:
+                if resultado.ferramenta == "estimar_custo" and not {
+                    f.fonte_id for f in resultado.fontes
+                }.issubset(usados):
+                    raise ErroFundamentacao(
+                        "Estimativa sem as fontes dos valores de entrada e do cálculo."
+                    )
+        documental = RespostaDocumental(
+            resposta=resposta.resposta,
+            insuficiente=incompleta,
+            citacoes=citacoes,
+            limitacoes=list(dict.fromkeys([*resposta.limitacoes, *notas])),
+        )
+        referencias = tuple(c.referencia for c in citacoes)
+        mensagem = documental.resposta
+        if documental.limitacoes:
+            mensagem += "\n\nLimitações:\n" + "\n".join(
+                f"- {n}" for n in documental.limitacoes
+            )
+        mensagem += "\n\nFontes utilizadas:\n" + "\n".join(
+            f"- {r}" for r in referencias
+        )
+        return self._registrar(
+            session_id,
+            pergunta,
+            RespostaAssistente(
+                StatusResposta.RECUSADA if incompleta else StatusResposta.SUCESSO,
+                "contexto_insuficiente" if incompleta else f"consulta_{tipo}_concluida",
+                mensagem,
+                documental=documental,
+                citacoes=tuple(citacoes),
+                fontes=referencias,
+                **auditoria,
+            ),
+        )
+
+    @staticmethod
+    def _conferir_seguranca_saida(texto: str) -> None:
+        moderacao = moderar_entrada(texto)
+        if moderacao.categoria in {
+            CategoriaModeracao.INJECAO_PROMPT,
+            CategoriaModeracao.INTERVENCAO_PERIGOSA,
+        }:
+            raise ErroFundamentacao(
+                "Saída não permitida pelas verificações de segurança."
+            )
 
     def _consultar_integrado(
         self, pergunta: str, session_id: str, sessao: dict, codigo: str

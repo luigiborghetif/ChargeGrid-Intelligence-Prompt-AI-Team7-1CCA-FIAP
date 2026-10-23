@@ -23,7 +23,9 @@ from rag.retriever import buscar_documentos
 def main() -> None:
     capturados = []
     saidas_modelo = []
-    assistente = AssistenteChargeGrid()
+    assistente = AssistenteChargeGrid(
+        usar_planejador=False,
+    )
 
     def registrar_saida(saida):
         saidas_modelo.append(saida.model_dump(mode="json"))

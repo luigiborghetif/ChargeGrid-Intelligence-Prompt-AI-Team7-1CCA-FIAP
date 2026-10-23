@@ -84,7 +84,7 @@ def test_escopo_aceita_base_expandida(pergunta):
 def test_documental_nao_injeta_telemetria_nem_exige_risco(documento):
     chain = ChainTeste(_resposta_doc())
     assistente = AssistenteChargeGrid(
-        chain_rag=chain, recuperador=lambda _: [documento]
+        usar_planejador=False, chain_rag=chain, recuperador=lambda _: [documento]
     )
     resultado = assistente.consultar("Qual a tarifa Urgente?", "a")
     assert resultado.sucesso and resultado.tipo_consulta == "documental"
@@ -110,7 +110,7 @@ def test_operacional_independe_do_indice_documental():
         raise AssertionError("Consulta operacional não deve acessar o Chroma")
 
     resultado = AssistenteChargeGrid(
-        chain=chain, recuperador=nao_deve_buscar
+        usar_planejador=False, chain=chain, recuperador=nao_deve_buscar
     ).consultar("Qual o pico de demanda?", "a")
     assert resultado.sucesso
     assert resultado.dados.potencia_total_kw == 78.4
@@ -139,7 +139,9 @@ def test_mista_recebe_e_cita_ambas_as_fontes(documento):
         )
 
     resultado = AssistenteChargeGrid(
-        chain_rag=ChainTeste(gerar), recuperador=lambda _: [documento]
+        usar_planejador=False,
+        chain_rag=ChainTeste(gerar),
+        recuperador=lambda _: [documento],
     ).consultar("Qual o pico e a tarifa Urgente?", "a")
     assert resultado.sucesso and resultado.tipo_consulta == "mista"
     assert len(resultado.fontes) == 2
@@ -160,7 +162,9 @@ def test_mista_sem_apoio_documental_nao_afirma_resposta_completa(documento):
         ],
     )
     resultado = AssistenteChargeGrid(
-        chain_rag=ChainTeste(resposta), recuperador=lambda _: [documento]
+        usar_planejador=False,
+        chain_rag=ChainTeste(resposta),
+        recuperador=lambda _: [documento],
     ).consultar("Qual o pico e a tarifa Urgente?", "a")
     assert resultado.codigo == "contexto_insuficiente"
 
@@ -168,7 +172,7 @@ def test_mista_sem_apoio_documental_nao_afirma_resposta_completa(documento):
 def test_contexto_vazio_nao_chama_llm():
     chain = ChainTeste(_resposta_doc())
     resultado = AssistenteChargeGrid(
-        chain_rag=chain, recuperador=lambda _: []
+        usar_planejador=False, chain_rag=chain, recuperador=lambda _: []
     ).consultar("Qual a garantia do HCA?", "a")
     assert resultado.codigo == "contexto_insuficiente" and not chain.entradas
 
@@ -187,7 +191,9 @@ def test_rejeita_fontes_ou_trechos_inventados(documento, fonte, trecho):
         apoios=[ApoioDocumental(fonte_id=fonte, trecho=trecho)],
     )
     assistente = AssistenteChargeGrid(
-        chain_rag=ChainTeste(resposta), recuperador=lambda _: [documento]
+        usar_planejador=False,
+        chain_rag=ChainTeste(resposta),
+        recuperador=lambda _: [documento],
     )
     resultado = assistente.consultar("Qual a tarifa?", "a")
     assert resultado.codigo == "evidencia_invalida"
@@ -198,9 +204,9 @@ def test_indisponibilidade_nao_e_confundida_com_ausencia_de_evidencia():
     def indisponivel(_):
         raise ErroRAG("Falha de conexão")
 
-    resultado = AssistenteChargeGrid(recuperador=indisponivel).consultar(
-        "Qual a tarifa?", "a"
-    )
+    resultado = AssistenteChargeGrid(
+        usar_planejador=False, recuperador=indisponivel
+    ).consultar("Qual a tarifa?", "a")
     assert resultado.status is StatusResposta.ERRO
     assert resultado.codigo == "rag_indisponivel"
 
@@ -209,7 +215,9 @@ def test_memoria_reformula_continuacao_sem_reusar_resposta_como_fato(documento):
     perguntas = []
     chain = ChainTeste(_resposta_doc())
     assistente = AssistenteChargeGrid(
-        chain_rag=chain, recuperador=lambda p: perguntas.append(p) or [documento]
+        usar_planejador=False,
+        chain_rag=chain,
+        recuperador=lambda p: perguntas.append(p) or [documento],
     )
     assistente.memoria.obter_historico("a").add_messages(
         [
@@ -228,7 +236,9 @@ def test_memoria_reformula_continuacao_sem_reusar_resposta_como_fato(documento):
 def test_modelo_indica_insuficiencia_sem_inventar_detalhes(documento):
     resposta = RespostaFundamentada(resposta="Garantia de dez anos.", insuficiente=True)
     resultado = AssistenteChargeGrid(
-        chain_rag=ChainTeste(resposta), recuperador=lambda _: [documento]
+        usar_planejador=False,
+        chain_rag=ChainTeste(resposta),
+        recuperador=lambda _: [documento],
     ).consultar("Qual a garantia?", "a")
     assert resultado.codigo == "contexto_insuficiente"
     assert "dez anos" not in resultado.mensagem

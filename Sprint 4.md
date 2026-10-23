@@ -122,6 +122,14 @@ correspondem ao comportamento verificado.
 
 ## Prioridade de escopo
 
+A evolução do roteamento usa um planejador semântico LCEL com plano Pydantic
+e ferramentas tipadas de consulta, cálculo e busca documental. Ela preserva
+o pipeline RAG, memória por sessão, segurança e citações. O fluxo anterior
+permanece disponível para comparação. A implementação, configuração e os
+resultados funcionais estão em [docs/planejador.md](docs/planejador.md).
+Essa evolução não substitui os testes adversariais da etapa 5 nem as avaliações,
+comparações e relatórios da etapa 6.
+
 A prioridade é concluir o pipeline RAG persistente, as citações visíveis, o
 grounding, a segurança documental e a avaliação com ganhos registrados.
 LangGraph, agentes, reranking, chunking avançado e observabilidade são

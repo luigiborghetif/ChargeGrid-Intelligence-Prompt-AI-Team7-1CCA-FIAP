@@ -17,7 +17,7 @@ class DecisaoGuardrail:
     mensagem: str | None = None
 
 
-def avaliar_entrada(texto: str) -> DecisaoGuardrail:
+def avaliar_entrada(texto: str, *, escopo_semantico: bool = False) -> DecisaoGuardrail:
     """Executa moderação antes da validação de escopo."""
     moderacao = moderar_entrada(texto)
     if not moderacao.permitida:
@@ -29,6 +29,8 @@ def avaliar_entrada(texto: str) -> DecisaoGuardrail:
 
     escopo = validar_escopo(texto)
     if not escopo.dentro_escopo:
+        if escopo_semantico:
+            return DecisaoGuardrail(permitida=True, codigo="escopo_a_classificar")
         return DecisaoGuardrail(
             permitida=False,
             codigo=escopo.categoria.value,

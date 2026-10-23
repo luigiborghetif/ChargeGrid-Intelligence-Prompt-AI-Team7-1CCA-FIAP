@@ -39,6 +39,7 @@ class ChainFalsa:
 
 def _criar_assistente(chain: ChainFalsa) -> AssistenteChargeGrid:
     return AssistenteChargeGrid(
+        usar_planejador=False,
         operacao=carregar_operacao(alertar_inconsistencias=False),
         memoria=ArmazenamentoMemoria(),
         chain=chain,
