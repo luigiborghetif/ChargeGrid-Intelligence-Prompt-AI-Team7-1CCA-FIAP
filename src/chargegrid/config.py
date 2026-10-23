@@ -69,8 +69,8 @@ class Settings:
     max_tokens: int
     memory_token_limit: int
     planner_enabled: bool = True
-    planner_prompt_path: Path = PROJECT_ROOT / "prompts/planejador_v1.md"
-    planner_response_prompt_path: Path = PROJECT_ROOT / "prompts/resposta_tools_v1.md"
+    planner_prompt_path: Path = PROJECT_ROOT / "prompts/planejador_v2.md"
+    planner_response_prompt_path: Path = PROJECT_ROOT / "prompts/resposta_tools_v2.md"
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -94,11 +94,11 @@ class Settings:
             memory_token_limit=_read_int("MEMORY_TOKEN_LIMIT", 4000),
             planner_enabled=_read_bool("CHARGEGRID_USAR_PLANEJADOR", True),
             planner_prompt_path=_resolve_project_path(
-                os.getenv("PLANNER_PROMPT_PATH", "prompts/planejador_v1.md")
+                os.getenv("PLANNER_PROMPT_PATH", "prompts/planejador_v2.md")
             ),
             planner_response_prompt_path=_resolve_project_path(
                 os.getenv(
-                    "PLANNER_RESPONSE_PROMPT_PATH", "prompts/resposta_tools_v1.md"
+                    "PLANNER_RESPONSE_PROMPT_PATH", "prompts/resposta_tools_v2.md"
                 )
             ),
         )

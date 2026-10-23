@@ -59,6 +59,7 @@ def normalizar_texto(texto: str) -> str:
         caractere
         for caractere in unicodedata.normalize("NFKD", texto)
         if not unicodedata.combining(caractere)
+        and unicodedata.category(caractere) != "Cf"
     )
     return " ".join(sem_acentos.casefold().split())
 

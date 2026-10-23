@@ -11,6 +11,7 @@ from langchain_core.output_parsers import PydanticOutputParser
 
 from chain.builder import criar_llm, criar_parser
 from chargegrid.config import Settings
+from guardrails.documentos import triar_documentos
 from rag.config import RAGSettings
 from rag.errors import ErroRAG
 from rag.prompt_rag import criar_prompt_integrado
@@ -54,7 +55,7 @@ def conferir_apoios(
                 "secao": doc.metadata.get("secao"),
             },
         )
-        for doc in documentos
+        for doc in triar_documentos(documentos).documentos
     }
     if contexto_operacional:
         fontes["operacao_atual"] = (

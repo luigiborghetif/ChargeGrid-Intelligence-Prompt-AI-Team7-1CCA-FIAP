@@ -404,6 +404,12 @@ python evals/comparar_chunks.py --tamanhos 400 600 800 --overlaps 100 200 --ks 4
 
 ## Referências técnicas
 
+Os controles e resultados da fase 5 estão em
+[Segurança documental](seguranca_rag.md), incluindo a quarentena de instruções,
+integridade de fontes, testes adversariais e a limitação funcional de recuperação
+observada na pergunta sobre fumaça. A triagem não altera o banco nem requer
+reindexação dos PDFs.
+
 - [Chroma e persistência com LangChain](https://docs.langchain.com/oss/python/integrations/vectorstores/chroma)
 - [OllamaEmbeddings com LangChain](https://docs.langchain.com/oss/python/integrations/embeddings/ollama)
 - [Prefixos de recuperação do Nomic](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)

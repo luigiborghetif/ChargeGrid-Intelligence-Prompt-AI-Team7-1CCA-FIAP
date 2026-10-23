@@ -16,6 +16,7 @@ from ollama import ResponseError
 from chain.builder import construir_contexto_operacional
 from chargegrid.dados import Operacao, validar_totais
 from chargegrid.indicadores import calcular_indicadores
+from guardrails.documentos import triar_documentos
 from guardrails.moderation import moderar_entrada, normalizar_texto
 from rag.errors import ErroRAG
 from schemas.plano_consulta import (
@@ -73,6 +74,7 @@ class ExecutorFerramentas:
         self.resultados: list[ResultadoFerramenta] = []
         self.documentos: list[Document] = []
         self.documentos_por_etapa: dict[str, list[Document]] = {}
+        self.documentos_bloqueados: list[dict[str, str]] = []
         self.fontes_adicionais: dict[str, tuple[str, dict]] = {}
         self._etapa = None
         definicoes = (
@@ -212,7 +214,11 @@ class ExecutorFerramentas:
 
     def _documentos(self, **kwargs):
         args = ArgumentosDocumentos(**kwargs)
-        docs = self.recuperador(args.pergunta)
+        triagem = triar_documentos(self.recuperador(args.pergunta))
+        self.documentos_bloqueados.extend(triagem.bloqueados)
+        docs = triagem.documentos
+        # A mesma identidade não pode mudar entre duas buscas do mesmo plano.
+        triar_documentos([*self.documentos, *docs])
         self.documentos_por_etapa[self._etapa.id] = docs
         conhecidos = {d.metadata["chunk_id"] for d in self.documentos}
         self.documentos.extend(
@@ -220,7 +226,10 @@ class ExecutorFerramentas:
         )
         return self._resultado(
             "sucesso" if docs else "ausente",
-            {"chunks": [d.metadata["chunk_id"] for d in docs]},
+            {
+                "chunks": [d.metadata["chunk_id"] for d in docs],
+                "documentos_bloqueados": triagem.bloqueados,
+            },
             []
             if docs
             else ["Não foram recuperados trechos documentais para esta consulta."],

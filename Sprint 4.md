@@ -99,6 +99,14 @@ as afirmações da resposta; a interface apresenta respostas e recusas corretame
 **Validação:** o sistema mantém as proteções existentes, resiste aos ataques
 testados e recusa conclusões sem suporte documental ou operacional.
 
+**Execução registrada:** controles documentais implementados e regressão de
+215 testes aprovada. A amostra real inicial aprovou 8/9 cenários funcionais;
+o caso de fumaça revelou recusa indevida e limitação de recuperação. O planejador
+foi ajustado e a última resposta foi parcial, sem uso do documento adversarial.
+O caso não está contabilizado como aprovação funcional integral. Detalhes e
+registros estão em [docs/seguranca_rag.md](docs/seguranca_rag.md); a qualidade
+da recuperação permanece um ponto de avaliação e melhoria da etapa 6.
+
 ### 6. Avaliação, iterações e documentação técnica
 
 - Registrar pergunta, contexto recuperado, resposta, fontes, modelos,

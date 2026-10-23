@@ -108,8 +108,8 @@ conferência dos identificadores e trechos citados contra o contexto recuperado.
 │   ├── system_prompt_v1.md         # Prompt de baseline
 │   ├── system_prompt_v2.md         # Prompt operacional legado
 │   ├── rag_v2.md                   # Prompt do fluxo anterior
-│   ├── planejador_v1.md            # Planejamento semântico
-│   ├── resposta_tools_v1.md        # Resposta sobre ferramentas e fontes
+│   ├── planejador_v2.md            # Planejamento semântico
+│   ├── resposta_tools_v2.md        # Resposta sobre ferramentas e fontes
 │   ├── RAG_VERSIONS.md             # Histórico dos prompts RAG
 │   └── VERSIONS.md                 # Histórico e comparação dos prompts
 ├── src/
@@ -224,8 +224,8 @@ CHARGEGRID_DATA_PATH=data/exemplo_operacao.json
 CHARGEGRID_PROMPT_PATH=prompts/system_prompt_v2.md
 RAG_PROMPT_PATH=prompts/rag_v2.md
 CHARGEGRID_USAR_PLANEJADOR=true
-PLANNER_PROMPT_PATH=prompts/planejador_v1.md
-PLANNER_RESPONSE_PROMPT_PATH=prompts/resposta_tools_v1.md
+PLANNER_PROMPT_PATH=prompts/planejador_v2.md
+PLANNER_RESPONSE_PROMPT_PATH=prompts/resposta_tools_v2.md
 
 MODEL_TEMPERATURE=0.2
 MODEL_TOP_P=0.9
@@ -360,11 +360,11 @@ python -m pytest -q
 Verifique lint e formatação:
 
 ```bash
-ruff check src tests app evals/run_evals.py evals/validar_integracao.py evals/validar_planejador.py
-ruff format --check src tests app evals/run_evals.py evals/validar_integracao.py evals/validar_planejador.py
+ruff check src tests app evals/run_evals.py evals/validar_integracao.py evals/validar_planejador.py evals/validar_seguranca.py
+ruff format --check src tests app evals/run_evals.py evals/validar_integracao.py evals/validar_planejador.py evals/validar_seguranca.py
 ```
 
-O estado atual possui 183 testes automatizados cobrindo dados, indicadores,
+O estado atual possui 215 testes automatizados cobrindo dados, indicadores,
 schema, chain, memória, guardrails, serviço, interfaces, avaliações e persistência
 documental, integração, citações, planejamento e ferramentas. Os testes funcionais da
 fase 3 passaram em 7/7 cenários com Ollama e Chroma reais. Na fase 4, o chat foi
@@ -384,6 +384,13 @@ python evals/validar_planejador.py
 ```
 
 ## Recuperação documental com ChromaDB
+
+A fase 5 adicionou triagem de instruções em documentos e metadados, integridade
+de identificadores e bloqueio de especificações sem evidência do modelo consultado.
+A amostra real inicial aprovou 8/9 cenários funcionais. O caso de fumaça passou
+a consultar fontes após ajuste do planejador, mas a última resposta ainda foi
+parcial por falta da seção específica no contexto recuperado. Consulte
+[a validação de segurança e suas limitações](docs/seguranca_rag.md).
 
 O projeto também disponibiliza ingestão de PDFs e busca semântica local, com
 embeddings `nomic-embed-text`, ChromaDB persistente e referências de arquivo e página:

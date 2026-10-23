@@ -27,6 +27,7 @@ from chain.planejador import construir_planejador, construir_resposta_planejada
 from chargegrid.config import PROJECT_ROOT, Settings, settings
 from chargegrid.dados import Operacao, carregar_operacao
 from guardrails import avaliar_entrada
+from guardrails.documentos import modelos_sem_evidencia, triar_documentos
 from guardrails.moderation import CategoriaModeracao, moderar_entrada
 from rag.config import RAGSettings
 from rag.errors import ErroRAG
@@ -304,6 +305,22 @@ class AssistenteChargeGrid:
             "resultados_ferramentas": tuple(resultados),
         }
         notas = list(dict.fromkeys(nota for r in resultados for nota in r.limitacoes))
+        modelos_ausentes = modelos_sem_evidencia(
+            pergunta + "\n" + plano.pergunta_interpretada, executor.documentos
+        )
+        if modelos_ausentes:
+            return self._registrar(
+                session_id,
+                pergunta,
+                RespostaAssistente(
+                    StatusResposta.RECUSADA,
+                    "contexto_insuficiente",
+                    "Não há especificações dos modelos "
+                    + ", ".join(modelos_ausentes)
+                    + " no contexto recuperado. Não é possível atribuir a eles especificações de outros modelos.",
+                    **auditoria,
+                ),
+            )
         if not executor.documentos and not executor.fontes_adicionais:
             falhou = any(r.estado == "erro" for r in resultados)
             return self._registrar(
@@ -444,6 +461,21 @@ class AssistenteChargeGrid:
         documentos = (
             self.recuperador(pergunta_busca) if tipo != TipoConsulta.OPERACIONAL else []
         )
+        documentos = triar_documentos(documentos).documentos
+        modelos_ausentes = modelos_sem_evidencia(pergunta_busca, documentos)
+        if modelos_ausentes and tipo != TipoConsulta.OPERACIONAL:
+            return self._registrar(
+                session_id,
+                pergunta,
+                RespostaAssistente(
+                    StatusResposta.RECUSADA,
+                    "contexto_insuficiente",
+                    "Não há especificações dos modelos "
+                    + ", ".join(modelos_ausentes)
+                    + " no contexto recuperado.",
+                    tipo_consulta=tipo.value,
+                ),
+            )
         if tipo == TipoConsulta.DOCUMENTAL and not documentos:
             return self._registrar(
                 session_id,

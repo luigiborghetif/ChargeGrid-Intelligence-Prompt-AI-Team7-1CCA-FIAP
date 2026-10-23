@@ -37,8 +37,8 @@ locais, e esclarecimentos ou classificação fora do domínio dispensam a segund
 | `src/chain/planejador.py` | Chains de planejamento e resposta |
 | `src/tools/executor.py` | Ferramentas, dependências, procedência e cálculos |
 | `src/chargegrid/assistente.py` | Guardrails, memória, execução e resposta às interfaces |
-| `prompts/planejador_v1.md` | Interpretação e seleção das ferramentas |
-| `prompts/resposta_tools_v1.md` | Grounding, limitações e apoios da resposta |
+| `prompts/planejador_v2.md` | Interpretação e seleção das ferramentas |
+| `prompts/resposta_tools_v2.md` | Grounding, limitações e apoios da resposta |
 
 O envelope expõe `plano` e `resultados_ferramentas` para inspeção e avaliação.
 As respostas do fluxo planejado usam `documental` (`RespostaDocumental`) como
@@ -92,8 +92,8 @@ As opções possuem valores padrão e estão em `.env.example`:
 
 ```dotenv
 CHARGEGRID_USAR_PLANEJADOR=true
-PLANNER_PROMPT_PATH=prompts/planejador_v1.md
-PLANNER_RESPONSE_PROMPT_PATH=prompts/resposta_tools_v1.md
+PLANNER_PROMPT_PATH=prompts/planejador_v2.md
+PLANNER_RESPONSE_PROMPT_PATH=prompts/resposta_tools_v2.md
 ```
 
 O `.env` original não precisa receber essas opções para ativar a feature.
@@ -105,7 +105,7 @@ o fluxo anterior para que seus resultados não mudem de significado.
 
 - Regressão geral de **182 testes aprovada**, seguida de **26 testes direcionados
   do planejador aprovados**, incluindo um caso adicional de recusa semântica de
-  segurança. A suíte atual contém 183 casos. Ruff e formatação aprovados.
+  segurança. Naquela execução, a suíte continha 183 casos. Ruff e formatação aprovados.
   Permanecem avisos de descontinuação de dependências.
 - Verificação funcional com Gemma e Chroma reais: maior recarga individual com
   limitação e acumulado correto, tarifas, pico com controle dinâmico, estimativa
@@ -143,3 +143,7 @@ A seleção dos trechos ainda depende da recuperação; conferir um trecho não
 comprova que toda afirmação decorre dele. As verificações por padrões não cobrem
 todos os ataques. Avaliações semânticas, comparação controlada com o baseline e
 testes adversariais amplos permanecem nas etapas de avaliação e segurança.
+
+A fase 5 acrescentou triagem documental e integridade de fontes. A regressão
+atual contém 215 testes aprovados. Os achados e a limitação funcional do caso
+de fumaça estão em [seguranca_rag.md](seguranca_rag.md).
